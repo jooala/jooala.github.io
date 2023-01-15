@@ -1,0 +1,14 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/Card": "pages/Card.html",
+  "/": "pages/index.html",
+  "/Header": "pages/Header.html",
+  "/projects/botnia": "pages/projects/botnia.html",
+  "/projects/bugbear": "pages/projects/bugbear.html",
+  "/projects/reaktor": "pages/projects/reaktor.html",
+  "/projects/sukeltaja": "pages/projects/sukeltaja.html",
+  "/projects/wolt": "pages/projects/wolt.html",
+  "/_document": "pages/_document.js",
+  "/404": "pages/404.html"
+}
