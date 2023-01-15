@@ -37,21 +37,24 @@ function App() {
     };
 
     createSubtitle(
-      'Video Game Company behind Wreckfest and Flatout-series.',
+      'Several different type of work with Bugbear Entertainment behind video games like Wreckfest, Ridge Racer Unbounded and FlatOut-series.',
       cardSubtitleBugbear
     );
 
-    createSubtitle('Design Agency.', cardSubtitleReaktor);
     createSubtitle(
-      'UX Design Challenge for Grocery Store pickup system.',
+      'Health Care mobile app UX Design assignment for Reaktor 2022 Designer Trainee position.',
+      cardSubtitleReaktor
+    );
+    createSubtitle(
+      'UI Design Task for Grocery Store pickup system for Wolt UI Designer role.',
       cardSubtitleWolt
     );
     createSubtitle(
-      'Course project work for SukeltajaLiitto in my Bachelor degree',
+      "University software development course project with UX design involved for Sukeltajaliitto in my CS Bachelor's degree.",
       cardSubtitleSukeltaja
     );
     createSubtitle(
-      'Graphic Design and branding work for Finnish E-Sports Organization Botnia Vikings, competing in video games Counter-Strike Global Offensive & VALORANT. ',
+      'Graphic Design and branding work for Finnish E-Sports Organization Botnia Vikings, competing in video games such as Counter-Strike Global Offensive & VALORANT. ',
       cardSubtitleBotnia
     );
   };

@@ -1,6 +1,4 @@
 import Header from '../Header';
-import kuva from '../imgs/botnia/logo.png';
-import Image from 'next/image';
 
 export default function Botnia() {
   return (
@@ -54,8 +52,8 @@ export default function Botnia() {
                   team.
                 </p>
               </div>
-              <Image
-                src={kuva}
+              <img
+                src="/images/botnia/logo.png"
                 className="w-full h-full bg-center bg-cover col-span-1 flex-nowrap -mt-12 hidden xl:block"
               />
             </div>

@@ -1,6 +1,4 @@
 import Header from '../Header';
-import kuva from '../imgs/bugbear/logo.png';
-import Image from 'next/image';
 
 export default function Bugbear() {
   return (
@@ -49,9 +47,9 @@ export default function Bugbear() {
                   social media.
                 </p>
               </div>
-              <Image
-                src={kuva}
-                className="w-full h-full bg-center bg-cover col-span-1 flex-nowrap -mt-2 hidden xl:block"
+              <img
+                src="/images/bugbear/logo.png"
+                className="w-full h-full bg-center bg-cover col-span-1 w-3/4 h-3/4 object-cover hidden xl:block"
                 unoptimized
               />
             </div>

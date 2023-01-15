@@ -1,16 +1,12 @@
 import Header from '../Header';
-import Image from 'next/image';
-import coverKuva from '../imgs/sukeltaja/coverKuva.png';
-import figmaKuva1 from '../imgs/sukeltaja/concept_1.png';
-import figmaKuva2 from '../imgs/sukeltaja/concept_2.png';
-import mockUp from '../imgs/sukeltaja/mockup.png';
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  BsChevronCompactLeft,
-  BsChevronCompactRight,
-} from 'react-icons/bs';
-import { RxDotFilled } from 'react-icons/rx';
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Autoplay,
+} from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
@@ -69,17 +65,15 @@ export default function Sukeltaja() {
                 feedback.
               </p>
             </div>
-            <Image
-              src={mockUp}
+            <img
+              src="/images/sukeltaja/mockup.png"
               className="w-10/12 h-full bg-center bg-cover col-span-1 flex-nowrap -mt-12 hidden xl:block"
-              unoptimized
             />
           </div>
-          <Image
-            src={coverKuva}
+          <img
+            src="/images/sukeltaja/coverKuva.png"
             className="w-full h-full bg-center bg-cover duration-500 mt-20 rounded-3xl"
-            unoptimized
-          ></Image>
+          />
           <h1 className="mt-20 text-1xl md:text-4xl text-white font-bold leading-tight text-left">
             Problem 1: Creating event
           </h1>
@@ -126,19 +120,31 @@ export default function Sukeltaja() {
           </h2>
 
           <Swiper
-            // install Swiper modules
-            modules={[Navigation, Pagination, Scrollbar, A11y]}
+            modules={[
+              Navigation,
+              Pagination,
+              Scrollbar,
+              A11y,
+              Autoplay,
+            ]}
             spaceBetween={50}
             slidesPerView={1}
             navigation
+            autoplay={{ delay: 4000 }}
             onSwiper={(swiper) => console.log(swiper)}
             onSlideChange={() => console.log('slide change')}
           >
             <SwiperSlide>
-              <Image src={figmaKuva1} unoptimized></Image>
+              <img
+                src="/images/sukeltaja/concept_1.png"
+                className="rounded-3xl"
+              />
             </SwiperSlide>
             <SwiperSlide>
-              <Image src={figmaKuva2} unoptimized></Image>
+              <img
+                src="/images/sukeltaja/concept_2.png"
+                className="rounded-3xl"
+              />
             </SwiperSlide>
           </Swiper>
 
