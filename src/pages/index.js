@@ -76,8 +76,7 @@ function App() {
               <p className="text-xl font-medium text-left">
                 International Design Business Management Master's
                 degree student with background in software
-                development. Enthustiastic in designing and video
-                games.
+                development. Enthustiastic in design and video games.
               </p>
             </h1>
             <a
@@ -93,13 +92,13 @@ function App() {
               src="./images/profile.png"
             />
           </div>
-          <div>
-            <h1 className="my-20 text-34xl md:text-5xl text-white font-bold leading-tight text-left mt-28">
+          <div className="flex flex-col w-full justify-center items-start mx-4">
+            <h1 className="my-20 text-3xl md:text-5xl sm:text-xl text-white font-bold leading-tight text-left mt-28">
               <span className="bg-clip-text font-poppins">
                 Projects
               </span>
             </h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-32">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-32">
               <Link href="/projects/bugbear">
                 <div
                   className="card w-80"
@@ -111,7 +110,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl text-xl">
+                    <h3 className="card-title xl:text-3xl text-2xl mx-1">
                       Bugbear Entertainment
                     </h3>
                     <h4
