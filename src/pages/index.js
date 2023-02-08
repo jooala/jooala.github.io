@@ -67,8 +67,8 @@ function App() {
     <div>
       <section className="min-h-screen">
         <Header />
-        <div className="container pt-24 md:pt-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-          <div className="flex flex-col w-full xl:w-2/4 justify-center items-start mx-4">
+        <div className="container justify-center pt-24 md:pt-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+          <div className="flex flex-col w-full xl:w-5/12 justify-center items-start mx-4">
             <h1 className="my-20 text-3xl md:text-4xl text-white font-bold leading-tight text-left">
               <span className="bg-clip-text font-poppins">
                 Hello, I'm Joonas!
@@ -92,13 +92,13 @@ function App() {
               src="./images/profile.png"
             />
           </div>
-          <div className="flex flex-col w-full justify-center items-start mx-4">
+          <div className="flex flex-col min-[1600px]:w-full w-3/4 justify-center items-start mx-4">
             <h1 className="my-20 text-3xl md:text-5xl sm:text-xl text-white font-bold leading-tight text-left mt-28">
               <span className="bg-clip-text font-poppins">
                 Projects
               </span>
             </h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-32">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 min-[1600px]:grid-cols-4 gap-12 md:gap-24 2xl:gap-32">
               <Link href="/projects/bugbear">
                 <div
                   className="card w-80"
