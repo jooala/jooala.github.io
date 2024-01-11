@@ -37,6 +37,7 @@ export default function Sauna() {
             <img
               src="/images/sauna/coverkuva.png"
               className=" h-10/12 duration-500 mt-20 rounded-3xl		"
+              alt="Cover"
             />
 
             {/* Problem Section */}
@@ -58,6 +59,7 @@ export default function Sauna() {
               </div>
               <img
                 src="/images/sauna/finnish-sauna-building.png"
+                alt="Sauna Building"
                 className="col-span-2 md:col-span-1 h-10/12 object-cover -mt-20 hidden xl:block"
               />
             </div>
@@ -66,6 +68,7 @@ export default function Sauna() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-xl text-white leading-tight text-left mt-10 relative">
               <img
                 src="/images/sauna/kauha.png"
+                alt="Scoop"
                 className="col-span-2 md:col-span-1 h-4/5 object-cover hidden xl:block z-0"
               />
               <div className="col-span-2 md:col-span-1 mt-5 text-center">
@@ -114,6 +117,7 @@ export default function Sauna() {
             <div className="grid grid-cols-1 md:grid-cols-1 gap-8 text-xl text-white leading-tight text-left mt-10">
               <img
                 src="/images/sauna/saunadev.png"
+                alt="Development"
                 className="col-span-1 md:col-span-1 h-full object-cover rounded-lg hidden xl:block"
               />
             </div>

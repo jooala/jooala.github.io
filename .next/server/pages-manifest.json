@@ -2,10 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-<<<<<<< HEAD
-  "/projects/sustainablyyours": "pages/projects/sustainablyyours.js"
-=======
-  "/projects/bugbear": "pages/projects/bugbear.js"
->>>>>>> 57507371eb684bedfbc35e0c31662605d9744482
+  "/": "pages/index.js"
 }

@@ -113,13 +113,8 @@ function App() {
                 Projects
               </span>
             </h1>
-<<<<<<< HEAD
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-32">
               <Link href="/projects/doublepoint">
-=======
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 min-[1600px]:grid-cols-4 gap-12 md:gap-24 2xl:gap-32">
-              <Link href="/projects/bugbear">
->>>>>>> 57507371eb684bedfbc35e0c31662605d9744482
                 <div
                   className="card w-80"
                   style={{

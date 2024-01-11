@@ -41,6 +41,7 @@ export default function SustainablyYours() {
             <img
               src="/images/sustainablyyours/coverkuva.png"
               className=" h-10/12 duration-500 mt-20 rounded-3xl		"
+              alt="Cover"
             />
 
             <div className="grid grid-cols-4 text-xl text-white mt-10 leading-tight text-left">
@@ -81,6 +82,7 @@ export default function SustainablyYours() {
               <img
                 src="/images/sustainablyyours/stats.png"
                 className="col-span-1 md:col-span-1 h-full object-cover rounded-lg hidden xl:block"
+                alt="Statistics"
               />
             </div>
 
@@ -202,6 +204,7 @@ export default function SustainablyYours() {
               <img
                 src="/images/sustainablyyours/proto1.png"
                 className=" col-span-2 h-5/6 object-cover ml-20 -mt-20 hidden xl:block"
+                alt="First Prototypes"
               />
             </div>
             <div className=" grid grid-cols-4 text-xl text-white leading-tight text-left">
@@ -211,6 +214,7 @@ export default function SustainablyYours() {
               <img
                 src="/images/sustainablyyours/evaluation.png"
                 className=" col-span-2 h- object-cover hidden xl:block"
+                alt="User Evaluation"
               />
               <div className="col-span-2 mt-5 text-right">
                 <p>
@@ -266,11 +270,12 @@ export default function SustainablyYours() {
               <img
                 src="/images/sustainablyyours/proto2.png"
                 className=" col-span-2 h-5/6 object-cover ml-20 -mt-10 hidden xl:block"
+                alt="Second Prototypes"
               />
             </div>
             <div className="grid grid-cols-4 text-xl text-white  leading-tight text-left -mt-40">
               <h1 className="col-span-4 text-1xl md:text-4xl text-white font-bold leading-tight text-let">
-                RESULTS
+                Results
               </h1>
               <p className="mt-5 col-span-4">
                 After completing the design and user testing phases
@@ -292,18 +297,22 @@ export default function SustainablyYours() {
             <img
               src="/images/sustainablyyours/results_1.png"
               className=" h-10/12 duration-500 mt-20 rounded-3xl		"
+              alt="Results"
             />
             <img
               src="/images/sustainablyyours/results_2.png"
               className=" h-10/12 duration-500 mt-20 rounded-3xl		"
+              alt="Results"
             />
             <img
               src="/images/sustainablyyours/results_3.png"
               className=" h-10/12 duration-500 mt-20 rounded-3xl		"
+              alt="Results"
             />
             <img
               src="/images/sustainablyyours/results_4.png"
               className=" h-10/12 duration-500 mt-20 mb-10 rounded-3xl		"
+              alt="Results"
             />
           </div>
         </div>
