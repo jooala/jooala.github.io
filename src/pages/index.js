@@ -10,6 +10,9 @@ function App() {
   const cardSubtitleWolt = useRef(null);
   const cardSubtitleSukeltaja = useRef(null);
   const cardSubtitleBotnia = useRef(null);
+  const cardSubtitleSustis = useRef(null);
+  const cardSubtitleSauna = useRef(null);
+  const cardSubtitleDouble = useRef(null);
 
   const updateText = () => {
     const createWord = (text, index) => {
@@ -37,7 +40,7 @@ function App() {
     };
 
     createSubtitle(
-      'Several different type of work with Bugbear Entertainment behind video games like Wreckfest, Ridge Racer Unbounded and FlatOut-series.',
+      'Several different type of work with Bugbear Entertainment behind video games in Wreckfest, Ridge Racer Unbounded and FlatOut-series.',
       cardSubtitleBugbear
     );
 
@@ -57,6 +60,18 @@ function App() {
       'Graphic Design and branding work for Finnish E-Sports Organization Botnia Vikings, competing in video games such as Counter-Strike Global Offensive & VALORANT. ',
       cardSubtitleBotnia
     );
+    createSubtitle(
+      'UI/UX Project: Addressing fashions environmental impact by solving lack of transparency and consumer wastefulness. ',
+      cardSubtitleSustis
+    );
+    createSubtitle(
+      'VR Project made in Unity, which is aiming to simulate sauna experience.',
+      cardSubtitleSauna
+    );
+    createSubtitle(
+      'Service Design project in IDBM Industry Project with Doublepoint: innovating with touch detection tech for enhanced independence in disabilities.',
+      cardSubtitleDouble
+    );
   };
 
   useLayoutEffect(() => {
@@ -73,10 +88,10 @@ function App() {
               <span className="bg-clip-text font-poppins">
                 Hello, I'm Joonas!
               </span>
-              <p className="text-xl font-medium text-left">
+              <p className="text-xl font-normal mt-5 text-left">
                 International Design Business Management Master's
-                degree student with background in software
-                development. Enthustiastic in design and video games.
+                degree student with background in software and service
+                engineering. Bachelor's in Computer Science.
               </p>
             </h1>
             <a
@@ -99,23 +114,45 @@ function App() {
               </span>
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-32">
-              <Link href="/projects/bugbear">
+              <Link href="/projects/doublepoint">
                 <div
                   className="card w-80"
                   style={{
                     background: `linear-gradient(
                       rgb(0 90 255 / 50%), 
                       rgb(0 0 0)
-                    ), url(/images/testi.png) no-repeat center`,
+                    ), url(/images/doublepointlab.png) no-repeat center`,
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl text-2xl mx-1">
-                      Bugbear Entertainment
+                    <h3 className="card-title xl:text-3xl font-poppins text-xl">
+                      Doublepoint
                     </h3>
                     <h4
                       className="card-subtitle text-base"
-                      ref={cardSubtitleBugbear}
+                      ref={cardSubtitleDouble}
+                    ></h4>
+                  </div>
+                  <i className="fa-solid fa-hat-witch card-icon"></i>
+                </div>
+              </Link>
+              <Link href="/projects/sustainablyyours">
+                <div
+                  className="card w-80"
+                  style={{
+                    background: `linear-gradient(
+                      rgb(0 90 255 / 50%), 
+                      rgb(0 0 0)
+                    ), url(/images/sustis.png) no-repeat center`,
+                  }}
+                >
+                  <div className="card-content">
+                    <h3 className="card-title xl:text-3xl font-poppins text-xl">
+                      Sustainably Yours
+                    </h3>
+                    <h4
+                      className="card-subtitle text-base"
+                      ref={cardSubtitleSustis}
                     ></h4>
                   </div>
                   <i className="fa-solid fa-hat-witch card-icon"></i>
@@ -132,7 +169,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl text-xl">
+                    <h3 className="card-title xl:text-3xl font-poppins text-xl">
                       Reaktor
                     </h3>
                     <h4
@@ -154,7 +191,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl text-xl">
+                    <h3 className="card-title xl:text-3xl font-poppins text-xl">
                       Wolt
                     </h3>
                     <h4
@@ -165,23 +202,45 @@ function App() {
                   <i className="fa-solid fa-hat-witch card-icon"></i>
                 </div>
               </Link>
-              <Link href="/projects/sukeltaja">
+              <Link href="/projects/sauna">
                 <div
                   className="card w-80"
                   style={{
                     background: `linear-gradient(
                       rgb(0 90 255 / 50%), 
                       rgb(0 0 0)
-                    ), url(/images/testi2.png) no-repeat center`,
+                    ), url(/images/sauna.png) no-repeat center`,
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl text-xl">
-                      Sukeltajaliitto
+                    <h3 className="card-title xl:text-3xl font-poppins text-2xl mx-1">
+                      Sauna Simulator
                     </h3>
                     <h4
                       className="card-subtitle text-base"
-                      ref={cardSubtitleSukeltaja}
+                      ref={cardSubtitleSauna}
+                    ></h4>
+                  </div>
+                  <i className="fa-solid fa-hat-witch card-icon"></i>
+                </div>
+              </Link>
+              <Link href="/projects/bugbear">
+                <div
+                  className="card w-80"
+                  style={{
+                    background: `linear-gradient(
+                      rgb(0 90 255 / 50%), 
+                      rgb(0 0 0)
+                    ), url(/images/testi.png) no-repeat center`,
+                  }}
+                >
+                  <div className="card-content">
+                    <h3 className="card-title xl:text-3xl font-poppins text-2xl mx-1">
+                      Bugbear Entertainment
+                    </h3>
+                    <h4
+                      className="card-subtitle text-base"
+                      ref={cardSubtitleBugbear}
                     ></h4>
                   </div>
                   <i className="fa-solid fa-hat-witch card-icon"></i>
@@ -198,7 +257,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl text-xl">
+                    <h3 className="card-title xl:text-3xl font-poppins text-xl">
                       Botnia Vikings
                     </h3>
                     <h4
