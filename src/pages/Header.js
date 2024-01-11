@@ -1,7 +1,7 @@
 const Header = (cardSubtitle) => {
   return (
     <div className="w-full container mx-auto">
-      <div className="w-full flex items-center justify-between mx-4">
+      <div className="w-full flex items-center justify-between mx-auto px-12">
         <a
           className="flex items-center text-zinc-50 my-6 no-underline font-poppins hover:text-blue-700 transform hover:scale-105 font-bold text-2xl lg:text-4xl duration-300 ease-in-out"
           href="/"
