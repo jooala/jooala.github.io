@@ -82,7 +82,7 @@ function App() {
     <div>
       <section className="min-h-screen">
         <Header />
-        <div className="container justify-center pt-24 md:pt-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+        <div className="container justify-center pt-24 md:pt-24 mx-auto flex flex-wrap flex-col lg:flex-row items-center">
           <div className="flex flex-col w-full xl:w-5/12 justify-center items-start mx-4">
             <h1 className="my-20 text-3xl md:text-4xl text-white font-bold leading-tight text-left">
               <span className="bg-clip-text font-poppins">
@@ -103,17 +103,18 @@ function App() {
           </div>
           <div className="p-8">
             <img
-              className="mx-auto hidden w-3/5 xl:w-3/5 xl:block transform -rotate-6 transition hover:scale-105 duration-700 ease-in-out hover:rotate-6"
+              className="mx-auto w-3/5 xl:w-3/5 xl:block transform -rotate-6 transition hover:scale-105 duration-700 ease-in-out hover:rotate-6"
               src="./images/profile.png"
             />
           </div>
-          <div className="flex flex-col min-[1600px]:w-full w-3/4 justify-center items-start mx-4">
-            <h1 className="my-20 text-3xl md:text-5xl sm:text-xl text-white font-bold leading-tight text-left mt-28">
+          <div className="flex flex-col w-full justify-center items-center mx-4 md:items-start">
+            <h1 className="my-20 text-3xl md:text-5xl sm:text-3xl text-white font-bold leading-tight text-center mt-28">
               <span className="bg-clip-text font-poppins">
                 Projects
               </span>
             </h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-32">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-24">
               <Link href="/projects/doublepoint">
                 <div
                   className="card w-80"
