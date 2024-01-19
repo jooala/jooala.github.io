@@ -2,7 +2,6 @@ import Header from '../Header';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import ImageWithZoom from '../components/ImageWithZoom';
 
 export default function Botnia() {
   return (
