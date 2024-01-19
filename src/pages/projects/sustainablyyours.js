@@ -8,12 +8,11 @@ export default function SustainablyYours() {
     <div>
       <section className="min-h-screen">
         <Header />
-        <div id="main">
-          <div className="container pt-24 md:pt-24 px-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-            <div className="mb-4 w-full">
-              {/* Use FontAwesomeIcon for the back arrow */}
+        <div id="main" className="container mx-auto px-4">
+          <div className="pt-24 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
+            <div className="mb-4 w-full md:w-full">
               <Link href="/">
-                <div className="text-white text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
+                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
                   <FontAwesomeIcon
                     icon={faChevronLeft}
                     className="mr-2"
@@ -91,11 +90,10 @@ export default function SustainablyYours() {
                 </p>
               </div>
             </div>
-            {/* Larger Picture Below */}
             <div className="grid grid-cols-1 md:grid-cols-1 gap-8 text-xl text-white leading-tight text-left mt-10">
               <img
                 src="/images/sustainablyyours/stats.png"
-                className="col-span-1 md:col-span-1 h-full object-cover rounded-lg hidden xl:block"
+                className="col-span-1 md:col-span-1 h-full object-cover rounded-lg "
                 alt="Statistics"
               />
             </div>
@@ -116,7 +114,7 @@ export default function SustainablyYours() {
                 change through incentivizing rewards.
               </p>
               {/* Primary Users */}
-              <div className="col-span-2 mt-28 text-left mr-10">
+              <div className="col-span-4 md:col-span-2 mt-28 text-left mr-10">
                 <h2 className="text-2xl md:text-3xl text-white font-bold mb-3">
                   Primary Users:
                 </h2>
@@ -134,7 +132,7 @@ export default function SustainablyYours() {
                   features they might not initially prioritize.
                 </p>
               </div>
-              <div className="col-span-2 mt-24 ml-30">
+              <div className="col-span-4 md:col-span-2 mt-24 ml-30">
                 <img
                   src="/images/sustainablyyours/test.png"
                   alt="Primary User Persona"
@@ -143,7 +141,7 @@ export default function SustainablyYours() {
               </div>
 
               {/* Secondary Users */}
-              <div className="col-span-2 mt-20 text-left mr-10">
+              <div className="col-span-4 md:col-span-2 mt-20 text-left mr-10">
                 <h2 className="text-2xl md:text-3xl text-white font-bold mb-3">
                   Secondary Users (Interested in Both):
                 </h2>
@@ -157,7 +155,7 @@ export default function SustainablyYours() {
                   for users with dual interests.
                 </p>
               </div>
-              <div className="col-span-2 mt-5">
+              <div className="col-span-4 md:col-span-2 mt-5">
                 <img
                   src="/images/sustainablyyours/persona2.png"
                   alt="Secondary User Persona"
@@ -166,7 +164,7 @@ export default function SustainablyYours() {
               </div>
 
               {/* Supplemental Users */}
-              <div className="col-span-2 mt-20 text-left mr-10">
+              <div className="col-span-4 md:col-span-2 mt-20 text-left mr-10">
                 <h2 className="text-2xl md:text-3xl text-white font-bold mb-3">
                   Supplemental Users (Non-interested Users):
                 </h2>
@@ -182,7 +180,7 @@ export default function SustainablyYours() {
                   among those initially uninterested.
                 </p>
               </div>
-              <div className="col-span-2 mt-5">
+              <div className="col-span-4 md:col-span-2 mt-5">
                 <img
                   src="/images/sustainablyyours/persona3.png"
                   alt="Supplemental User Persona"
@@ -197,7 +195,7 @@ export default function SustainablyYours() {
               <h1 className="mt-10 col-span-4 text-1xl md:text-4xl text-white font-bold  leading-tight text-let">
                 Prototyping: First Version
               </h1>
-              <div className="col-span-2 mt-5 text-left">
+              <div className="col-span-4 md:col-span-2 mt-5 text-left">
                 <p>
                   We started our prototyping journey from a whiteboard
                   prototype to a low-fidelity prototype which has been
@@ -217,7 +215,7 @@ export default function SustainablyYours() {
               </div>
               <img
                 src="/images/sustainablyyours/proto1.png"
-                className=" col-span-2 h-5/6 object-cover ml-20 -mt-20 hidden xl:block"
+                className=" col-span-4 md:col-span-2 h-5/6 object-cover ml-20 "
                 alt="First Prototypes"
               />
             </div>
@@ -227,10 +225,10 @@ export default function SustainablyYours() {
               </h1>
               <img
                 src="/images/sustainablyyours/evaluation.png"
-                className=" col-span-2 h- object-cover hidden xl:block"
+                className=" col-span-4 md:col-span-2 h- object-cover "
                 alt="User Evaluation"
               />
-              <div className="col-span-2 mt-5 text-right">
+              <div className="col-span-4 md:col-span-2 mt-5 text-right">
                 <p>
                   We conducted tests after each prototype to
                   understand our user preferences, beahviors and
@@ -267,7 +265,7 @@ export default function SustainablyYours() {
               <h1 className="mt-20 col-span-4 text-1xl md:text-4xl text-white font-bold  leading-tight text-let">
                 Prototyping: Second Version
               </h1>
-              <div className="col-span-2 mt-5 text-left">
+              <div className="col-span-4 md:col-span-2 mt-5 text-left">
                 <p>
                   Following the initial prototype and user feedback,
                   we developed the second prototype, incorporating
@@ -283,7 +281,7 @@ export default function SustainablyYours() {
               </div>
               <img
                 src="/images/sustainablyyours/proto2.png"
-                className=" col-span-2 h-5/6 object-cover ml-20 -mt-10 hidden xl:block"
+                className=" col-span-4 md:col-span-2 h-5/6 object-cover ml-20 "
                 alt="Second Prototypes"
               />
             </div>

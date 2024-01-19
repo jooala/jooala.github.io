@@ -24,7 +24,6 @@ export default function Sukeltaja() {
         <Header />
         <div className="container pt-24 md:pt-24 mx-auto px-24 flex flex-wrap flex-col md:flex-row items-center">
           <div className="mb-4 w-full">
-            {/* Use FontAwesomeIcon for the back arrow */}
             <Link href="/">
               <div className="text-white text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
                 <FontAwesomeIcon
@@ -81,7 +80,7 @@ export default function Sukeltaja() {
             </div>
             <img
               src="/images/sukeltaja/mockup.png"
-              className="w-10/12 h-full bg-center bg-cover col-span-1 flex-nowrap -mt-12 hidden xl:block"
+              className="w-10/12 h-full bg-center bg-cover col-span-1 flex-nowrap -mt-12 "
             />
           </div>
           <img

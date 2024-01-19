@@ -8,12 +8,11 @@ export default function Reaktor() {
     <div>
       <section className="min-h-screen">
         <Header />
-        <div id="main">
-          <div className="container pt-24 md:pt-24 px-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-            <div className="mb-4 w-full">
-              {/* Use FontAwesomeIcon for the back arrow */}
+        <div id="main" className="container mx-auto px-4">
+          <div className="pt-24 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
+            <div className="mb-4 w-full md:w-full">
               <Link href="/">
-                <div className="text-white text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
+                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
                   <FontAwesomeIcon
                     icon={faChevronLeft}
                     className="mr-2"
@@ -29,7 +28,7 @@ export default function Reaktor() {
             <br />
             <br />
             <div className="grid grid-cols-4 text-xl text-white leading-tight text-left">
-              <div className="col-span-2 mr-10">
+              <div className="col-span-4 md:col-span-2 mr-10">
                 <p>
                   As a candidate for the Reaktor UX Designer role for
                   Summer 2022, I was tasked with streamlining the user
@@ -75,7 +74,7 @@ export default function Reaktor() {
               </div>
               <img
                 src="/images/reaktor/cover.png"
-                className=" col-span-2 w-3/4 h-3/4 object-cover ml-20 mt-20 hidden xl:block"
+                className=" col-span-4 md:col-span-2 w-3/4 h-3/4 object-cover ml-20 mt-20 "
               />
             </div>
             <img
@@ -88,9 +87,9 @@ export default function Reaktor() {
               </h1>
               <img
                 src="/images/reaktor/bloodpressure.png"
-                className=" col-span-2 hidden xl:block"
+                className=" col-span-4 md:col-span-2 "
               />
-              <div className="col-span-2 mt-5 text-right">
+              <div className="col-span-4 md:col-span-2 mt-5 text-right">
                 <p>
                   As I began working on the Case C -assignment, which
                   involved designing a user-friendly interface for
@@ -132,7 +131,7 @@ export default function Reaktor() {
               <h1 className="mt-10 col-span-4 text-1xl md:text-4xl text-white font-bold  leading-tight text-left">
                 Case C: Problem 2 - Submitting the numbers
               </h1>
-              <div className="col-span-2 mt-5 text-left">
+              <div className="col-span-4 md:col-span-2 mt-5 text-left">
                 <p>
                   As I continued to work on the Case C -assignment, I
                   identified an additional issue that needed to be
@@ -164,7 +163,7 @@ export default function Reaktor() {
               </div>
               <img
                 src="/images/reaktor/bloodpressure2.png"
-                className=" col-span-2 ml-20 hidden xl:block"
+                className=" col-span-4 md:col-span-2 ml-20 "
               />
             </div>
 

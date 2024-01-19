@@ -2,18 +2,18 @@ import Header from '../Header';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import ImageWithZoom from '../components/ImageWithZoom';
 
 export default function Botnia() {
   return (
     <div>
       <section className="min-h-screen">
         <Header />
-        <div id="main">
-          <div className="container pt-24 md:pt-24 px-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-            <div className="mb-4 w-full">
-              {/* Use FontAwesomeIcon for the back arrow */}
+        <div id="main" className="container mx-auto px-4">
+          <div className="pt-24 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
+            <div className="mb-4 w-full md:w-full">
               <Link href="/">
-                <div className="text-white text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
+                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
                   <FontAwesomeIcon
                     icon={faChevronLeft}
                     className="mr-2"
@@ -26,17 +26,15 @@ export default function Botnia() {
                 Botnia Vikings
               </span>
             </h1>
-            <br />
-            <br />
-            <div className="grid grid-cols-3 text-xl text-white leading-tight text-left">
-              <div className="col-span-2 mr-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 text-xl text-white leading-tight text-left">
+              <div className="col-span-1 md:col-span-2 mr-10">
                 <p>
                   The project at hand entailed working with a Finnish
                   Esports organization, Botnia Vikings, to develop and
                   enhance their visual identity. The client, Botnia
-                  Vikings, is a Esports organization based in Finland,
-                  focused on fostering a competitive and dynamic
-                  gaming community.
+                  Vikings, is an Esports organization based in
+                  Finland, focused on fostering a competitive and
+                  dynamic gaming community.
                   <br /> <br />
                   My role in this project was to create a cohesive
                   visual language that effectively represents the
@@ -68,7 +66,7 @@ export default function Botnia() {
               </div>
               <img
                 src="/images/botnia/logo.png"
-                className="w-full h-full bg-center bg-cover col-span-1 flex-nowrap -mt-12 hidden xl:block"
+                className="w-full h-full bg-center bg-cover md:col-span-1 flex-nowrap -mt-12 "
               />
             </div>
             <div className="image-main items-center grid grid-col-1 my-20 gap-4">

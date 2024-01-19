@@ -8,12 +8,11 @@ export default function Wolt() {
     <div>
       <section className="min-h-screen">
         <Header />
-        <div id="main">
-          <div className="container pt-24 md:pt-24 px-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-            <div className="mb-4 w-full">
-              {/* Use FontAwesomeIcon for the back arrow */}
+        <div id="main" className="container mx-auto px-4">
+          <div className="pt-24 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
+            <div className="mb-4 w-full md:w-full">
               <Link href="/">
-                <div className="text-white text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
+                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
                   <FontAwesomeIcon
                     icon={faChevronLeft}
                     className="mr-2"
@@ -60,7 +59,7 @@ export default function Wolt() {
               <h1 className="mt-10 col-span-4 text-1xl md:text-4xl text-white font-bold  leading-tight text-let">
                 Problem 1: Overview of current orders
               </h1>
-              <div className="col-span-2 mt-5 text-left">
+              <div className="col-span-4 md:col-span-2 mt-5 text-left">
                 <p>
                   My solution for the task of creating a landing view
                   with a list of incoming orders was to divide the
@@ -90,7 +89,7 @@ export default function Wolt() {
               </div>
               <img
                 src="/images/wolt/orders.png"
-                className=" col-span-2 h-10/12 object-cover ml-20 -mt-20 hidden xl:block"
+                className="col-span-4 md:col-span-2 h-10/12 object-cover md:ml-20 md:-mt-20 "
               />
             </div>
             <div className=" grid grid-cols-4 text-xl text-white mt-10 leading-tight text-left">
@@ -99,9 +98,9 @@ export default function Wolt() {
               </h1>
               <img
                 src="/images/wolt/collection.png"
-                className=" col-span-2 h-10/12 object-cover -mt-56 hidden xl:block"
+                className=" col-span-4 md:col-span-2 h-10/12 object-cover md:-mt-56 "
               />
-              <div className="col-span-2 mt-5 text-right">
+              <div className="col-span-4 md:col-span-2 mt-5 text-right">
                 <p>
                   Visualizing the missing items from the order was to
                   help fastening the collection processes. Manually
@@ -134,7 +133,7 @@ export default function Wolt() {
               <h1 className="mt-10 col-span-4 text-1xl md:text-4xl text-white font-bold  leading-tight text-let">
                 Problem 3: Power-users!
               </h1>
-              <div className="col-span-2 mt-5 text-left">
+              <div className="col-span-4 md:col-span-2 mt-5 text-left">
                 <p>
                   My approach to improve efficiency for more
                   experienced workers was to create a feature that
@@ -160,7 +159,7 @@ export default function Wolt() {
               </div>
               <img
                 src="/images/wolt/animation.gif"
-                className=" col-span-2 h-5/6 object-cover ml-40 -mt-20 hidden xl:block"
+                className=" col-span-4 md:col-span-2 h-5/6 object-cover md:ml-40 md:-mt-20 "
               />
             </div>
           </div>

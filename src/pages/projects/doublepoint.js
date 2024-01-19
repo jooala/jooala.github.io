@@ -8,12 +8,11 @@ export default function Doublepoint() {
     <div>
       <section className="min-h-screen">
         <Header />
-        <div id="main">
-          <div className="container pt-24 md:pt-24 px-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-            <div className="mb-4 w-full">
-              {/* Use FontAwesomeIcon for the back arrow */}
+        <div id="main" className="container mx-auto px-4">
+          <div className="pt-24 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
+            <div className="mb-4 w-full md:w-full">
               <Link href="/">
-                <div className="text-white text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
+                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
                   <FontAwesomeIcon
                     icon={faChevronLeft}
                     className="mr-2"
@@ -48,6 +47,43 @@ export default function Doublepoint() {
                   prospects. The goal is to showcase how Doublepoint's
                   technology can contribute to inclusivity and
                   independence for people with disabilities.
+                </p>
+              </div>
+            </div>
+            <img
+              src="/images/doublepoint/coverkuva.png"
+              className=" h-10/12 duration-500 mt-20 rounded-3xl"
+            />
+            <div className="grid grid-cols-4 text-xl text-white leading-tight mt-20 text-left">
+              <div className="col-span-4 mr-10">
+                <p>
+                  The 7-month design process involved an immersive
+                  exploration of the startup and XR industry
+                  landscape, followed by user needs discovery and
+                  research on inclusive technologies. The design
+                  challenge was redefined, leading to a solution
+                  through ideation and prototyping using the double
+                  diamond process framework.
+                  <br />
+                  <br />
+                  Our team conducted industry immersion, with trips to
+                  California and Tokyo, engaging with professionals
+                  and attending XR-related events in Helsinki.
+                  Valuable insights were gained, leading to
+                  conclusions about the XR industry's relevance,
+                  dominance by big tech companies, and the importance
+                  of user-friendly integration. The team identified a
+                  niche market in accessibility, focusing on mobile
+                  people with assistants.
+                  <br />
+                  <br />
+                  Thorough research included desktop and field
+                  research, involving interviews with seven user
+                  groups and associations. Thematic analysis revealed
+                  three main design directions: Independent home life,
+                  Safety, Education and rehabilitation, and
+                  Navigation. Navigation was eliminated due to
+                  technological constraints.
                 </p>
               </div>
             </div>
@@ -88,7 +124,6 @@ export default function Doublepoint() {
                 </p>
               </div>
             </div>
-            // ... (previous code)
             <div className="grid grid-cols-4 text-xl text-white leading-tight mt-20 text-left">
               <div className="col-span-4 mr-10">
                 <h2 className="text-2xl text-white font-bold mb-6">

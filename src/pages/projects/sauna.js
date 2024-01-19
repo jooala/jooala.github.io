@@ -8,12 +8,11 @@ export default function Sauna() {
     <div>
       <section className="min-h-screen">
         <Header />
-        <div id="main">
-          <div className="container pt-24 md:pt-24 px-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-            <div className="mb-4 w-full">
-              {/* Use FontAwesomeIcon for the back arrow */}
+        <div id="main" className="container mx-auto px-4">
+          <div className="pt-24 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
+            <div className="mb-4 w-full md:w-full">
               <Link href="/">
-                <div className="text-white text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
+                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
                   <FontAwesomeIcon
                     icon={faChevronLeft}
                     className="mr-2"
@@ -74,7 +73,7 @@ export default function Sauna() {
               <img
                 src="/images/sauna/finnish-sauna-building.png"
                 alt="Sauna Building"
-                className="col-span-2 md:col-span-1 h-10/12 object-cover -mt-20 hidden xl:block"
+                className="col-span-2 md:col-span-1 h-10/12 object-cover -mt-20 "
               />
             </div>
 
@@ -83,7 +82,7 @@ export default function Sauna() {
               <img
                 src="/images/sauna/kauha.png"
                 alt="Scoop"
-                className="col-span-2 md:col-span-1 h-4/5 object-cover hidden xl:block z-0"
+                className="col-span-2 md:col-span-1 h-4/5 object-cover z-0"
               />
               <div className="col-span-2 md:col-span-1 mt-5 text-center">
                 <h1 className="text-1xl md:text-4xl text-white font-bold leading-tight text-center z-10">
@@ -132,7 +131,7 @@ export default function Sauna() {
               <img
                 src="/images/sauna/saunadev.png"
                 alt="Development"
-                className="col-span-1 md:col-span-1 h-full object-cover rounded-lg hidden xl:block"
+                className="col-span-1 md:col-span-1 h-full object-cover rounded-lg"
               />
             </div>
 
