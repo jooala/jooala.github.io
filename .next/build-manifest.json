@@ -27,30 +27,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/projects/botnia": [
+    "/projects/doublepoint": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/projects/botnia.js"
-    ],
-    "/projects/bugbear": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/projects/bugbear.js"
-    ],
-    "/projects/sauna": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/projects/sauna.js"
-    ],
-    "/projects/sustainablyyours": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/projects/sustainablyyours.js"
-    ],
-    "/projects/wolt": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/projects/wolt.js"
+      "static/chunks/pages/projects/doublepoint.js"
     ]
   },
   "ampFirstPages": []

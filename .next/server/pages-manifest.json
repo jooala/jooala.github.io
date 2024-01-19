@@ -3,9 +3,5 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/projects/sauna": "pages/projects/sauna.js",
-  "/projects/sustainablyyours": "pages/projects/sustainablyyours.js",
-  "/projects/wolt": "pages/projects/wolt.js",
-  "/projects/bugbear": "pages/projects/bugbear.js",
-  "/projects/botnia": "pages/projects/botnia.js"
+  "/projects/doublepoint": "pages/projects/doublepoint.js"
 }
