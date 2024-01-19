@@ -108,7 +108,7 @@ function App() {
             />
           </div>
           <div className="flex flex-col w-full justify-center items-center mx-4 md:items-start">
-            <h1 className="my-20 text-3xl md:text-5xl sm:text-3xl text-white font-bold leading-tight text-center mt-28">
+            <h1 className="my-20 text-3xl md:text-4xl sm:text-3xl text-white font-bold leading-tight text-center mt-28">
               <span className="bg-clip-text font-poppins">
                 Projects
               </span>
@@ -126,7 +126,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl font-poppins text-xl">
+                    <h3 className="card-title xl:text-3xl font-poppins text-xl text-shadow-lg">
                       Doublepoint
                     </h3>
                     <h4
@@ -148,7 +148,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl font-poppins text-xl">
+                    <h3 className="card-title xl:text-3xl font-poppins text-xl ">
                       Sustainably Yours
                     </h3>
                     <h4

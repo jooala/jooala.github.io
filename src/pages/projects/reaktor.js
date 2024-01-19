@@ -1,4 +1,7 @@
 import Header from '../Header';
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function Reaktor() {
   return (
@@ -7,6 +10,17 @@ export default function Reaktor() {
         <Header />
         <div id="main">
           <div className="container pt-24 md:pt-24 px-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+            <div className="mb-4 w-full">
+              {/* Use FontAwesomeIcon for the back arrow */}
+              <Link href="/">
+                <div className="text-white text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    className="mr-2"
+                  />
+                </div>
+              </Link>
+            </div>
             <h1 className="my-20 text-3xl md:text-5xl text-white font-bold leading-tight text-left">
               <span className="bg-clip-text font-poppins">
                 Reaktor 2022 UX Designer Assignment

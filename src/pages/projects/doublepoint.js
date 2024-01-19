@@ -1,4 +1,7 @@
 import Header from '../Header';
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function Doublepoint() {
   return (
@@ -7,6 +10,17 @@ export default function Doublepoint() {
         <Header />
         <div id="main">
           <div className="container pt-24 md:pt-24 px-24 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+            <div className="mb-4 w-full">
+              {/* Use FontAwesomeIcon for the back arrow */}
+              <Link href="/">
+                <div className="text-white text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    className="mr-2"
+                  />
+                </div>
+              </Link>
+            </div>
             <h1 className="my-20 text-3xl md:text-5xl text-white font-bold leading-tight text-left">
               <span className="bg-clip-text font-poppins">
                 Doublepoint
@@ -78,15 +92,23 @@ export default function Doublepoint() {
             <div className="grid grid-cols-4 text-xl text-white leading-tight mt-20 text-left">
               <div className="col-span-4 mr-10">
                 <h2 className="text-2xl text-white font-bold mb-6">
-                  Finding a Solution
+                  Finding the Solution
                 </h2>
 
                 <div className="grid grid-cols-3 gap-8">
                   <div className="col-span-3 md:col-span-1">
-                    <div className="bg-gray-200 rounded-md text-black p-4 mb-6">
+                    <div
+                      className="rounded-md p-4 mb-6 shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+                      style={{
+                        background:
+                          'linear-gradient(0deg, rgb(4 9 20) 0%, rgba(14,27,64,1) 100%)',
+                        border: '0.2vmin solid rgb(3, 169, 244)',
+                      }}
+                    >
                       <h3 className="text-xl font-bold">
-                        Independent Home Life:
+                        Independent Home Life
                       </h3>
+                      <br />
                       <p>
                         Smart home environments using Doublepoint's
                         technology to control surroundings. Concerns
@@ -97,8 +119,18 @@ export default function Doublepoint() {
                   </div>
 
                   <div className="col-span-3 md:col-span-1">
-                    <div className="bg-gray-200 rounded-md text-black p-4 mb-6">
-                      <h3 className="text-xl font-bold">Safety:</h3>
+                    <div
+                      className="rounded-md p-4 mb-6 shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+                      style={{
+                        background:
+                          'linear-gradient(0deg, rgb(4 9 20) 0%, rgba(14,27,64,1) 100%)',
+                        border: '0.2vmin solid rgb(3, 169, 244)',
+                      }}
+                    >
+                      <h3 className="text-xl font-bold font-poppins">
+                        Safety
+                      </h3>
+                      <br />
                       <p>
                         Emergency alerts solution faced challenges in
                         the wider service system, rendering it
@@ -108,10 +140,18 @@ export default function Doublepoint() {
                   </div>
 
                   <div className="col-span-3 md:col-span-1">
-                    <div className="bg-gray-200 rounded-md text-black p-4 mb-6">
-                      <h3 className="text-xl font-bold">
-                        Learning and Rehabilitation:
+                    <div
+                      className="rounded-md p-4 mb-6 shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+                      style={{
+                        background:
+                          'linear-gradient(0deg, rgb(4 9 20) 0%, rgba(14,27,64,1) 100%)',
+                        border: '0.2vmin solid rgb(3, 169, 244)',
+                      }}
+                    >
+                      <h3 className="text-xl font-bold font-poppins">
+                        Learning and Rehabilitation
                       </h3>
+                      <br />
                       <p>
                         Utilizing Doublepoint’s touch technology in
                         learning and rehabilitation for people with
@@ -289,10 +329,20 @@ export default function Doublepoint() {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-4 gap-8 text-white">
               <div className="col-span-4 md:col-span-1">
-                <div className="bg-gray-200 rounded-md text-black p-4 mb-6">
-                  <h3 className="text-xl font-bold">Validation</h3>
+                <div
+                  className="rounded-md p-4 mb-6 shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+                  style={{
+                    background:
+                      'linear-gradient(0deg, rgb(4 9 20) 0%, rgba(14,27,64,1) 100%)',
+                    border: '0.2vmin solid rgb(3, 169, 244)',
+                  }}
+                >
+                  <h3 className="text-xl font-bold font-poppins">
+                    Validation
+                  </h3>
+                  <br />
                   <p>
                     The success of the solution hinges on its
                     desirability, technical feasibility, and financial
@@ -304,8 +354,18 @@ export default function Doublepoint() {
               </div>
 
               <div className="col-span-4 md:col-span-1">
-                <div className="bg-gray-200 rounded-md text-black p-4 mb-6">
-                  <h3 className="text-xl font-bold">Desirability</h3>
+                <div
+                  className="rounded-md p-4 mb-6 shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+                  style={{
+                    background:
+                      'linear-gradient(0deg, rgb(4 9 20) 0%, rgba(14,27,64,1) 100%)',
+                    border: '0.2vmin solid rgb(3, 169, 244)',
+                  }}
+                >
+                  <h3 className="text-xl font-bold font-poppins">
+                    Desirability
+                  </h3>
+                  <br />
                   <p>
                     The end-users, physiotherapists, and game
                     developers stand to benefit from the value
@@ -319,8 +379,18 @@ export default function Doublepoint() {
               </div>
 
               <div className="col-span-4 md:col-span-1">
-                <div className="bg-gray-200 rounded-md text-black p-4 mb-6">
-                  <h3 className="text-xl font-bold">Feasibility</h3>
+                <div
+                  className="rounded-md p-4 mb-6 shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+                  style={{
+                    background:
+                      'linear-gradient(0deg, rgb(4 9 20) 0%, rgba(14,27,64,1) 100%)',
+                    border: '0.2vmin solid rgb(3, 169, 244)',
+                  }}
+                >
+                  <h3 className="text-xl font-bold font-poppins">
+                    Feasibility
+                  </h3>
+                  <br />
                   <p>
                     Integrating touch-interaction and gesture-based
                     features presents challenges, but the
@@ -335,8 +405,18 @@ export default function Doublepoint() {
               </div>
 
               <div className="col-span-4 md:col-span-1">
-                <div className="bg-gray-200 rounded-md text-black p-4 mb-6">
-                  <h3 className="text-xl font-bold">Viability</h3>
+                <div
+                  className="rounded-md p-4 mb-6 shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+                  style={{
+                    background:
+                      'linear-gradient(0deg, rgb(4 9 20) 0%, rgba(14,27,64,1) 100%)',
+                    border: '0.2vmin solid rgb(3, 169, 244)',
+                  }}
+                >
+                  <h3 className="text-xl font-bold font-poppins">
+                    Viability
+                  </h3>
+                  <br />
                   <p>
                     Business viability involves assessing market
                     demand, research and development growth, user

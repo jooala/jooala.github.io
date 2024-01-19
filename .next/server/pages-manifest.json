@@ -2,6 +2,9 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/projects/sustainablyyours": "pages/projects/sustainablyyours.js",
-  "/": "pages/index.js"
+  "/": "pages/index.js",
+  "/projects/botnia": "pages/projects/botnia.js",
+  "/projects/doublepoint": "pages/projects/doublepoint.js",
+  "/projects/reaktor": "pages/projects/reaktor.js",
+  "/projects/sustainablyyours": "pages/projects/sustainablyyours.js"
 }
