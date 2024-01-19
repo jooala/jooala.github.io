@@ -87,10 +87,6 @@ export default function Doublepoint() {
                 </p>
               </div>
             </div>
-            <img
-              src="/images/doublepoint/coverkuva.png"
-              className=" h-10/12 duration-500 mt-20 rounded-3xl		"
-            />
             <div className="grid grid-cols-4 text-xl text-white leading-tight mt-20 text-left">
               <div className="col-span-4 mr-10">
                 <p>
@@ -140,7 +136,7 @@ export default function Doublepoint() {
                         border: '0.2vmin solid rgb(3, 169, 244)',
                       }}
                     >
-                      <h3 className="text-xl font-bold">
+                      <h3 className="text-xl font-bold font-poppins">
                         Independent Home Life
                       </h3>
                       <br />
