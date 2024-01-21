@@ -6,13 +6,20 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 export default function Botnia() {
   return (
     <div>
-      <section className="min-h-screen">
-        <Header />
-        <div id="main" className="container mx-auto px-4">
+      <section className="min-h-screen relative">
+        {/* Background Image */}
+        <div className="absolute top-0 left-0 right-0 bottom-0 bg-center bg-contain">
+          <img src="/images/backdrop.png" alt="" />
+        </div>
+
+        <div
+          id="main"
+          className="container mx-auto px-4 relative z-10"
+        >
           <div className="pt-24 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
-            <div className="mb-4 w-full md:w-full">
+            <div className="mb-4 mt-20 w-full md:w-full">
               <Link href="/">
-                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
+                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:text-blue-700 transform duration-300 ease-in-out">
                   <FontAwesomeIcon
                     icon={faChevronLeft}
                     className="mr-2"
@@ -20,7 +27,7 @@ export default function Botnia() {
                 </div>
               </Link>
             </div>
-            <h1 className="my-20 text-3xl md:text-5xl text-white font-bold leading-tight text-left">
+            <h1 className="my-10 text-3xl md:text-5xl text-white font-bold leading-tight text-left">
               <span className="bg-clip-text font-poppins">
                 Botnia Vikings
               </span>
@@ -65,7 +72,7 @@ export default function Botnia() {
               </div>
               <img
                 src="/images/botnia/logo.png"
-                className="w-full h-full bg-center bg-cover md:col-span-1 flex-nowrap -mt-12 "
+                className="w-full bg-center md:col-span-1 flex-nowrap -mt-12 "
               />
             </div>
             <div className="image-main items-center grid grid-col-1 my-20 gap-4">
@@ -93,6 +100,11 @@ export default function Botnia() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Header */}
+        <div className="w-full bg-opacity-50 absolute top-0 z-20">
+          <Header />
         </div>
       </section>
     </div>

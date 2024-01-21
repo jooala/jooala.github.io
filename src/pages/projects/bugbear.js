@@ -6,13 +6,20 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 export default function Bugbear() {
   return (
     <div>
-      <section className="min-h-screen">
-        <Header />
-        <div id="main" className="container mx-auto px-4">
-          <div className="pt-8 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
-            <div className="mb-4 w-full md:w-full">
+      <section className="min-h-screen relative">
+        {/* Background Image */}
+        <div className="absolute top-0 left-0 right-0 bottom-0 bg-center bg-contain">
+          <img src="/images/backdrop.png" alt="" />
+        </div>
+
+        <div
+          id="main"
+          className="container mx-auto px-4 relative z-10"
+        >
+          <div className="pt-24 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
+            <div className="mb-4 mt-20 w-full md:w-full">
               <Link href="/">
-                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
+                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:text-blue-700 transform duration-300 ease-in-out">
                   <FontAwesomeIcon
                     icon={faChevronLeft}
                     className="mr-2"
@@ -60,53 +67,48 @@ export default function Bugbear() {
               </div>
               <img
                 src="/images/bugbear/logo.png"
-                className="w-full h-full bg-center bg-cover md:col-span-1 w-3/4 h-3/4 object-cover hidden xl:block"
+                className="w-full bg-center md:col-span-1 object-cover -mt-20"
                 unoptimized
               />
             </div>
-            <div className="image-main items-center grid grid-rows-3 my-4">
-              <iframe
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: '960px',
-                  maxHeight: '760px',
-                }}
-                className="my-10"
-                src="https://www.youtube.com/embed/eRBofi1ZR14"
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-              <iframe
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: '960px',
-                  maxHeight: '760px',
-                }}
-                src="https://www.youtube.com/embed/-m3tAeseBNE"
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-              <iframe
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  maxWidth: '960px',
-                  maxHeight: '760px',
-                }}
-                src="https://www.youtube.com/embed/E-p1mQg6KuM"
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+            <div className="image-main items-center grid w-3/4 mx-auto grid-rows-3 my-4">
+              <div>
+                <iframe
+                  class="w-full aspect-video p-3"
+                  src="https://www.youtube.com/embed/eRBofi1ZR14"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <div>
+                <iframe
+                  class="w-full aspect-video p-3"
+                  src="https://www.youtube.com/embed/-m3tAeseBNE"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write;
+                  encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+              <div className="w-full">
+                <iframe
+                  class="w-full aspect-video p-3"
+                  src="https://www.youtube.com/embed/E-p1mQg6KuM"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
             </div>
           </div>
+        </div>
+        {/* Header */}
+        <div className="w-full bg-opacity-50 absolute top-0 z-20">
+          <Header />
         </div>
       </section>
     </div>

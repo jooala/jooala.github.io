@@ -3,5 +3,7 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/projects/doublepoint": "pages/projects/doublepoint.js"
+  "/projects/sauna": "pages/projects/sauna.js",
+  "/projects/sustainablyyours": "pages/projects/sustainablyyours.js",
+  "/projects/bugbear": "pages/projects/bugbear.js"
 }

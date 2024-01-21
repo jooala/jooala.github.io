@@ -80,9 +80,12 @@ function App() {
 
   return (
     <div>
-      <section className="min-h-screen">
-        <Header />
-        <div className="container justify-center pt-24 md:pt-24 mx-auto flex flex-wrap flex-col lg:flex-row items-center">
+      <section className="min-h-screen relative">
+        {/* Background Image */}
+        <div className="absolute top-0 left-0 right-0 bottom-0 bg-center bg-contain">
+          <img src="/images/backdrop.png" alt="" />
+        </div>
+        <div className="container justify-center pt-24 md:pt-24 mx-auto flex flex-wrap flex-col lg:flex-row items-center relative z-10">
           <div className="flex flex-col w-full xl:w-5/12 justify-center items-start mx-4">
             <h1 className="my-20 text-3xl md:text-4xl text-white font-bold leading-tight text-left">
               <span className="bg-clip-text font-poppins">
@@ -90,8 +93,8 @@ function App() {
               </span>
               <p className="text-xl font-normal mt-5 text-left">
                 International Design Business Management Master's
-                degree student with background in software and service
-                engineering. Bachelor's in Computer Science.
+                degree student with a background in software and
+                service engineering. Bachelor's in Computer Science.
               </p>
             </h1>
             <a
@@ -117,7 +120,7 @@ function App() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-24">
               <Link href="/projects/doublepoint">
                 <div
-                  className="card w-80"
+                  className="card "
                   style={{
                     background: `linear-gradient(
                       rgb(0 90 255 / 50%), 
@@ -139,7 +142,7 @@ function App() {
               </Link>
               <Link href="/projects/sustainablyyours">
                 <div
-                  className="card w-80"
+                  className="card "
                   style={{
                     background: `linear-gradient(
                       rgb(0 90 255 / 50%), 
@@ -161,7 +164,7 @@ function App() {
               </Link>
               <Link href="/projects/reaktor">
                 <div
-                  className="card w-80"
+                  className="card "
                   style={{
                     background: `linear-gradient(
                       rgb(0 90 255 / 50%), 
@@ -183,7 +186,7 @@ function App() {
               </Link>
               <Link href="/projects/wolt">
                 <div
-                  className="card w-80"
+                  className="card "
                   style={{
                     background: `linear-gradient(
                       rgb(0 90 255 / 50%), 
@@ -205,7 +208,7 @@ function App() {
               </Link>
               <Link href="/projects/sauna">
                 <div
-                  className="card w-80"
+                  className="card "
                   style={{
                     background: `linear-gradient(
                       rgb(0 90 255 / 50%), 
@@ -227,7 +230,7 @@ function App() {
               </Link>
               <Link href="/projects/bugbear">
                 <div
-                  className="card w-80"
+                  className="card "
                   style={{
                     background: `linear-gradient(
                       rgb(0 90 255 / 50%), 
@@ -249,7 +252,7 @@ function App() {
               </Link>
               <Link href="/projects/botnia">
                 <div
-                  className="card w-80"
+                  className="card "
                   style={{
                     background: `linear-gradient(
                       rgb(0 90 255 / 50%), 
@@ -271,6 +274,10 @@ function App() {
               </Link>
             </div>
           </div>
+        </div>
+        {/* Header */}
+        <div className="w-full bg-opacity-50 absolute top-0 z-20">
+          <Header />
         </div>
       </section>
     </div>
