@@ -85,7 +85,7 @@ function App() {
         <div className="absolute top-0 left-0 right-0 bottom-0 bg-center bg-contain">
           <img src="/images/backdrop.png" alt="" />
         </div>
-        <div className="container justify-center pt-24 md:pt-24 mx-auto flex flex-wrap flex-col lg:flex-row items-center relative z-10">
+        <div className="container justify-center pt-24 mx-auto flex flex-wrap flex-col lg:flex-row items-center relative z-10">
           <div className="flex flex-col w-full xl:w-5/12 justify-center items-start mx-4">
             <h1 className="my-20 text-3xl md:text-4xl text-white font-bold leading-tight text-left">
               <span className="bg-clip-text font-poppins">
@@ -117,10 +117,10 @@ function App() {
               </span>
             </h1>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-24">
+            <div className="grid w-9/12 md:w-full sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-24">
               <Link href="/projects/doublepoint">
                 <div
-                  className="card "
+                  className="card"
                   style={{
                     background: `linear-gradient(
                       rgb(0 90 255 / 50%), 
@@ -129,7 +129,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl font-poppins text-xl text-shadow-lg">
+                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
                       Doublepoint
                     </h3>
                     <h4
@@ -151,7 +151,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl font-poppins text-xl ">
+                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
                       Sustainably Yours
                     </h3>
                     <h4
@@ -173,7 +173,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl font-poppins text-xl">
+                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
                       Reaktor
                     </h3>
                     <h4
@@ -195,7 +195,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl font-poppins text-xl">
+                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
                       Wolt
                     </h3>
                     <h4
@@ -217,7 +217,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl font-poppins text-2xl mx-1">
+                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
                       Sauna Simulator
                     </h3>
                     <h4
@@ -239,7 +239,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl font-poppins text-2xl mx-1">
+                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
                       Bugbear Entertainment
                     </h3>
                     <h4
@@ -261,7 +261,7 @@ function App() {
                   }}
                 >
                   <div className="card-content">
-                    <h3 className="card-title xl:text-3xl font-poppins text-xl">
+                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
                       Botnia Vikings
                     </h3>
                     <h4
