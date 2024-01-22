@@ -7,19 +7,30 @@ import {
   TransitionGroup,
   CSSTransition,
 } from 'react-transition-group';
+import ReactGA from 'react-ga';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
-    const handleRouteChange = (url, { shallow }) => {
-      // Your custom logic here for page transitions
+    // Initialize ReactGA
+    ReactGA.initialize('G-RFYMHFQFFK');
+
+    // Track initial pageview
+    ReactGA.pageview(
+      window.location.pathname + window.location.search
+    );
+
+    // Track pageview on route change
+    const handleRouteChange = (url) => {
+      ReactGA.pageview(url);
     };
 
-    router.events.on('routeChangeStart', handleRouteChange);
+    router.events.on('routeChangeComplete', handleRouteChange);
 
+    // Remove event listener when component unmounts
     return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, []);
 
