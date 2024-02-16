@@ -7,28 +7,21 @@ import {
   TransitionGroup,
   CSSTransition,
 } from 'react-transition-group';
-import ReactGA from 'react-ga';
+import { initGA, logPageView } from '../utils/googleAnalytics';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Initialize ReactGA
-    ReactGA.initialize('G-RFYMHFQFFK');
+    initGA();
+    logPageView();
 
-    // Track initial pageview
-    ReactGA.pageview(
-      window.location.pathname + window.location.search
-    );
-
-    // Track pageview on route change
     const handleRouteChange = (url) => {
-      ReactGA.pageview(url);
+      logPageView();
     };
 
     router.events.on('routeChangeComplete', handleRouteChange);
 
-    // Remove event listener when component unmounts
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
