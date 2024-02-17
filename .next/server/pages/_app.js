@@ -30,7 +30,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   initGA: () => (/* binding */ initGA),\n/* harmony export */   logPageView: () => (/* binding */ logPageView)\n/* harmony export */ });\n/* harmony import */ var react_ga__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-ga */ \"react-ga\");\n/* harmony import */ var react_ga__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_ga__WEBPACK_IMPORTED_MODULE_0__);\n\nconst initGA = ()=>{\n    react_ga__WEBPACK_IMPORTED_MODULE_0___default().initialize(\"G-RFYMHFQFFK\");\n};\nconst logPageView = ()=>{\n    react_ga__WEBPACK_IMPORTED_MODULE_0___default().set({\n        page: window.location.pathname\n    });\n    react_ga__WEBPACK_IMPORTED_MODULE_0___default().pageview(window.location.pathname);\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvdXRpbHMvZ29vZ2xlQW5hbHl0aWNzLmpzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFBK0I7QUFFeEIsTUFBTUMsU0FBUztJQUNwQkQsMERBQWtCLENBQUM7QUFDckIsRUFBRTtBQUVLLE1BQU1HLGNBQWM7SUFDekJILG1EQUFXLENBQUM7UUFBRUssTUFBTUMsT0FBT0MsUUFBUSxDQUFDQyxRQUFRO0lBQUM7SUFDN0NSLHdEQUFnQixDQUFDTSxPQUFPQyxRQUFRLENBQUNDLFFBQVE7QUFDM0MsRUFBRSIsInNvdXJjZXMiOlsid2VicGFjazovLzIwMjJwb3J0Zm9saW8vLi9zcmMvdXRpbHMvZ29vZ2xlQW5hbHl0aWNzLmpzP2FjOTYiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0R0EgZnJvbSAncmVhY3QtZ2EnO1xyXG5cclxuZXhwb3J0IGNvbnN0IGluaXRHQSA9ICgpID0+IHtcclxuICBSZWFjdEdBLmluaXRpYWxpemUoJ0ctUkZZTUhGUUZGSycpO1xyXG59O1xyXG5cclxuZXhwb3J0IGNvbnN0IGxvZ1BhZ2VWaWV3ID0gKCkgPT4ge1xyXG4gIFJlYWN0R0Euc2V0KHsgcGFnZTogd2luZG93LmxvY2F0aW9uLnBhdGhuYW1lIH0pO1xyXG4gIFJlYWN0R0EucGFnZXZpZXcod2luZG93LmxvY2F0aW9uLnBhdGhuYW1lKTtcclxufTtcclxuIl0sIm5hbWVzIjpbIlJlYWN0R0EiLCJpbml0R0EiLCJpbml0aWFsaXplIiwibG9nUGFnZVZpZXciLCJzZXQiLCJwYWdlIiwid2luZG93IiwibG9jYXRpb24iLCJwYXRobmFtZSIsInBhZ2V2aWV3Il0sInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./src/utils/googleAnalytics.js\n");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   initGA: () => (/* binding */ initGA),\n/* harmony export */   logPageView: () => (/* binding */ logPageView)\n/* harmony export */ });\n/* harmony import */ var react_ga4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-ga4 */ \"react-ga4\");\n/* harmony import */ var react_ga4__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_ga4__WEBPACK_IMPORTED_MODULE_0__);\n\nconst initGA = ()=>{\n    react_ga4__WEBPACK_IMPORTED_MODULE_0___default().initialize(\"G-RFYMHFQFFK\");\n};\nconst logPageView = ()=>{\n    react_ga4__WEBPACK_IMPORTED_MODULE_0___default().set({\n        page: window.location.pathname\n    });\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvdXRpbHMvZ29vZ2xlQW5hbHl0aWNzLmpzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFBZ0M7QUFFekIsTUFBTUMsU0FBUztJQUNwQkQsMkRBQWtCLENBQUM7QUFDckIsRUFBRTtBQUVLLE1BQU1HLGNBQWM7SUFDekJILG9EQUFXLENBQUM7UUFBRUssTUFBTUMsT0FBT0MsUUFBUSxDQUFDQyxRQUFRO0lBQUM7QUFDL0MsRUFBRSIsInNvdXJjZXMiOlsid2VicGFjazovLzIwMjJwb3J0Zm9saW8vLi9zcmMvdXRpbHMvZ29vZ2xlQW5hbHl0aWNzLmpzP2FjOTYiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0R0EgZnJvbSAncmVhY3QtZ2E0JztcclxuXHJcbmV4cG9ydCBjb25zdCBpbml0R0EgPSAoKSA9PiB7XHJcbiAgUmVhY3RHQS5pbml0aWFsaXplKCdHLVJGWU1IRlFGRksnKTtcclxufTtcclxuXHJcbmV4cG9ydCBjb25zdCBsb2dQYWdlVmlldyA9ICgpID0+IHtcclxuICBSZWFjdEdBLnNldCh7IHBhZ2U6IHdpbmRvdy5sb2NhdGlvbi5wYXRobmFtZSB9KTtcclxufTtcclxuIl0sIm5hbWVzIjpbIlJlYWN0R0EiLCJpbml0R0EiLCJpbml0aWFsaXplIiwibG9nUGFnZVZpZXciLCJzZXQiLCJwYWdlIiwid2luZG93IiwibG9jYXRpb24iLCJwYXRobmFtZSJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/utils/googleAnalytics.js\n");
 
 /***/ }),
 
@@ -97,14 +97,14 @@ module.exports = require("react-dom");
 
 /***/ }),
 
-/***/ "react-ga":
-/*!***************************!*\
-  !*** external "react-ga" ***!
-  \***************************/
+/***/ "react-ga4":
+/*!****************************!*\
+  !*** external "react-ga4" ***!
+  \****************************/
 /***/ ((module) => {
 
 "use strict";
-module.exports = require("react-ga");
+module.exports = require("react-ga4");
 
 /***/ }),
 
