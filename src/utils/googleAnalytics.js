@@ -12,6 +12,23 @@ export const logPageView = () => {
   ReactGA.send({
     hitType: 'pageview',
     page: pagePath,
-    title: document.title, // Optionally, you can include the title of the page
+    title: document.title,
   });
+};
+
+export const trackPageTime = () => {
+  const startTime = Date.now();
+
+  return () => {
+    const endTime = Date.now();
+    const timeSpent = (endTime - startTime) / 1000;
+
+    ReactGA.event({
+      category: 'Engagement',
+      action: 'Time Spent on Page',
+      label: window.location.pathname,
+      value: Math.round(timeSpent),
+      nonInteraction: true,
+    });
+  };
 };

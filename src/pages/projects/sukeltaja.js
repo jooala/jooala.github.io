@@ -14,10 +14,20 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import Head from 'next/head';
+import { trackPageTime } from '../../utils/googleAnalytics';
 
 export default function Sukeltaja() {
+  useEffect(() => {
+    const stopTracking = trackPageTime();
+
+    return () => {
+      stopTracking();
+    };
+  }, []);
   return (
     <div>
       <Head>

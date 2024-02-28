@@ -2,7 +2,12 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/projects/doublepoint": "pages/projects/doublepoint.js",
   "/": "pages/index.js",
   "/projects/sustainablyyours": "pages/projects/sustainablyyours.js",
-  "/projects/sauna": "pages/projects/sauna.js"
+  "/projects/wolt": "pages/projects/wolt.js",
+  "/projects/reaktor": "pages/projects/reaktor.js",
+  "/projects/bugbear": "pages/projects/bugbear.js",
+  "/projects/sauna": "pages/projects/sauna.js",
+  "/projects/botnia": "pages/projects/botnia.js"
 }

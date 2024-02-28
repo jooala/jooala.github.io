@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Header from './Header';
 import image from './imgs/testi.png';
 import Head from 'next/head';
-
+import { trackPageTime } from '../utils/googleAnalytics';
 function App() {
   const cardSubtitleBugbear = useRef(null);
   const cardSubtitleReaktor = useRef(null);
@@ -77,6 +77,14 @@ function App() {
 
   useLayoutEffect(() => {
     updateText();
+  }, []);
+
+  useEffect(() => {
+    const stopTracking = trackPageTime();
+
+    return () => {
+      stopTracking();
+    };
   }, []);
 
   return (
