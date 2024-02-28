@@ -20,6 +20,9 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 export default function Sukeltaja() {
   return (
     <div>
+      <Head>
+        <title>Sukeltaja - Joonas Alanenpää</title>
+      </Head>
       <section className="min-h-screen">
         <Header />
         <div className="container pt-24 md:pt-24 mx-auto px-24 flex flex-wrap flex-col md:flex-row items-center">

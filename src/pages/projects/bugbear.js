@@ -6,6 +6,9 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 export default function Bugbear() {
   return (
     <div>
+      <Head>
+        <title>Bugbear Entertainment - Joonas Alanenpää</title>
+      </Head>
       <section className="min-h-screen relative">
         {/* Background Image */}
         <div className="absolute top-0 left-0 right-0 bottom-0 bg-center bg-contain">

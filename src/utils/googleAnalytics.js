@@ -5,5 +5,13 @@ export const initGA = () => {
 };
 
 export const logPageView = () => {
-  ReactGA.set({ page: window.location.pathname });
+  const pagePath =
+    window.location.pathname +
+    window.location.search +
+    window.location.hash;
+  ReactGA.send({
+    hitType: 'pageview',
+    page: pagePath,
+    title: document.title, // Optionally, you can include the title of the page
+  });
 };

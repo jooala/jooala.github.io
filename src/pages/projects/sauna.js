@@ -2,10 +2,14 @@ import Header from '../Header';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import Head from 'next/head';
 
 export default function Sauna() {
   return (
     <div>
+      <Head>
+        <title>Sauna Simulator - Joonas Alanenpää</title>
+      </Head>
       <section className="min-h-screen relative">
         {/* Background Image */}
         <div className="absolute top-0 left-0 right-0 bottom-0 bg-center bg-contain">

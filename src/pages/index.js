@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Header from './Header';
 import image from './imgs/testi.png';
+import Head from 'next/head';
 
 function App() {
   const cardSubtitleBugbear = useRef(null);
@@ -80,6 +81,9 @@ function App() {
 
   return (
     <div>
+      <Head>
+        <title>Joonas Alanenpää</title>
+      </Head>
       <section className="min-h-screen relative">
         {/* Background Image */}
         <div className="absolute top-0 left-0 right-0 bottom-0 bg-center bg-contain">
