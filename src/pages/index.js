@@ -104,9 +104,8 @@ function App() {
                 Hello, I'm Joonas!
               </span>
               <p className="text-xl font-normal mt-5 text-left">
-                International Design Business Management Master's
-                degree student with a background in software and
-                service engineering. Bachelor's in Computer Science.
+                Product Manager who loves combining design, technology, and
+                curiosity to build products that feel great to use.
               </p>
             </h1>
             <a
