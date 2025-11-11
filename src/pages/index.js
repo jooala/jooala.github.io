@@ -174,7 +174,7 @@ function App() {
                   <i className="fa-solid fa-hat-witch card-icon"></i>
                 </div>
               </Link>
-              <Link href="/projects/reaktor">
+              {/* <Link href="/projects/reaktor">
                 <div
                   className="card "
                   style={{
@@ -217,7 +217,7 @@ function App() {
                   </div>
                   <i className="fa-solid fa-hat-witch card-icon"></i>
                 </div>
-              </Link>
+              </Link> */}
               <Link href="/projects/sauna">
                 <div
                   className="card "
@@ -262,7 +262,7 @@ function App() {
                   <i className="fa-solid fa-hat-witch card-icon"></i>
                 </div>
               </Link>
-              <Link href="/projects/botnia">
+              {/* <Link href="/projects/botnia">
                 <div
                   className="card "
                   style={{
@@ -283,7 +283,7 @@ function App() {
                   </div>
                   <i className="fa-solid fa-hat-witch card-icon"></i>
                 </div>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

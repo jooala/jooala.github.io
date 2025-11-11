@@ -1,13 +1,17 @@
 {
+  "/": "pages/index.html",
+  "/Card": "pages/Card.html",
+  "/Header": "pages/Header.html",
   "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/projects/doublepoint": "pages/projects/doublepoint.js",
-  "/": "pages/index.js",
-  "/projects/sustainablyyours": "pages/projects/sustainablyyours.js",
-  "/projects/wolt": "pages/projects/wolt.js",
-  "/projects/reaktor": "pages/projects/reaktor.js",
-  "/projects/bugbear": "pages/projects/bugbear.js",
-  "/projects/sauna": "pages/projects/sauna.js",
-  "/projects/botnia": "pages/projects/botnia.js"
+  "/_error": "pages/_error.js",
+  "/projects/botnia": "pages/projects/botnia.html",
+  "/projects/bugbear": "pages/projects/bugbear.html",
+  "/projects/doublepoint": "pages/projects/doublepoint.html",
+  "/projects/reaktor": "pages/projects/reaktor.html",
+  "/projects/sauna": "pages/projects/sauna.html",
+  "/projects/sukeltaja": "pages/projects/sukeltaja.html",
+  "/projects/sustainablyyours": "pages/projects/sustainablyyours.html",
+  "/projects/wolt": "pages/projects/wolt.html",
+  "/404": "pages/404.html"
 }

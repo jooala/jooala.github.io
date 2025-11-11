@@ -109,39 +109,6 @@ export default function Doublepoint() {
             </div>
             <div className="grid grid-cols-4 text-xl text-white leading-tight mt-20 text-left">
               <div className="col-span-4 mr-10">
-                <p>
-                  The 7-month design process involved an immersive
-                  exploration of the startup and XR industry
-                  landscape, followed by user needs discovery and
-                  research on inclusive technologies. The design
-                  challenge was redefined, leading to a solution
-                  through ideation and prototyping using the double
-                  diamond process framework.
-                  <br />
-                  <br />
-                  Our team conducted industry immersion, with trips to
-                  California and Tokyo, engaging with professionals
-                  and attending XR-related events in Helsinki.
-                  Valuable insights were gained, leading to
-                  conclusions about the XR industry's relevance,
-                  dominance by big tech companies, and the importance
-                  of user-friendly integration. The team identified a
-                  niche market in accessibility, focusing on mobile
-                  people with assistants.
-                  <br />
-                  <br />
-                  Thorough research included desktop and field
-                  research, involving interviews with seven user
-                  groups and associations. Thematic analysis revealed
-                  three main design directions: Independent home life,
-                  Safety, Education and rehabilitation, and
-                  Navigation. Navigation was eliminated due to
-                  technological constraints.
-                </p>
-              </div>
-            </div>
-            <div className="grid grid-cols-4 text-xl text-white leading-tight mt-20 text-left">
-              <div className="col-span-4 mr-10">
                 <h2 className="text-2xl text-white font-bold mb-6">
                   Finding the Solution
                 </h2>
