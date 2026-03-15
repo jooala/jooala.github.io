@@ -25,7 +25,7 @@ export default function ProjectLayout({
     title,
     meta = [],
     tools = [],
-    coverImage = '/og-cover.svg',
+    coverImage = '/og-cover.png',
     noIndex = false,
     children,
 }) {
