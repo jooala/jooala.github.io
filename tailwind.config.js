@@ -4,7 +4,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        poppins: ['Poppins', 'sans-serif'],
+        poppins: ['Space Grotesk', 'sans-serif'], // Re-mapping old utility to new font
+        inter: ['Inter', 'sans-serif'],
+        oswald: ['Oswald', 'sans-serif'],
+        mono: ['Space Mono', 'monospace'],
       },
     },
   },

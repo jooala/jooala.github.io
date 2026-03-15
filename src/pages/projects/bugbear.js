@@ -1,129 +1,110 @@
-import Header from '../Header';
-import Link from 'next/link';
-import { useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import Head from 'next/head';
-import { trackPageTime } from '../../utils/googleAnalytics';
+import ProjectLayout from './ProjectLayout';
+
+// Static section content hoisted outside component (rendering-hoist-jsx)
+const META = [
+  { label: 'Company', value: 'Bugbear Entertainment' },
+  { label: 'My Role', value: 'Game Tester & Additional Assistance' },
+  { label: 'Games', value: 'Ridge Racer Unbounded, Wreckfest' },
+];
+
+const TOOLS = ['Game Testing', 'QA', 'Graphic Design', 'Video Production', 'Bug Fixing'];
 
 export default function Bugbear() {
-  useEffect(() => {
-    const stopTracking = trackPageTime();
-
-    return () => {
-      stopTracking();
-    };
-  }, []);
   return (
-    <div>
-      <Head>
-        <title>Bugbear Entertainment - Joonas Alanenpää</title>
-      </Head>
-      <section className="min-h-screen relative">
-        {/* Background Image */}
-        <div className="absolute top-0 left-0 right-0 bottom-0 bg-center bg-contain">
-          <img src="/images/backdrop.png" alt="" />
-        </div>
-
-        <div
-          id="main"
-          className="container mx-auto px-4 relative z-10"
-        >
-          <div className="pt-24 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
-            <div className="mb-4 mt-20 w-full md:w-full">
-              <Link href="/">
-                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:text-blue-700 transform duration-300 ease-in-out">
-                  <FontAwesomeIcon
-                    icon={faChevronLeft}
-                    className="mr-2"
-                  />
-                </div>
-              </Link>
+    <ProjectLayout
+      pageTitle="Bugbear Entertainment — Joonas Alanenpää"
+      category="Game Industry"
+      title="Bugbear Entertainment"
+      meta={META}
+      tools={TOOLS}
+    >
+      <div className="project-body">
+        {/* Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24 max-w-6xl mx-auto">
+          <div className="md:col-span-2">
+            <div className="callout-box mb-12">
+              <p className="text-sm font-semibold font-mono tracking-widest mb-2 text-[#ccff00]">
+                [ Overview ]
+              </p>
+              <p className="text-[#EAEAEA] text-xl leading-relaxed m-0 font-inter">
+                I had the opportunity to work with Bugbear Entertainment multiple times on a variety of tasks
+                related to game development — from graphics design and video production to testing, quality
+                assurance, and bug fixing.
+              </p>
             </div>
-            <h1 className="my-8 md:my-20 text-3xl md:text-5xl text-white font-bold leading-tight text-left">
-              <span className="bg-clip-text font-poppins">
-                Bugbear Entertainment
-              </span>
-            </h1>
-            <div className="grid grid-cols-1 md:grid-cols-3 text-xl text-white leading-tight text-left">
-              <div className="col-span-1 md:col-span-2 mr-10">
-                <p>
-                  I have had the opportunity to work with Bugbear
-                  Entertainment multiple times on a variety of tasks
-                  related to game development, such as graphics
-                  design, video production, testing, quality
-                  assurance, and bug fixing. Bugbear Entertainment is
-                  a well-known video game company in Finland and is
-                  known for creating popular games such as the
-                  FlatOut-series, Ridge Racer Unbounded, and
-                  Wreckfest. I had the privilege of being a game
-                  tester during the development of Ridge Racer
-                  Unbounded and providing additional assistance for
-                  Wreckfest. <br />
-                  <br /> Here is the link to my credits page on
-                  MobyGames:
-                </p>
-                <p>
-                  <a
-                    href="https://www.mobygames.com/developer/sheet/view/developerId,516527/"
-                    className="text-blue-600"
-                  >
-                    https://www.mobygames.com/developer/sheet/view/developerId,516527/
-                  </a>
-                </p>
-                <br />
-                <p>
-                  Below are a few trailers that I was heavily involved
-                  in the video production of which were published on
-                  social media.
-                </p>
-              </div>
-              <img
-                src="/images/bugbear/logo.png"
-                className="w-full bg-center md:col-span-1 object-cover -mt-20"
-                unoptimized
-              />
-            </div>
-            <div className="image-main items-center grid w-3/4 mx-auto grid-rows-3 my-4">
-              <div>
-                <iframe
-                  class="w-full aspect-video p-3"
-                  src="https://www.youtube.com/embed/eRBofi1ZR14"
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-              <div>
-                <iframe
-                  class="w-full aspect-video p-3"
-                  src="https://www.youtube.com/embed/-m3tAeseBNE"
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write;
-                  encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-              <div className="w-full">
-                <iframe
-                  class="w-full aspect-video p-3"
-                  src="https://www.youtube.com/embed/E-p1mQg6KuM"
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </div>
+            <p className="text-[#AEAEAE] text-lg leading-relaxed mb-8 font-inter">
+              Bugbear Entertainment is one of Finland's most well-known video game studios, famous for
+              creating the <strong className="text-white">FlatOut series</strong>, <strong className="text-white">Ridge Racer Unbounded</strong>, and the
+              critically acclaimed <strong className="text-white">Wreckfest</strong>. I had the privilege of contributing as a
+              Game Tester during Ridge Racer Unbounded's development and providing Additional Assistance
+              for Wreckfest.
+            </p>
+            <p>
+              <a
+                href="https://www.mobygames.com/developer/sheet/view/developerId,516527/"
+                className="underline font-mono text-sm tracking-widest font-bold hover:text-white transition-colors text-[#ccff00]"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                [ VIEW MY GAME CREDITS ON MOBYGAMES ]
+              </a>
+            </p>
+          </div>
+          <div className="flex items-center justify-center p-8 bg-[#050505] border border-[#333333] hover:bg-[#111111] transition-colors duration-500">
+            <img
+              src="/images/bugbear/logo.png"
+              className="w-full max-w-xs object-contain grayscale hover:grayscale-0 transition-all duration-700"
+              alt="Bugbear Entertainment logo"
+            />
           </div>
         </div>
-        {/* Header */}
-        <div className="w-full bg-opacity-50 absolute top-0 z-20">
-          <Header />
+
+        {/* Video section */}
+        <div className="project-section max-w-4xl mx-auto">
+          <h2 className="mb-8">Video Production Work</h2>
+          <p className="text-xl leading-relaxed text-[#AEAEAE] mb-12 font-inter">
+            Below are a few trailers I was heavily involved in producing, published on social media
+            as part of Wreckfest's marketing campaign.
+          </p>
         </div>
-      </section>
-    </div>
+
+        {/* Full Bleed Video Grid */}
+        <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] grid grid-cols-1 lg:grid-cols-3 border-y border-[#333333] bg-[#050505]">
+          <div className="border-b lg:border-b-0 lg:border-r border-[#333333] p-8 hover:bg-[#111111] transition-colors duration-500">
+            <h3 className="text-[#ccff00] font-mono uppercase text-sm tracking-widest mb-6">[ Console Release Trailer ]</h3>
+            <iframe
+              className="w-full aspect-video grayscale hover:grayscale-0 transition-all duration-700"
+              src="https://www.youtube.com/embed/eRBofi1ZR14"
+              title="Wreckfest — Console Release Date Trailer"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="border-b lg:border-b-0 lg:border-r border-[#333333] p-8 hover:bg-[#111111] transition-colors duration-500">
+            <h3 className="text-[#ccff00] font-mono uppercase text-sm tracking-widest mb-6">[ Season 2 Trailer ]</h3>
+            <iframe
+              className="w-full aspect-video grayscale hover:grayscale-0 transition-all duration-700"
+              src="https://www.youtube.com/embed/-m3tAeseBNE"
+              title="Wreckfest — Season 2 Trailer"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div className="p-8 hover:bg-[#111111] transition-colors duration-500">
+            <h3 className="text-[#ccff00] font-mono uppercase text-sm tracking-widest mb-6">[ Update Trailer ]</h3>
+            <iframe
+              className="w-full aspect-video grayscale hover:grayscale-0 transition-all duration-700"
+              src="https://www.youtube.com/embed/E-p1mQg6KuM"
+              title="Wreckfest — Update Trailer"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </div>
+    </ProjectLayout>
   );
 }
