@@ -1,7 +1,7 @@
 import './App.css';
 import './card.css';
 import './index.css';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import {
   TransitionGroup,
@@ -15,6 +15,7 @@ const CustomCursor = dynamic(() => import('../components/CustomCursor'), { ssr: 
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+  const nodeRef = useRef(null);
 
   useEffect(() => {
     // Disable browser scroll restoration so we control it manually
@@ -45,8 +46,11 @@ function MyApp({ Component, pageProps }) {
           key={router.pathname}
           timeout={300}
           classNames="fade"
+          nodeRef={nodeRef}
         >
-          <Component {...pageProps} />
+          <div ref={nodeRef}>
+            <Component {...pageProps} />
+          </div>
         </CSSTransition>
       </TransitionGroup>
     </>

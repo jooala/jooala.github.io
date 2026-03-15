@@ -8,8 +8,6 @@ import FooterCTA from '../components/FooterCTA';
 import { trackPageTime } from '../utils/googleAnalytics';
 import { gsap } from 'gsap';
 
-const ThreeBackground = dynamic(() => import('../components/ThreeBackground'), { ssr: false });
-
 // ShaderHeroHeadline uses Three.js + WebGL — must be client-side only
 const ShaderHeroHeadline = dynamic(
   () => import('../components/ShaderHeroHeadline'),
@@ -103,11 +101,6 @@ export default function App() {
 
       {/* Hero */}
       <section className="relative min-h-screen flex items-center">
-        {/* Three.js wireframe — top-right, behind text */}
-        <div className="hero-background">
-          <ThreeBackground />
-        </div>
-
         {/* Dot-sphere visualization — behind headline text */}
         <div className="hero-sphere-wrap">
           <HeroSphere onReady={() => setLoaded(true)} />
