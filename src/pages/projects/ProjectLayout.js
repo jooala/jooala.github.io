@@ -25,7 +25,8 @@ export default function ProjectLayout({
     title,
     meta = [],
     tools = [],
-    coverImage = '/cover.png',
+    coverImage = '/og-cover.svg',
+    noIndex = false,
     children,
 }) {
     const pageUrl = typeof window !== 'undefined' ? window.location.href : 'https://jooala.github.io/';
@@ -38,6 +39,7 @@ export default function ProjectLayout({
         <div>
             <Head>
                 <title>{pageTitle}</title>
+                {noIndex && <meta name="robots" content="noindex, nofollow" />}
                 {description && <meta name="description" content={description} />}
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="canonical" href={pageUrl} />

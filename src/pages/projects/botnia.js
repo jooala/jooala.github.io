@@ -11,6 +11,7 @@ export default function Botnia() {
   return (
     <ProjectLayout
       pageTitle="Botnia Vikings — Joonas Alanenpää"
+      noIndex
       category="Esports Branding"
       title="Botnia Vikings"
       meta={META}

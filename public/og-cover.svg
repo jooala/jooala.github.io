@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <pattern id="dots" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="0.7" fill="#222222"/>
+    </pattern>
+    <linearGradient id="textBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="640" y2="0">
+      <stop offset="0%" stop-color="#111111" stop-opacity="0.96"/>
+      <stop offset="100%" stop-color="#111111" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="bounds">
+      <rect width="1200" height="630"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#111111"/>
+  <rect width="1200" height="630" fill="url(#dots)"/>
+
+  <!-- ── Wireframe Cubes ───────────────────────────────── -->
+  <g clip-path="url(#bounds)">
+
+    <!-- Cube A │ large bg right │ cx=1020 cy=440 s=240 w=208 h=120 -->
+    <g stroke="#d5ff3f" stroke-width="1.5" fill="none" opacity="0.14">
+      <polygon points="1020,200 1228,320 1228,560 1020,680 812,560 812,320"/>
+      <line x1="1020" y1="440" x2="1020" y2="200"/>
+      <line x1="1020" y1="440" x2="1228" y2="320"/>
+      <line x1="1020" y1="440" x2="1228" y2="560"/>
+      <line x1="1020" y1="440" x2="1020" y2="680"/>
+      <line x1="1020" y1="440" x2="812"  y2="560"/>
+      <line x1="1020" y1="440" x2="812"  y2="320"/>
+    </g>
+
+    <!-- Cube B │ medium top-left (behind text) │ cx=145 cy=155 s=150 w=130 h=75 -->
+    <g stroke="#d5ff3f" stroke-width="1" fill="none" opacity="0.10">
+      <polygon points="145,5 275,80 275,230 145,305 15,230 15,80"/>
+      <line x1="145" y1="155" x2="145" y2="5"/>
+      <line x1="145" y1="155" x2="275" y2="80"/>
+      <line x1="145" y1="155" x2="275" y2="230"/>
+      <line x1="145" y1="155" x2="145" y2="305"/>
+      <line x1="145" y1="155" x2="15"  y2="230"/>
+      <line x1="145" y1="155" x2="15"  y2="80"/>
+    </g>
+
+    <!-- Cube C │ medium mid-right │ cx=700 cy=320 s=125 w=108 h=63 -->
+    <g stroke="#d5ff3f" stroke-width="1" fill="none" opacity="0.22">
+      <polygon points="700,195 808,257 808,383 700,445 592,383 592,257"/>
+      <line x1="700" y1="320" x2="700" y2="195"/>
+      <line x1="700" y1="320" x2="808" y2="257"/>
+      <line x1="700" y1="320" x2="808" y2="383"/>
+      <line x1="700" y1="320" x2="700" y2="445"/>
+      <line x1="700" y1="320" x2="592" y2="383"/>
+      <line x1="700" y1="320" x2="592" y2="257"/>
+    </g>
+
+    <!-- Cube D │ small top-right │ cx=870 cy=90 s=90 w=78 h=45 -->
+    <g stroke="#d5ff3f" stroke-width="1.5" fill="none" opacity="0.42">
+      <polygon points="870,0 948,45 948,135 870,180 792,135 792,45"/>
+      <line x1="870" y1="90" x2="870" y2="0"/>
+      <line x1="870" y1="90" x2="948" y2="45"/>
+      <line x1="870" y1="90" x2="948" y2="135"/>
+      <line x1="870" y1="90" x2="870" y2="180"/>
+      <line x1="870" y1="90" x2="792" y2="135"/>
+      <line x1="870" y1="90" x2="792" y2="45"/>
+    </g>
+
+    <!-- Cube E │ small upper-right corner │ cx=1100 cy=190 s=72 w=62 h=36 -->
+    <g stroke="#d5ff3f" stroke-width="1.5" fill="none" opacity="0.55">
+      <polygon points="1100,118 1162,154 1162,226 1100,262 1038,226 1038,154"/>
+      <line x1="1100" y1="190" x2="1100" y2="118"/>
+      <line x1="1100" y1="190" x2="1162" y2="154"/>
+      <line x1="1100" y1="190" x2="1162" y2="226"/>
+      <line x1="1100" y1="190" x2="1100" y2="262"/>
+      <line x1="1100" y1="190" x2="1038" y2="226"/>
+      <line x1="1100" y1="190" x2="1038" y2="154"/>
+    </g>
+
+    <!-- Cube F │ tiny lower-center │ cx=510 cy=565 s=55 w=48 h=28 -->
+    <g stroke="#d5ff3f" stroke-width="1" fill="none" opacity="0.28">
+      <polygon points="510,510 558,537 558,593 510,620 462,593 462,537"/>
+      <line x1="510" y1="565" x2="510" y2="510"/>
+      <line x1="510" y1="565" x2="558" y2="537"/>
+      <line x1="510" y1="565" x2="558" y2="593"/>
+      <line x1="510" y1="565" x2="510" y2="620"/>
+      <line x1="510" y1="565" x2="462" y2="593"/>
+      <line x1="510" y1="565" x2="462" y2="537"/>
+    </g>
+
+    <!-- Cube G │ tiny lower-right │ cx=1150 cy=500 s=65 w=56 h=33 -->
+    <g stroke="#d5ff3f" stroke-width="1" fill="none" opacity="0.35">
+      <polygon points="1150,435 1206,467 1206,533 1150,565 1094,533 1094,467"/>
+      <line x1="1150" y1="500" x2="1150" y2="435"/>
+      <line x1="1150" y1="500" x2="1206" y2="467"/>
+      <line x1="1150" y1="500" x2="1206" y2="533"/>
+      <line x1="1150" y1="500" x2="1150" y2="565"/>
+      <line x1="1150" y1="500" x2="1094" y2="533"/>
+      <line x1="1150" y1="500" x2="1094" y2="467"/>
+    </g>
+
+  </g>
+
+  <!-- Gradient overlay so left text stays readable -->
+  <rect x="0" y="0" width="640" height="630" fill="url(#textBg)"/>
+
+  <!-- Accent particles -->
+  <g fill="#d5ff3f">
+    <circle cx="658" cy="165" r="2.5" opacity="0.45"/>
+    <circle cx="742" cy="490" r="2"   opacity="0.38"/>
+    <circle cx="578" cy="393" r="1.5" opacity="0.42"/>
+    <circle cx="916" cy="295" r="2"   opacity="0.38"/>
+    <circle cx="1048" cy="370" r="1.5" opacity="0.48"/>
+    <circle cx="636" cy="70"  r="2.5" opacity="0.42"/>
+    <circle cx="478" cy="548" r="1.5" opacity="0.38"/>
+    <circle cx="556" cy="132" r="1.5" opacity="0.32"/>
+    <circle cx="748" cy="572" r="2"   opacity="0.38"/>
+    <circle cx="1168" cy="58" r="2"   opacity="0.32"/>
+  </g>
+
+  <!-- ── Text ─────────────────────────────────────────── -->
+
+  <!-- Accent bar -->
+  <rect x="80" y="148" width="3" height="40" fill="#d5ff3f"/>
+
+  <!-- Category label -->
+  <text x="95" y="175"
+        font-family="'Courier New', Courier, monospace"
+        font-size="13" fill="#d5ff3f" letter-spacing="4">[ PM &amp; DESIGNER ]</text>
+
+  <!-- JOONAS -->
+  <text x="78" y="302"
+        font-family="'Arial Black', Impact, Arial, sans-serif"
+        font-size="118" fill="#EAEAEA" font-weight="900" letter-spacing="-3">JOONAS</text>
+
+  <!-- ALANEN (white) + PÄÄ (accent) on same baseline -->
+  <text x="78" y="400"
+        font-family="'Arial Black', Impact, Arial, sans-serif"
+        font-size="82" font-weight="900" letter-spacing="-2">
+    <tspan fill="#EAEAEA">ALANEN</tspan><tspan fill="#d5ff3f">PÄÄ</tspan>
+  </text>
+
+  <!-- Separator line -->
+  <line x1="78" y1="426" x2="430" y2="426" stroke="#d5ff3f" stroke-width="1.5" opacity="0.55"/>
+
+  <!-- Subtitle -->
+  <text x="78" y="456"
+        font-family="Arial, sans-serif"
+        font-size="17" fill="#9c9c9c" letter-spacing="1">Product Manager &amp; Designer</text>
+
+  <!-- URL -->
+  <text x="78" y="596"
+        font-family="'Courier New', Courier, monospace"
+        font-size="15" fill="#444444" letter-spacing="2">jooala.github.io</text>
+
+</svg>

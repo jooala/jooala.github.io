@@ -11,6 +11,7 @@ export default function Reaktor() {
   return (
     <ProjectLayout
       pageTitle="Reaktor Case Study — Joonas Alanenpää"
+      noIndex
       category="UX Design"
       title="Reaktor Case Assignment"
       meta={META}

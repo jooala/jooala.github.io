@@ -11,6 +11,7 @@ export default function Wolt() {
   return (
     <ProjectLayout
       pageTitle="Wolt Pre-assignment — Joonas Alanenpää"
+      noIndex
       category="Product Management"
       title="Wolt Grocery Pickup"
       meta={META}

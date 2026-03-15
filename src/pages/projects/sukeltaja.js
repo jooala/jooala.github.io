@@ -11,7 +11,8 @@ const TOOLS = ['Figma', 'Photoshop', 'React Native', 'Expo', 'Node.js', 'Express
 export default function Sukeltaja() {
   return (
     <ProjectLayout
-      pageTitle="Sukeltaja-App UX — Joonas Alanenpää"
+      pageTitle="Sukeltaja App UX — Joonas Alanenpää"
+      noIndex
       category="UX Design"
       title="Sukeltaja-App UX Redesign"
       meta={META}
