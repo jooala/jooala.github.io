@@ -13,6 +13,8 @@ export default function Bugbear() {
   return (
     <ProjectLayout
       pageTitle="Bugbear Entertainment — Joonas Alanenpää"
+      description="Behind-the-scenes work with Bugbear Entertainment on Wreckfest, Ridge Racer Unbounded, and the FlatOut series — game industry experience in QA and production."
+      coverImage="/images/bugbear2.png"
       category="Game Industry"
       title="Bugbear Entertainment"
       meta={META}

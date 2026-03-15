@@ -11,6 +11,8 @@ export default function Sauna() {
   return (
     <ProjectLayout
       pageTitle="Sauna Simulator VR — Joonas Alanenpää"
+      description="A VR experience built in Unity that simulates the authentic Finnish sauna experience, from heating the stove to throwing water on the kiuas."
+      coverImage="/images/sauna.png"
       category="VR / Unity"
       title="Sauna Simulator VR"
       meta={META}

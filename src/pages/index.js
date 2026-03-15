@@ -89,7 +89,34 @@ export default function App() {
   return (
     <div className="home-shell min-h-screen">
       <Head>
-        <title>Joonas Alanenpää</title>
+        <title>Joonas Alanenpää — Product Manager & Designer</title>
+        <meta name="description" content="Joonas Alanenpää is a Product Manager who combines design, technology, and curiosity to build products that feel great to use. Portfolio of UX, service design, and product work." />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href="https://jooala.github.io/" />
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://jooala.github.io/" />
+        <meta property="og:title" content="Joonas Alanenpää — Product Manager & Designer" />
+        <meta property="og:description" content="Portfolio of Joonas Alanenpää — Product Manager combining design, technology, and curiosity to build great products." />
+        <meta property="og:image" content="https://jooala.github.io/cover.png" />
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Joonas Alanenpää — Product Manager & Designer" />
+        <meta name="twitter:description" content="Portfolio of Joonas Alanenpää — Product Manager combining design, technology, and curiosity to build great products." />
+        <meta name="twitter:image" content="https://jooala.github.io/cover.png" />
+        {/* Structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Joonas Alanenpää",
+            "url": "https://jooala.github.io/",
+            "jobTitle": "Product Manager",
+            "email": "joonas.alanenpaa@aalto.fi",
+            "sameAs": ["https://github.com/jooala"]
+          })}}
+        />
       </Head>
 
       <CustomCursor />

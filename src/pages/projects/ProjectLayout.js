@@ -20,12 +20,15 @@ import FooterCTA from '../../components/FooterCTA';
  */
 export default function ProjectLayout({
     pageTitle,
+    description = '',
     category,
     title,
     meta = [],
     tools = [],
+    coverImage = '/cover.png',
     children,
 }) {
+    const pageUrl = typeof window !== 'undefined' ? window.location.href : 'https://jooala.github.io/';
     useEffect(() => {
         const stopTracking = trackPageTime();
         return () => { stopTracking(); };
@@ -35,6 +38,20 @@ export default function ProjectLayout({
         <div>
             <Head>
                 <title>{pageTitle}</title>
+                {description && <meta name="description" content={description} />}
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="canonical" href={pageUrl} />
+                {/* Open Graph */}
+                <meta property="og:type" content="article" />
+                <meta property="og:url" content={pageUrl} />
+                <meta property="og:title" content={pageTitle} />
+                {description && <meta property="og:description" content={description} />}
+                <meta property="og:image" content={`https://jooala.github.io${coverImage}`} />
+                {/* Twitter Card */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={pageTitle} />
+                {description && <meta name="twitter:description" content={description} />}
+                <meta name="twitter:image" content={`https://jooala.github.io${coverImage}`} />
             </Head>
 
             <section className="min-h-screen relative bg-[#111111]">

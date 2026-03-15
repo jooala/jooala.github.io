@@ -10,7 +10,9 @@ const TOOLS = ['Figma', 'Useberry', 'Prototyping', 'User Research'];
 export default function SustainablyYours() {
   return (
     <ProjectLayout
-      pageTitle="Sustainably Yours - Joonas Alanenpää"
+      pageTitle="Sustainably Yours — Joonas Alanenpää"
+      description="UI/UX design project addressing fashion's environmental impact by solving lack of transparency and consumer wastefulness through a sustainable fashion app."
+      coverImage="/images/sustis.png"
       category="UX Design"
       title="Sustainably Yours"
       meta={META}

@@ -12,6 +12,8 @@ export default function Doublepoint() {
   return (
     <ProjectLayout
       pageTitle="Doublepoint — Joonas Alanenpää"
+      description="Service Design project in IDBM Industry Project with Doublepoint: innovating with touch detection technology for enhanced independence for people with disabilities."
+      coverImage="/images/doublepointlab.png"
       category="Service Design"
       title="Doublepoint"
       meta={META}
