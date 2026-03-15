@@ -1,212 +1,111 @@
-import Header from '../Header';
-import React from 'react';
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  Autoplay,
-} from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import ProjectLayout from './ProjectLayout';
 
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-import Link from 'next/link';
-import { useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import Head from 'next/head';
-import { trackPageTime } from '../../utils/googleAnalytics';
+const META = [
+  { label: 'Client', value: 'Sukeltajaliitto ry' },
+  { label: 'Role', value: 'Lead UX/UI Designer' },
+  { label: 'Context', value: "Aalto CS Bachelor's course (10cr / 4 mos)" },
+];
+
+const TOOLS = ['Figma', 'Photoshop', 'React Native', 'Expo', 'Node.js', 'Express'];
 
 export default function Sukeltaja() {
-  useEffect(() => {
-    const stopTracking = trackPageTime();
-
-    return () => {
-      stopTracking();
-    };
-  }, []);
   return (
-    <div>
-      <Head>
-        <title>Sukeltaja - Joonas Alanenpää</title>
-      </Head>
-      <section className="min-h-screen">
-        <Header />
-        <div className="container pt-24 md:pt-24 mx-auto px-24 flex flex-wrap flex-col md:flex-row items-center">
-          <div className="mb-4 w-full">
-            <Link href="/">
-              <div className="text-white text-2xl xl:text-3xl flex items-center cursor-pointer hover:underline">
-                <FontAwesomeIcon
-                  icon={faChevronLeft}
-                  className="mr-2"
+    <ProjectLayout
+      pageTitle="Sukeltaja-App UX — Joonas Alanenpää"
+      category="UX Design"
+      title="Sukeltaja-App UX Redesign"
+      meta={META}
+      tools={TOOLS}
+    >
+      <div className="project-body">
+
+        {/* Intro */}
+        <div className="callout-box mb-16 max-w-4xl mx-auto">
+          <p className="text-sm font-semibold font-mono tracking-widest mb-2 text-[#ccff00]">
+            [ The Challenge ]
+          </p>
+          <p className="text-[#EAEAEA] text-xl leading-relaxed m-0 font-inter">
+            Redesign the mobile app for the Finnish Diver's Federation (Sukeltajaliitto) —
+            adding backlog features while simplifying the UX, all within an agile team with
+            <strong className="text-white"> no prior UX design experience</strong>.
+          </p>
+        </div>
+
+        {/* Context + Phone mockup */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24 max-w-6xl mx-auto px-4">
+          <div>
+            <h2 className="text-4xl font-bold mb-6 font-oswald uppercase text-[#EAEAEA]">Context & My Role</h2>
+            <p className="text-[#AEAEAE] text-lg leading-relaxed mb-6 font-inter">
+              Completed as part of a 10-credit software development course at the University of Helsinki
+              over 4 months. Our team ran agile sprints and gathered user feedback throughout.
+            </p>
+            <p className="text-[#EAEAEA] text-lg leading-relaxed font-inter">
+              I stepped up to lead UX and UI. I designed all flows in <strong className="text-white">Figma and Photoshop</strong> before
+              any code was written, then helped implement the frontend using <strong className="text-white">React Native and Expo</strong>,
+              backed by a Node.js / Express API.
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <div className="w-full max-w-[280px] bg-[#050505] p-4 border border-[#333333] relative">
+              <div className="w-full aspect-[1/2] overflow-hidden bg-black">
+                <img
+                  src="/images/sukeltaja/sukeltaja cover kuva.png"
+                  alt="Sukeltaja-App mobile UI"
+                  className="w-full h-full object-cover"
                 />
               </div>
-            </Link>
-          </div>
-          <h1 className="my-20 text-3xl md:text-5xl text-white font-bold leading-tight text-left">
-            <span className="bg-clip-text font-poppins">
-              Sukeltaja-App UX
-            </span>
-          </h1>
-          <div className="grid grid-cols-3">
-            <div className="text-xl font-medium text-white font-bold leading-tight text-left col-span-2">
-              <p>
-                In this project, I had the opportunity to work with a
-                team to improve the user interface and user experience
-                of a mobile application for Sukeltaja Liitto. The
-                project was completed as part of a software
-                development course at the University of Helsinki in
-                2019, which I took for a total of 10 academic credits
-                over a period of 4 months. This course was part of
-                Bachelor's degree in Computer Science, which means
-                that we didn't have any prior experience with UX.
-                <br />
-                <br />
-                Our primary objective was to add new features from the
-                backlog and simplify the user experience of the app,
-                while still retaining the essential features that the
-                client requested. To accomplish this, we utilized
-                design tools Figma and Photoshop to design and
-                prototype the user experience, and we implemented the
-                frontend using React Native and Expo, and the backend
-                with Node and the Express library.
-                <br />
-                <br />
-                Throughout the project, we worked closely with the
-                client to ensure that their needs and preferences were
-                being met. I am pleased to report that the client was
-                very satisfied with the final result. From my personal
-                view this work was the spark for me to get interested
-                more with UX/UI design than software development.
-                <br />
-                <br />
-                However as this wasn't a supposed to be UX course and
-                the course was mostly about learning software
-                development in agile teams than designing, we still
-                managed to pinpoint problems and create solutions from
-                our team's perspective and with the help of the user
-                feedback.
-              </p>
             </div>
-            <img
-              src="/images/sukeltaja/mockup.png"
-              className="w-10/12 h-full bg-center bg-cover col-span-1 flex-nowrap -mt-12 "
-            />
-          </div>
-          <img
-            src="/images/sukeltaja/coverKuva.png"
-            className="w-full h-full bg-center bg-cover duration-500 mt-20 rounded-3xl"
-          />
-          <h1 className="mt-20 text-1xl md:text-4xl text-white font-bold leading-tight text-left">
-            Problem 1: Creating event
-          </h1>
-          <h2 className="mt-5 text-1xl md:text-xl text-white leading-tight text-left my-20">
-            Based on feedback from clients, we identified an
-            opportunity to streamline the process of creating an event
-            within our app. The previous process required users to
-            navigate through multiple screens and complete multiple
-            steps, including marking an event as "active" before being
-            able to interact with it. <br /> <br />
-            To address this issue, we redesigned the event creation
-            flow by reducing the number of steps and screen
-            transitions required. We achieved this by integrating the
-            event creation form directly within the map screen,
-            allowing users to easily find the location and create an
-            event in one step. We also removed the need for an
-            additional step of marking an event as "active" before
-            interacting with it. <br /> <br /> To visualize the new
-            flow, we created wireframes on a whiteboard which helped
-            us to validate the new process before implementing it. The
-            new flow now allows users to simply:
-            <br />
-            <br />
-            1. Open the map screen
-            <br />
-            2. Find the location you want to travel and go diving
-            <br />
-            3. Click on the location and click "Add Event"-button on
-            popup
-            <br />
-            4. Fill the form with information and submit
-            <br />
-            5. Event opens automatically after submitting or you can
-            open it from the list
-            <br />
-            6. Now you can do actions like dive, chat, change settings
-            etc. with the event
-            <br />
-            <br />
-            This redesign not only simplifies the event creation
-            process but also enhances the user experience by removing
-            unnecessary steps and making it more intuitive and
-            efficient.
-          </h2>
-
-          <Swiper
-            modules={[
-              Navigation,
-              Pagination,
-              Scrollbar,
-              A11y,
-              Autoplay,
-            ]}
-            spaceBetween={50}
-            slidesPerView={1}
-            navigation
-            autoplay={{ delay: 4000 }}
-            onSwiper={(swiper) => console.log(swiper)}
-            onSlideChange={() => console.log('slide change')}
-          >
-            <SwiperSlide>
-              <img
-                src="/images/sukeltaja/concept_1.png"
-                className="rounded-3xl"
-              />
-            </SwiperSlide>
-            <SwiperSlide>
-              <img
-                src="/images/sukeltaja/concept_2.png"
-                className="rounded-3xl"
-              />
-            </SwiperSlide>
-          </Swiper>
-
-          <h1 className="mt-20 text-1xl md:text-4xl text-white font-bold leading-tight text-left">
-            Problem 2: Visualization
-          </h1>
-          <h2 className="mt-5 text-1xl md:text-xl text-white leading-tight text-left my-20">
-            In order to address the issue of a cluttered visual design
-            and difficulty accessing information within the app, we
-            leveraged previously collected feedback from our users to
-            understand their specific pain points and needs. Based on
-            this feedback, we implemented a clean and minimalistic
-            visual design, using clear typography, ample white space,
-            and intuitive icons to guide the user. Additionally, we
-            reorganized the information architecture of the app to
-            make it more logical and easy to navigate, using clear
-            headings, grouping related information together and
-            providing a search function. These changes were directly
-            informed by the feedback we received, and allowed us to
-            improve the usability and accessibility of the app,
-            resulting in a better user experience.
-          </h2>
-
-          <div className="items-center">
-            <iframe
-              width="960"
-              height="540"
-              src="https://www.youtube.com/embed/ytfsuFhI6-A"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
           </div>
         </div>
-      </section>
-    </div>
+
+        {/* Video walkthrough */}
+        <div className="project-section max-w-4xl mx-auto">
+          <h2 className="mb-4">Video Walkthrough</h2>
+          <p className="text-[#AEAEAE] text-lg leading-relaxed mb-8 font-inter">
+            A before-and-after comparison showing the initial state versus the final delivered product.
+          </p>
+        </div>
+
+        <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-24 border-y border-[#333333] bg-black">
+          <iframe
+            className="w-full aspect-video"
+            src="https://www.youtube.com/embed/ytfsuFhI6-A"
+            title="Sukeltaja-App Comparison"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+
+        {/* Figma mockups */}
+        <div className="project-section max-w-4xl mx-auto">
+          <h2 className="mb-6">Design Process & Figma Mockups</h2>
+          <p className="text-[#AEAEAE] text-lg leading-relaxed mb-8 font-inter">
+            Although this was primarily a software development course, we pinpointed usability problems
+            through user interviews and iterated on them. The implemented result evolved further from
+            the original plan as we discovered improvements during development.
+          </p>
+        </div>
+
+        <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-24 border-y border-[#333333] bg-[#050505] py-12 flex justify-center">
+          <img
+            src="/images/sukeltaja/sukeltajafigma.png"
+            alt="Figma design screens for Sukeltaja-app"
+            className="w-full max-w-6xl object-contain hover:scale-[1.02] transition-transform duration-700"
+          />
+        </div>
+
+        {/* Outcome */}
+        <div className="project-section max-w-4xl mx-auto">
+          <em className="block border-l-4 border-[#ccff00] pl-6 py-2 text-[#EAEAEA] font-mono text-base italic leading-relaxed mb-4">
+            "The client was highly satisfied with the final result, and deploying to production was a success."
+          </em>
+          <p className="text-[#666666] font-mono text-sm leading-relaxed pl-6 font-inter">
+            This project was the spark that shifted my focus from pure software engineering toward UX/UI design.
+          </p>
+        </div>
+
+      </div>
+    </ProjectLayout>
   );
 }

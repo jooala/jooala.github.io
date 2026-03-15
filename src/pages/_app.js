@@ -8,16 +8,26 @@ import {
   CSSTransition,
 } from 'react-transition-group';
 import { initGA, logPageView } from '../utils/googleAnalytics';
+import dynamic from 'next/dynamic';
+
+const CustomCursor = dynamic(() => import('../components/CustomCursor'), { ssr: false });
+
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
   useEffect(() => {
+    // Disable browser scroll restoration so we control it manually
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     initGA();
     logPageView();
 
     const handleRouteChange = (url) => {
       logPageView();
+      window.scrollTo(0, 0);
     };
 
     router.events.on('routeChangeComplete', handleRouteChange);
@@ -28,15 +38,18 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <TransitionGroup className="transition-group" component={null}>
-      <CSSTransition
-        key={router.pathname}
-        timeout={300}
-        classNames="fade"
-      >
-        <Component {...pageProps} />
-      </CSSTransition>
-    </TransitionGroup>
+    <>
+      <CustomCursor />
+      <TransitionGroup className="transition-group" component={null}>
+        <CSSTransition
+          key={router.pathname}
+          timeout={300}
+          classNames="fade"
+        >
+          <Component {...pageProps} />
+        </CSSTransition>
+      </TransitionGroup>
+    </>
   );
 }
 

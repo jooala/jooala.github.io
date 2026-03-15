@@ -2,14 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* styles/globals.css */
+body {
+  overflow-x: hidden;
+}
 
 body {
   font-family: 'Inter', sans-serif;
+  background-color: #111111;
+  color: #EAEAEA;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Loading overlay ──────────────────────────────────────────────────────── */
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: #111111;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+
+.loading-ring {
+  width: 2rem;
+  height: 2rem;
+  border: 1.5px solid rgba(213, 255, 63, 0.15);
+  border-top-color: #d5ff3f;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: 'Space Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
@@ -29,4 +60,506 @@ code {
 .fade-exit-active {
   opacity: 0;
   transition: opacity 600ms;
+}
+
+body {
+  cursor: none;
+}
+
+a,
+button,
+[role="button"],
+input,
+select,
+textarea {
+  cursor: none;
+}
+
+.interactive-hover {
+  cursor: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.brutalist-divider {
+  border-bottom: 1px solid #333333;
+  position: relative;
+}
+
+.brutalist-divider::after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  bottom: -10px;
+  color: #555555;
+  font-size: 0.75rem;
+  font-family: 'Space Mono', monospace;
+}
+
+.home-shell {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(213, 255, 63, 0.1), transparent 24%),
+    linear-gradient(180deg, #111111 0%, #090909 58%, #0c0c0c 100%);
+}
+
+.hero-background {
+  position: absolute;
+  top: 5.75rem;
+  right: max(2rem, calc((100vw - 80rem) / 2));
+  width: min(46vw, 44rem);
+  height: min(42vh, 30rem);
+  z-index: 12;
+  pointer-events: none;
+}
+
+.hero-background canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.hero-headline {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.01em;
+  margin-bottom: 1.5rem;
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(4rem, 12vw, 11rem);
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+/* ── Hero sphere ──────────────────────────────────────────────────────────── */
+
+.hero-sphere-wrap {
+  /* Cover the entire hero section so the sphere fills it as a background */
+  position: absolute;
+  inset: 0;
+  z-index: 4;        /* behind headline text (z-10), above page bg (z-0) */
+  pointer-events: none;
+}
+
+/* ── HeroSphere component internals ──────────────────────────────────────────*/
+
+.hs-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* default off; individual children opt in */
+}
+
+.hs-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* auto so the canvas receives click events for the sphere burst,
+     but text above (z-10) still intercepts its own events first */
+  pointer-events: auto;
+}
+
+/* Config toggle button — small gear in bottom-right of sphere */
+.hs-cfg-btn {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  background: rgba(17, 17, 17, 0.75);
+  border: 1px solid rgba(213, 255, 63, 0.25);
+  color: #888;
+  font-size: 0.75rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: none;
+  pointer-events: auto;
+  z-index: 10;
+  transition: border-color 180ms, color 180ms;
+}
+.hs-cfg-btn:hover {
+  border-color: rgba(213, 255, 63, 0.7);
+  color: #d5ff3f;
+}
+
+/* Config panel */
+.hs-panel {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 0;
+  width: 260px;
+  background: rgba(10, 10, 10, 0.92);
+  border: 1px solid rgba(213, 255, 63, 0.22);
+  padding: 1rem;
+  pointer-events: auto;
+  z-index: 20;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+}
+
+.hs-panel-title {
+  color: #d5ff3f;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+  font-size: 0.65rem;
+}
+
+.hs-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.hs-label {
+  color: #666;
+  width: 4rem;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.hs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.hs-chip {
+  padding: 0.15rem 0.45rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: #777;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  cursor: none;
+  transition: border-color 140ms, color 140ms;
+}
+.hs-chip:hover,
+.hs-chip.active {
+  border-color: #d5ff3f;
+  color: #d5ff3f;
+}
+
+.hs-slider {
+  flex: 1;
+  min-width: 80px;
+  accent-color: #d5ff3f;
+  height: 2px;
+}
+
+.hs-val {
+  color: #d5ff3f;
+  min-width: 2.4rem;
+  text-align: right;
+}
+
+.hs-hint {
+  color: #444;
+  margin-top: 0.8rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 0.6rem;
+}
+
+@media (max-width: 768px) {
+  .hero-sphere-wrap {
+    opacity: 0.45;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Hide the wireframe box background on very small screens — save GPU */
+  .hero-background {
+    display: none;
+  }
+  /* Sphere stays but more subtle */
+  .hero-sphere-wrap {
+    opacity: 0.3;
+  }
+  /* Spawn config panel too wide on mobile — anchor to left instead */
+  .hs-panel {
+    right: auto;
+    left: 0;
+    width: calc(100vw - 2rem);
+  }
+}
+
+/* ── Shader hero headline ──────────────────────────────────────────────────── */
+
+
+.shh-root {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.01em;
+  margin-bottom: 1.5rem;
+  /* overflow: visible lets the right-pad canvas extend past the text edge
+     without clipping the last character */
+  overflow: visible;
+  /* Match hero-headline typography exactly so the sizer controls identical
+     layout dimensions to what the canvas will render */
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(4rem, 12vw, 11rem);
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+/* Invisible text that drives the container bounding-box for Three.js sizing */
+.shh-sizer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.01em;
+  visibility: hidden;
+  user-select: none;
+}
+
+.shh-sizer-line {
+  color: #eaeaea;
+  line-height: 0.88;
+}
+
+.shh-sizer-line.--accent {
+  color: #d5ff3f;
+}
+
+.hero-headline__line {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  color: #eaeaea;
+  opacity: 0;
+  padding-right: 0.06em;
+}
+
+.hero-headline__line--accent {
+  color: #d5ff3f;
+}
+
+.hero-headline__text,
+.hero-headline__ghost {
+  display: block;
+}
+
+.hero-headline__ghost {
+  position: absolute;
+  inset: 0;
+  color: rgba(213, 255, 63, 0.72);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+
+.hero-headline__line:not(.hero-headline__line--accent) .hero-headline__ghost {
+  color: rgba(240, 248, 255, 0.55);
+}
+
+.hero-headline__cover {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(12, 12, 12, 0.98) 0%, rgba(0, 0, 0, 0.98) 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(213, 255, 63, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    0 14px 36px rgba(0, 0, 0, 0.34);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Scroll indicator ─────────────────────────────────────────────────────── */
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+.scroll-indicator__label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #444;
+}
+
+.scroll-indicator__track {
+  width: 1px;
+  height: 2.8rem;
+  background: rgba(255, 255, 255, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated bright dot that slides down the track */
+.scroll-indicator__track::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, #d5ff3f, transparent);
+  animation: scrollDot 1.9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes scrollDot {
+  0%   { top: -40%; opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { top: 140%; opacity: 0; }
+}
+
+.projects-section {
+  position: relative;
+  padding-top: 3rem;
+}
+
+.projects-shell {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.project-row {
+  border-color: rgba(255, 255, 255, 0.18);
+  opacity: 0;
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease;
+}
+
+.project-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(213, 255, 63, 0.4);
+}
+
+.project-row-title {
+  color: #efefef;
+  transition:
+    color 220ms ease,
+    transform 0.5s ease;
+  will-change: transform;
+}
+
+.project-row-tag {
+  color: #d5ff3f;
+  transition: color 220ms ease;
+}
+
+.project-row-subtitle {
+  color: #9c9c9c;
+  transition: color 220ms ease, opacity 0.7s ease;
+}
+
+.callout-box {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+@media (max-width: 1024px) {
+  .hero-background {
+    right: 1.5rem;
+    width: min(50vw, 34rem);
+    height: min(34vh, 24rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-background {
+    top: 6.5rem;
+    right: 0.5rem;
+    width: min(68vw, 22rem);
+    height: min(26vh, 16rem);
+    opacity: 0.95;
+  }
+
+  .hero-headline {
+    max-width: 100%;
+  }
+}
+
+.cta-btn {
+  display: inline-block;
+  text-decoration: none;
+  padding: 16px 48px;
+  font-size: 0.875rem;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #111111;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 rgba(213, 255, 63, 0.4),
+    0 0 0 0 rgba(180, 220, 30, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  z-index: 0;
+}
+
+.cta-btn::after {
+  content: '';
+  width: 480px;
+  height: 480px;
+  position: absolute;
+  top: -80px;
+  left: -120px;
+  background-image: linear-gradient(
+    225deg,
+    #d5ff3f 0%,
+    #a8cc00 45%,
+    #ccff00 100%
+  );
+  z-index: -1;
+  transition: transform 0.55s ease;
+}
+
+.cta-btn:hover {
+  transform: translate(0, -2px);
+  box-shadow: 5px -5px 28px 0 rgba(213, 255, 63, 0.45),
+    -5px 5px 28px 0 rgba(180, 220, 30, 0.35);
+}
+
+.cta-btn:hover::after {
+  transform: rotate(150deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-btn,
+  .cta-btn::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-row,
+  .project-row-title,
+  .project-row-tag,
+  .project-row-subtitle {
+    transition-duration: 0.01ms !important;
+  }
 }

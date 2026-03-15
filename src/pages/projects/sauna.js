@@ -1,202 +1,113 @@
-import Header from '../Header';
-import Link from 'next/link';
-import { useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import Head from 'next/head';
-import { trackPageTime } from '../../utils/googleAnalytics';
+import ProjectLayout from './ProjectLayout';
+
+const META = [
+  { label: 'Role', value: 'Lead Developer & 3D Generalist' },
+  { label: 'Type', value: 'Personal Project / VR Indie Game' },
+];
+
+const TOOLS = ['Unity 3D', 'C#', 'Oculus SDK', 'Blender', 'Substance Painter'];
 
 export default function Sauna() {
-  useEffect(() => {
-    const stopTracking = trackPageTime();
-
-    return () => {
-      stopTracking();
-    };
-  }, []);
   return (
-    <div>
-      <Head>
-        <title>Sauna Simulator - Joonas Alanenpää</title>
-      </Head>
-      <section className="min-h-screen relative">
-        {/* Background Image */}
-        <div className="absolute top-0 left-0 right-0 bottom-0 bg-center bg-contain">
-          <img src="/images/backdrop.png" alt="" />
+    <ProjectLayout
+      pageTitle="Sauna Simulator VR — Joonas Alanenpää"
+      category="VR / Unity"
+      title="Sauna Simulator VR"
+      meta={META}
+      tools={TOOLS}
+    >
+      <div className="project-body">
+        {/* Intro */}
+        <div className="callout-box mb-16 max-w-4xl mx-auto">
+          <p className="text-sm font-semibold font-mono tracking-widest mb-2 text-[#ccff00]">
+            [ The Concept ]
+          </p>
+          <p className="text-[#EAEAEA] text-xl leading-relaxed m-0 font-inter">
+            A Virtual Reality simulation of a traditional Finnish summer cabin and sauna experience.
+            The goal was to create a highly immersive, physics-heavy environment where users can chop wood,
+            heat up a stove, throw water on the rocks for steam (löyly), and relax by the lake.
+          </p>
         </div>
 
-        <div
-          id="main"
-          className="container mx-auto px-4 relative z-10"
-        >
-          <div className="pt-24 md:pt-24 flex flex-wrap flex-col md:flex-row items-center">
-            <div className="mb-4 mt-20 w-full md:w-full">
-              <Link href="/">
-                <div className="text-white text-xl md:text-2xl xl:text-3xl flex items-center cursor-pointer hover:text-blue-700 transform duration-300 ease-in-out">
-                  <FontAwesomeIcon
-                    icon={faChevronLeft}
-                    className="mr-2"
-                  />
-                </div>
-              </Link>
-            </div>
-            <h1 className="my-20 text-3xl md:text-5xl text-white font-bold leading-tight text-left">
-              <span className="bg-clip-text font-poppins">
-                Sauna Simulator
-              </span>
-            </h1>
-            <br />
-            <br />
-            <div className="grid grid-cols-4 text-xl text-white leading-tight text-left">
-              <div className="col-span-4 mr-10">
-                <p>
-                  The Sauna Simulator is a VR game designed to provide
-                  an immersive and educational experience of
-                  traditional Finnish sauna culture. Developed in
-                  Unity, this project aims to bridge the gap for
-                  individuals unfamiliar with Finnish saunas, offering
-                  a realistic and enjoyable virtual environment.
-                  <br /> <br />
-                  The goal was to create a tool that not only educates
-                  users about Finnish sauna practices but also
-                  reassures and guides them through the experience. In
-                  an era of rising anxiety and limited opportunities
-                  for global travel, the Sauna Simulator brings the
-                  beauty and history of Finnish saunas to a global
-                  audience.
-                </p>
-              </div>
-            </div>
-            <img
-              src="/images/sauna/coverkuva.png"
-              className=" h-10/12 duration-500 mt-20 rounded-3xl		"
-              alt="Cover"
+        <div className="project-section max-w-5xl mx-auto mb-24">
+          <img
+            src="/images/sauna/coverkuva.png"
+            className="w-full h-auto object-contain rounded-sm"
+            style={{ boxShadow: '0 8px 48px rgba(0,0,0,0.6)' }}
+            alt="Sauna Simulator screenshot"
+          />
+        </div>
+
+        <div className="project-section max-w-4xl mx-auto mb-6">
+          <h2 className="mb-8">Demo Video</h2>
+          <div className="aspect-video w-full border border-[#333333] bg-black">
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/Uj53fOqBb94?si=T2Ll71upCIAdbl3v"
+              title="Sauna Simulator VR Demo"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
             />
-
-            {/* Problem Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-xl text-white leading-tight text-left mt-10">
-              <h1 className="md:col-span-2 text-1xl md:text-4xl text-white font-bold leading-tight text-left">
-                Problem: Introducing Sauna Culture
-              </h1>
-              <div className="col-span-2 md:col-span-1 mt-5 mr-10">
-                <p>
-                  The traditional Finnish sauna is a unique
-                  environment integral to Finnish culture, but for
-                  those unfamiliar, it can be intimidating. The Sauna
-                  Simulator addresses the discomfort and anxiety
-                  associated with trying a sauna for the first time.
-                  Through realistic graphics and user interactions,
-                  the VR game guides users on sauna etiquette,
-                  clothing, and the overall Finnish sauna experience.
-                </p>
-              </div>
-              <img
-                src="/images/sauna/finnish-sauna-building.png"
-                alt="Sauna Building"
-                className="col-span-2 md:col-span-1 h-10/12 object-cover -mt-20 "
-              />
-            </div>
-
-            {/* Approach Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-xl text-white leading-tight text-left mt-10 relative">
-              <img
-                src="/images/sauna/kauha.png"
-                alt="Scoop"
-                className="col-span-2 md:col-span-1 h-4/5 object-cover z-0"
-              />
-              <div className="col-span-2 md:col-span-1 mt-5 text-center">
-                <h1 className="text-1xl md:text-4xl text-white font-bold leading-tight text-center z-10">
-                  Approach: Immersive Sauna Experience
-                </h1>
-                <p className="mt-10">
-                  The approach involved showcasing the sauna
-                  environment immersively. Realistic graphics, unique
-                  assets, and user interactions were prioritized. The
-                  VR game guides users through the Finnish sauna
-                  culture, addressing concerns and providing a safe
-                  space to learn and experience sauna functionalities.
-                  The use of subtitles and narration enhances the user
-                  journey, making the Sauna Simulator not just a game
-                  but an educational tool emphasizing Finnish culture.
-                </p>
-              </div>
-            </div>
-
-            {/* Implementation Section */}
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-8 text-xl text-white leading-tight text-center mt-10">
-              <h1 className="md:col-span-2 text-2xl md:text-4xl text-white font-bold leading-tight text-center">
-                Implementation: Bringing Sauna to Virtual Reality
-              </h1>
-              <div className="col-span-2 md:col-span-1 mt-5 mr-10">
-                <p>
-                  The VR application was developed in Unity using the
-                  High Definition Render Pipeline (HDRP) for advanced
-                  3D real-time rendering. The implementation included
-                  a collider system for the sauna stove, XR
-                  Interaction Toolkit for object interactions, and
-                  DLSS technology to optimize performance. The virtual
-                  environment was modeled using height mapping from
-                  Google Maps, ensuring a realistic Finnish lakeside
-                  setting. Subtitles, audio narration, and a tutorial
-                  guiding system were implemented to assist users in
-                  understanding the virtual sauna experience, with a
-                  focus on providing an enjoyable and educational
-                  journey.
-                </p>
-              </div>
-            </div>
-
-            {/* Larger Picture Below */}
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-8 text-xl text-white leading-tight text-left mt-10">
-              <img
-                src="/images/sauna/saunadev.png"
-                alt="Development"
-                className="col-span-1 md:col-span-1 h-full object-cover rounded-lg"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-8 text-xl text-white leading-tight text-center mt-10">
-              <h1 className="mt-10 col-span-4 text-2xl md:text-4xl text-white font-bold leading-tight text-center">
-                Results: A Realistic and Educational Sauna Experience
-              </h1>
-              <div className="col-span-2 mt-5 text-center">
-                <p>
-                  The final AR/VR application successfully combines
-                  Unity's powerful development capabilities with
-                  advanced features such as HDRP, XR Interaction
-                  Toolkit, DLSS, and a tutorial guiding system. The
-                  application includes features like a collider system
-                  for the sauna stove, realistic 3D model assets, and
-                  enhanced lighting and realism with HDRP. The
-                  tutorial system, subtitles, and audio narrator
-                  contribute to making the virtual sauna experience
-                  both enjoyable and educational, providing users with
-                  a comprehensive understanding of Finnish sauna
-                  practices.
-                </p>
-              </div>
-            </div>
-
-            <div className="image-main items-center grid w-3/4 mx-auto my-4">
-              <div>
-                <iframe
-                  class="w-full aspect-video p-3"
-                  src="https://www.youtube.com/embed/Uj53fOqBb94?si=T2Ll71upCIAdbl3v"
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write;
-                  encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </div>
           </div>
         </div>
-        {/* Header */}
-        <div className="w-full bg-opacity-50 absolute top-0 z-20">
-          <Header />
+        <div className="mb-24" />
+
+        <div className="project-section max-w-4xl mx-auto">
+          <h2>Development Highlights</h2>
+          <p className="text-xl leading-relaxed text-[#AEAEAE] mb-8">
+            Built from the ground up using <strong className="text-white">Unity and the Oculus VR SDK</strong>.
+            The core gameplay loop centers around realistic interactions and physics, requiring
+            custom C# scripting for object grabbing, hinge joints (doors, windows), and particle systems.
+          </p>
+
+          <ul className="list-disc pl-5 my-12 space-y-6 text-[#EAEAEA] text-lg font-inter marker:text-[#ccff00]">
+            <li>
+              <strong className="text-white font-mono uppercase text-sm block mb-1">Physics-Based Interaction:</strong>
+              Every log, bucket, and tool has a rigidbody. Players must physically swing an axe with momentum to split wood, mimicking real-life effort.
+            </li>
+            <li>
+              <strong className="text-white font-mono uppercase text-sm block mb-1">Dynamic Steam System:</strong>
+              When water collides with the heated rocks of the kiuas (stove), custom particle systems trigger "löyly", paired with authentic spatial audio recorded in a real sauna.
+            </li>
+            <li>
+              <strong className="text-white font-mono uppercase text-sm block mb-1">Environmental Storytelling:</strong>
+              Built the 3D assets in Blender and textured them using Substance Painter to achieve a stylized yet grounded "Nordic summer night" aesthetic.
+            </li>
+          </ul>
         </div>
-      </section>
-    </div>
+
+        {/* Image gallery — framed panels */}
+        <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] grid grid-cols-1 lg:grid-cols-2 border-y border-[#333333] bg-[#050505]">
+          <div className="border-b lg:border-b-0 lg:border-r border-[#333333] p-8 hover:bg-[#111111] transition-colors duration-500">
+            <h3 className="text-[#ccff00] font-mono uppercase text-sm tracking-widest mb-6">[ Environment Assets ]</h3>
+            <img
+              src="/images/sauna/kauha.png"
+              className="w-full object-contain grayscale hover:grayscale-0 transition-all duration-700 max-h-[400px]"
+              alt="Sauna bucket and ladle 3D asset"
+            />
+          </div>
+          <div className="p-8 hover:bg-[#111111] transition-colors duration-500">
+            <h3 className="text-[#ccff00] font-mono uppercase text-sm tracking-widest mb-6">[ Sauna Building Exterior ]</h3>
+            <img
+              src="/images/sauna/finnish-sauna-building.png"
+              className="w-full object-contain grayscale hover:grayscale-0 transition-all duration-700 max-h-[400px]"
+              alt="Finnish Sauna Building Exterior 3D Asset"
+            />
+          </div>
+        </div>
+
+        {/* Final Dev Shot */}
+        <div className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mt-0 border-t border-[#333333] bg-[#050505]">
+          <h3 className="text-[#ccff00] font-mono uppercase text-sm tracking-widest px-8 pt-8 mb-6">[ Unity Engine — Development ]</h3>
+          <img
+            src="/images/sauna/saunadev.png"
+            className="w-full h-[60vh] object-cover grayscale hover:grayscale-0 transition-all duration-700"
+            alt="Sauna Unity Engine VR development"
+          />
+        </div>
+
+      </div>
+    </ProjectLayout>
   );
 }

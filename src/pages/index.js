@@ -1,298 +1,169 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import Header from './Header';
-import image from './imgs/testi.png';
+import React, { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import Header from './Header';
+import AnimatedProjectRow from '../components/AnimatedProjectRow';
+import CustomCursor from '../components/CustomCursor';
+import FooterCTA from '../components/FooterCTA';
 import { trackPageTime } from '../utils/googleAnalytics';
-function App() {
-  const cardSubtitleBugbear = useRef(null);
-  const cardSubtitleReaktor = useRef(null);
-  const cardSubtitleWolt = useRef(null);
-  const cardSubtitleSukeltaja = useRef(null);
-  const cardSubtitleBotnia = useRef(null);
-  const cardSubtitleSustis = useRef(null);
-  const cardSubtitleSauna = useRef(null);
-  const cardSubtitleDouble = useRef(null);
+import { gsap } from 'gsap';
 
-  const updateText = () => {
-    const createWord = (text, index) => {
-      const word = document.createElement('span');
+const ThreeBackground = dynamic(() => import('../components/ThreeBackground'), { ssr: false });
 
-      word.innerHTML = `${text} `;
+// ShaderHeroHeadline uses Three.js + WebGL — must be client-side only
+const ShaderHeroHeadline = dynamic(
+  () => import('../components/ShaderHeroHeadline'),
+  { ssr: false }
+);
 
-      word.classList.add('card-subtitle-word');
+const HeroSphere = dynamic(
+  () => import('../components/HeroSphere'),
+  { ssr: false }
+);
 
-      word.style.transitionDelay = `${index * 40}ms`;
+const HERO_LINES = [
+  { text: "Hello,",      accent: false },
+  { text: "I'm Joonas.", accent: true  },
+];
 
-      return word;
-    };
-
-    const addWord = (text, index, cardSubtitle) => {
-      if (cardSubtitle.current) {
-        cardSubtitle.current.appendChild(createWord(text, index));
-      }
-    };
-
-    const createSubtitle = (text, cardSubtitle) => {
-      text
-        .split(' ')
-        .map((word, index) => addWord(word, index, cardSubtitle));
-    };
-
-    createSubtitle(
-      'Several different type of work with Bugbear Entertainment behind video games in Wreckfest, Ridge Racer Unbounded and FlatOut-series.',
-      cardSubtitleBugbear
-    );
-
-    createSubtitle(
-      'Health Care mobile app UX Design assignment for Reaktor 2022 Designer Trainee position.',
-      cardSubtitleReaktor
-    );
-    createSubtitle(
-      'UI Design Task for Grocery Store pickup system for Wolt UI Designer role.',
-      cardSubtitleWolt
-    );
-    createSubtitle(
-      "University software development course project with UX design involved for Sukeltajaliitto in my CS Bachelor's degree.",
-      cardSubtitleSukeltaja
-    );
-    createSubtitle(
-      'Graphic Design and branding work for Finnish E-Sports Organization Botnia Vikings, competing in video games such as Counter-Strike Global Offensive & VALORANT. ',
-      cardSubtitleBotnia
-    );
-    createSubtitle(
-      'UI/UX Project: Addressing fashions environmental impact by solving lack of transparency and consumer wastefulness. ',
-      cardSubtitleSustis
-    );
-    createSubtitle(
-      'VR Project made in Unity, which is aiming to simulate sauna experience.',
-      cardSubtitleSauna
-    );
-    createSubtitle(
+const PROJECTS = [
+  {
+    href: '/projects/doublepoint',
+    category: 'Service Design',
+    title: 'Doublepoint',
+    subtitle:
       'Service Design project in IDBM Industry Project with Doublepoint: innovating with touch detection tech for enhanced independence in disabilities.',
-      cardSubtitleDouble
-    );
-  };
+  },
+  {
+    href: '/projects/sustainablyyours',
+    category: 'UX Design',
+    title: 'Sustainably Yours',
+    subtitle:
+      "UI/UX Project: Addressing fashion's environmental impact by solving lack of transparency and consumer wastefulness.",
+  },
+  {
+    href: '/projects/sauna',
+    category: 'VR / Unity',
+    title: 'Sauna Simulator VR',
+    subtitle: 'VR Project made in Unity, which is aiming to simulate sauna experience.',
+  },
+  {
+    href: '/projects/bugbear',
+    category: 'Game Industry',
+    title: 'Bugbear Entertainment',
+    subtitle:
+      'Several different type of work with Bugbear Entertainment behind video games in Wreckfest, Ridge Racer Unbounded and FlatOut-series.',
+  },
+];
 
-  useLayoutEffect(() => {
-    updateText();
-  }, []);
+export default function App() {
+  const subtitleRef  = useRef(null);
+  const ctaBtnRef    = useRef(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const stopTracking = trackPageTime();
+    // Fallback: force-remove overlay after 4s if onReady never fires
+    const fallback = setTimeout(() => setLoaded(true), 4000);
+    return () => { stopTracking(); clearTimeout(fallback); };
+  }, []);
 
-    return () => {
-      stopTracking();
-    };
+  // Reveal subtitle + CTA after headline glitch animation finishes (~0.9s duration + settle)
+  useEffect(() => {
+    const subtitle = subtitleRef.current;
+    const btn      = ctaBtnRef.current;
+    if (!subtitle || !btn) return;
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+    gsap.set([subtitle, btn], { opacity: 0, y: 18 });
+
+    const delay = prefersReducedMotion ? 0.1 : 1.05; // after glitch settles
+    const tl = gsap.timeline({ delay });
+    tl.to(subtitle, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
+      .to(btn,      { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.35');
+
+    return () => { tl.kill(); };
   }, []);
 
   return (
-    <div>
+    <div className="home-shell min-h-screen">
       <Head>
         <title>Joonas Alanenpää</title>
       </Head>
-      <section className="min-h-screen relative">
-        {/* Background Image */}
-        <div className="absolute top-0 left-0 right-0 bottom-0 bg-center bg-contain">
-          <img src="/images/backdrop.png" alt="" />
-        </div>
-        <div className="container justify-center pt-24 mx-auto flex flex-wrap flex-col lg:flex-row items-center relative z-10">
-          <div className="flex flex-col w-full xl:w-5/12 justify-center items-start mx-4">
-            <h1 className="my-20 text-3xl md:text-4xl text-white font-bold leading-tight text-left">
-              <span className="bg-clip-text font-poppins">
-                Hello, I'm Joonas!
-              </span>
-              <p className="text-xl font-normal mt-5 text-left">
-                Product Manager who loves combining design, technology, and
-                curiosity to build products that feel great to use.
-              </p>
-            </h1>
-            <a
-              href="mailto: joonas.alanenpaa@aalto.fi"
-              className="btn text-xl text-white font-bold font-poppins text-center"
-            >
-              Get in Touch!
-            </a>
-          </div>
-          <div className="p-8">
-            <img
-              className="mx-auto w-3/5 xl:w-3/5 xl:block transform -rotate-6 transition hover:scale-105 duration-700 ease-in-out hover:rotate-6"
-              src="./images/profile.png"
-            />
-          </div>
-          <div className="flex flex-col w-full justify-center items-center mx-4 md:items-start">
-            <h1 className="my-20 text-3xl md:text-4xl sm:text-3xl text-white font-bold leading-tight text-center mt-28">
-              <span className="bg-clip-text font-poppins">
-                Projects
-              </span>
-            </h1>
 
-            <div className="grid w-9/12 md:w-full sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-12 md:gap-24 2xl:gap-24">
-              <Link href="/projects/doublepoint">
-                <div
-                  className="card"
-                  style={{
-                    background: `linear-gradient(
-                      rgb(0 90 255 / 50%), 
-                      rgb(0 0 0)
-                    ), url(/images/doublepointlab.png) no-repeat center`,
-                  }}
-                >
-                  <div className="card-content">
-                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
-                      Doublepoint
-                    </h3>
-                    <h4
-                      className="card-subtitle text-base"
-                      ref={cardSubtitleDouble}
-                    ></h4>
-                  </div>
-                  <i className="fa-solid fa-hat-witch card-icon"></i>
-                </div>
-              </Link>
-              <Link href="/projects/sustainablyyours">
-                <div
-                  className="card "
-                  style={{
-                    background: `linear-gradient(
-                      rgb(0 90 255 / 50%), 
-                      rgb(0 0 0)
-                    ), url(/images/sustis.png) no-repeat center`,
-                  }}
-                >
-                  <div className="card-content">
-                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
-                      Sustainably Yours
-                    </h3>
-                    <h4
-                      className="card-subtitle text-base"
-                      ref={cardSubtitleSustis}
-                    ></h4>
-                  </div>
-                  <i className="fa-solid fa-hat-witch card-icon"></i>
-                </div>
-              </Link>
-              {/* <Link href="/projects/reaktor">
-                <div
-                  className="card "
-                  style={{
-                    background: `linear-gradient(
-                      rgb(0 90 255 / 50%), 
-                      rgb(0 0 0)
-                    ), url(/images/testi3.png) no-repeat center`,
-                  }}
-                >
-                  <div className="card-content">
-                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
-                      Reaktor
-                    </h3>
-                    <h4
-                      className="card-subtitle text-base"
-                      ref={cardSubtitleReaktor}
-                    ></h4>
-                  </div>
-                  <i className="fa-solid fa-hat-witch card-icon"></i>
-                </div>
-              </Link>
-              <Link href="/projects/wolt">
-                <div
-                  className="card "
-                  style={{
-                    background: `linear-gradient(
-                      rgb(0 90 255 / 50%), 
-                      rgb(0 0 0)
-                    ), url(/images/testi4.png) no-repeat center`,
-                  }}
-                >
-                  <div className="card-content">
-                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
-                      Wolt
-                    </h3>
-                    <h4
-                      className="card-subtitle text-base"
-                      ref={cardSubtitleWolt}
-                    ></h4>
-                  </div>
-                  <i className="fa-solid fa-hat-witch card-icon"></i>
-                </div>
-              </Link> */}
-              <Link href="/projects/sauna">
-                <div
-                  className="card "
-                  style={{
-                    background: `linear-gradient(
-                      rgb(0 90 255 / 50%), 
-                      rgb(0 0 0)
-                    ), url(/images/sauna.png) no-repeat center`,
-                  }}
-                >
-                  <div className="card-content">
-                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
-                      Sauna Simulator
-                    </h3>
-                    <h4
-                      className="card-subtitle text-base"
-                      ref={cardSubtitleSauna}
-                    ></h4>
-                  </div>
-                  <i className="fa-solid fa-hat-witch card-icon"></i>
-                </div>
-              </Link>
-              <Link href="/projects/bugbear">
-                <div
-                  className="card "
-                  style={{
-                    background: `linear-gradient(
-                      rgb(0 90 255 / 50%), 
-                      rgb(0 0 0)
-                    ), url(/images/testi.png) no-repeat center`,
-                  }}
-                >
-                  <div className="card-content">
-                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
-                      Bugbear Entertainment
-                    </h3>
-                    <h4
-                      className="card-subtitle text-base"
-                      ref={cardSubtitleBugbear}
-                    ></h4>
-                  </div>
-                  <i className="fa-solid fa-hat-witch card-icon"></i>
-                </div>
-              </Link>
-              {/* <Link href="/projects/botnia">
-                <div
-                  className="card "
-                  style={{
-                    background: `linear-gradient(
-                      rgb(0 90 255 / 50%), 
-                      rgb(0 0 0)
-                    ), url(/images/testi5.png) no-repeat center`,
-                  }}
-                >
-                  <div className="card-content">
-                    <h3 className="card-title font-poppins text-3xl sm:text-2xl xl:text-3xl text-shadow-lg">
-                      Botnia Vikings
-                    </h3>
-                    <h4
-                      className="card-subtitle text-base"
-                      ref={cardSubtitleBotnia}
-                    ></h4>
-                  </div>
-                  <i className="fa-solid fa-hat-witch card-icon"></i>
-                </div>
-              </Link> */}
-            </div>
-          </div>
+      <CustomCursor />
+
+      {/* Header */}
+      <div className="w-full bg-opacity-50 absolute top-0 z-20">
+        <Header />
+      </div>
+
+      {/* Hero */}
+      <section className="relative min-h-screen flex items-center">
+        {/* Three.js wireframe — top-right, behind text */}
+        <div className="hero-background">
+          <ThreeBackground />
         </div>
-        {/* Header */}
-        <div className="w-full bg-opacity-50 absolute top-0 z-20">
-          <Header />
+
+        {/* Dot-sphere visualization — behind headline text */}
+        <div className="hero-sphere-wrap">
+          <HeroSphere onReady={() => setLoaded(true)} />
+        </div>
+
+        <div className="container mx-auto px-4 pt-32 pb-20 relative z-10">
+          <ShaderHeroHeadline lines={HERO_LINES} />
+
+          <p ref={subtitleRef} className="text-base md:text-lg text-[#9c9c9c] max-w-md mt-2 font-inter leading-relaxed">
+            Product Manager who loves combining design, technology, and
+            curiosity to build products that feel great to use.
+          </p>
+
+          <a
+            ref={ctaBtnRef}
+            href="mailto:joonas.alanenpaa@aalto.fi"
+            className="cta-btn mt-10"
+          >
+            Get in Touch
+          </a>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="scroll-indicator" aria-hidden="true">
+          <span className="scroll-indicator__label">Scroll</span>
+          <div className="scroll-indicator__track" />
         </div>
       </section>
+
+      {/* Projects */}
+      <section className="projects-section">
+        <div className="container mx-auto px-4">
+          <div className="mb-8 brutalist-divider pb-4">
+            <span className="text-xs font-mono tracking-widest text-[#666666] uppercase">
+              [ Selected Work ]
+            </span>
+          </div>
+
+          <div className="projects-shell border-t border-[rgba(255,255,255,0.18)]">
+            {PROJECTS.map((project) => (
+              <AnimatedProjectRow key={project.href} project={project} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <FooterCTA />
+
+      {/* Loading overlay — fades out when HeroSphere fires first frame */}
+      <div
+        className="loading-overlay"
+        style={{ opacity: loaded ? 0 : 1, pointerEvents: loaded ? 'none' : 'all' }}
+        aria-hidden="true"
+      >
+        <div className="loading-ring" />
+      </div>
     </div>
   );
 }
-
-export default App;
