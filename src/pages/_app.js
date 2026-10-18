@@ -1,60 +1,28 @@
-import './App.css';
-import './card.css';
-import './index.css';
-import { useEffect, useRef } from 'react';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/layout.css';
+import '../styles/hero.css';
+import '../styles/projects.css';
+import '../styles/pages.css';
+import '../styles/case.css';
+import '../styles/about.css';
+import '../styles/rally.css';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import {
-  TransitionGroup,
-  CSSTransition,
-} from 'react-transition-group';
 import { initGA, logPageView } from '../utils/googleAnalytics';
-import dynamic from 'next/dynamic';
 
-const CustomCursor = dynamic(() => import('../components/CustomCursor'), { ssr: false });
-
-
-function MyApp({ Component, pageProps }) {
+export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const nodeRef = useRef(null);
 
   useEffect(() => {
-    // Disable browser scroll restoration so we control it manually
-    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-
+    // Analytics only on the deployed site, not while developing locally
+    if (process.env.NODE_ENV !== 'production') return undefined;
     initGA();
     logPageView();
+    const onRoute = () => logPageView();
+    router.events.on('routeChangeComplete', onRoute);
+    return () => router.events.off('routeChangeComplete', onRoute);
+  }, [router.events]);
 
-    const handleRouteChange = (url) => {
-      logPageView();
-      window.scrollTo(0, 0);
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, []);
-
-  return (
-    <>
-      <CustomCursor />
-      <TransitionGroup className="transition-group" component={null}>
-        <CSSTransition
-          key={router.pathname}
-          timeout={300}
-          classNames="fade"
-          nodeRef={nodeRef}
-        >
-          <div ref={nodeRef}>
-            <Component {...pageProps} />
-          </div>
-        </CSSTransition>
-      </TransitionGroup>
-    </>
-  );
+  return <Component {...pageProps} />;
 }
-
-export default MyApp;

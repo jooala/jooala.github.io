@@ -1,9 +1,11 @@
-const isProd = process.env.NODE_ENV === 'production';
 const path = require('path');
 
 module.exports = {
+  // Static export for GitHub Pages
   output: 'export',
-  assetPrefix: isProd ? '/' : '',
+  // Emit /work/frontier/index.html instead of /work/frontier.html so deep links
+  // and folder-style URLs resolve on GitHub Pages without a server
+  trailingSlash: true,
   images: {
     unoptimized: true,
   },

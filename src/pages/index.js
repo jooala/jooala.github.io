@@ -1,189 +1,31 @@
-import React, { useEffect, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
-import Head from 'next/head';
-import Header from './Header';
-import AnimatedProjectRow from '../components/AnimatedProjectRow';
-import CustomCursor from '../components/CustomCursor';
-import FooterCTA from '../components/FooterCTA';
-import { trackPageTime } from '../utils/googleAnalytics';
-import { gsap } from 'gsap';
+import Layout from '../components/layout/Layout';
+import Hero from '../components/hero/Hero';
+import FeaturedWork from '../components/home/FeaturedWork';
+import ArchivePreview from '../components/home/ArchivePreview';
+import AboutPanel from '../components/home/AboutPanel';
+import { getProject } from '../lib/projects';
+import { PROFILE, SITE_URL } from '../content/profile.mjs';
 
-// ShaderHeroHeadline uses Three.js + WebGL — must be client-side only
-const ShaderHeroHeadline = dynamic(
-  () => import('../components/ShaderHeroHeadline'),
-  { ssr: false }
-);
+const PERSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: PROFILE.name,
+  url: `${SITE_URL}/`,
+  jobTitle: 'Product Manager',
+  address: { '@type': 'PostalAddress', addressLocality: 'Helsinki', addressCountry: 'FI' },
+  email: `mailto:${PROFILE.email}`,
+  sameAs: PROFILE.social.map((s) => s.href),
+};
 
-const HeroSphere = dynamic(
-  () => import('../components/HeroSphere'),
-  { ssr: false }
-);
-
-const HERO_LINES = [
-  { text: "Hello,",      accent: false },
-  { text: "I'm Joonas.", accent: true  },
-];
-
-const PROJECTS = [
-  {
-    href: '/projects/doublepoint',
-    category: 'Service Design',
-    title: 'Doublepoint',
-    subtitle:
-      'Service Design project in IDBM Industry Project with Doublepoint: innovating with touch detection tech for enhanced independence in disabilities.',
-  },
-  {
-    href: '/projects/sustainablyyours',
-    category: 'UX Design',
-    title: 'Sustainably Yours',
-    subtitle:
-      "UI/UX Project: Addressing fashion's environmental impact by solving lack of transparency and consumer wastefulness.",
-  },
-  {
-    href: '/projects/sauna',
-    category: 'VR / Unity',
-    title: 'Sauna Simulator VR',
-    subtitle: 'VR Project made in Unity, which is aiming to simulate sauna experience.',
-  },
-  {
-    href: '/projects/bugbear',
-    category: 'Game Industry',
-    title: 'Bugbear Entertainment',
-    subtitle:
-      'Several different type of work with Bugbear Entertainment behind video games in Wreckfest, Ridge Racer Unbounded and FlatOut-series.',
-  },
-];
-
-export default function App() {
-  const subtitleRef  = useRef(null);
-  const ctaBtnRef    = useRef(null);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    const stopTracking = trackPageTime();
-    // Fallback: force-remove overlay after 4s if onReady never fires
-    const fallback = setTimeout(() => setLoaded(true), 4000);
-    return () => { stopTracking(); clearTimeout(fallback); };
-  }, []);
-
-  // Reveal subtitle + CTA after headline glitch animation finishes (~0.9s duration + settle)
-  useEffect(() => {
-    const subtitle = subtitleRef.current;
-    const btn      = ctaBtnRef.current;
-    if (!subtitle || !btn) return;
-
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-
-    gsap.set([subtitle, btn], { opacity: 0, y: 18 });
-
-    const delay = prefersReducedMotion ? 0.1 : 1.05; // after glitch settles
-    const tl = gsap.timeline({ delay });
-    tl.to(subtitle, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' })
-      .to(btn,      { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.35');
-
-    return () => { tl.kill(); };
-  }, []);
-
+export default function Home() {
   return (
-    <div className="home-shell min-h-screen">
-      <Head>
-        <title>Joonas Alanenpää — Product Manager & Designer</title>
-        <meta name="description" content="Joonas Alanenpää is a Product Manager who combines design, technology, and curiosity to build products that feel great to use. Portfolio of UX, service design, and product work." />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href="https://jooala.github.io/" />
-        {/* Open Graph */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://jooala.github.io/" />
-        <meta property="og:title" content="Joonas Alanenpää — Product Manager & Designer" />
-        <meta property="og:description" content="Portfolio of Joonas Alanenpää — Product Manager combining design, technology, and curiosity to build great products." />
-        <meta property="og:image" content="https://jooala.github.io/og-cover.png" />
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Joonas Alanenpää — Product Manager & Designer" />
-        <meta name="twitter:description" content="Portfolio of Joonas Alanenpää — Product Manager combining design, technology, and curiosity to build great products." />
-        <meta name="twitter:image" content="https://jooala.github.io/og-cover.png" />
-        {/* Structured data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            "name": "Joonas Alanenpää",
-            "url": "https://jooala.github.io/",
-            "jobTitle": "Product Manager",
-            "email": "joonas.alanenpaa@aalto.fi",
-            "sameAs": ["https://github.com/jooala"]
-          })}}
-        />
-      </Head>
-
-      <CustomCursor />
-
-      {/* Header */}
-      <div className="w-full bg-opacity-50 absolute top-0 z-20">
-        <Header />
-      </div>
-
-      {/* Hero */}
-      <section className="relative min-h-screen flex items-center">
-        {/* Dot-sphere visualization — behind headline text */}
-        <div className="hero-sphere-wrap">
-          <HeroSphere onReady={() => setLoaded(true)} />
-        </div>
-
-        <div className="container mx-auto px-4 pt-32 pb-20 relative z-10">
-          <ShaderHeroHeadline lines={HERO_LINES} />
-
-          <p ref={subtitleRef} className="text-base md:text-lg text-[#9c9c9c] max-w-md mt-2 font-inter leading-relaxed">
-            Product Manager who loves combining design, technology, and
-            curiosity to build products that feel great to use.
-          </p>
-
-          <a
-            ref={ctaBtnRef}
-            href="mailto:joonas.alanenpaa@aalto.fi"
-            className="cta-btn mt-10"
-          >
-            Get in Touch
-          </a>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="scroll-indicator" aria-hidden="true">
-          <span className="scroll-indicator__label">Scroll</span>
-          <div className="scroll-indicator__track" />
-        </div>
+    <Layout overlayHeader seo={{ path: '/', jsonLd: PERSON_LD }}>
+      <Hero inset={getProject('doublepoint')} />
+      <FeaturedWork />
+      <section className="home-index wrap" aria-label="Archive and about">
+        <ArchivePreview />
+        <AboutPanel />
       </section>
-
-      {/* Projects */}
-      <section className="projects-section">
-        <div className="container mx-auto px-4">
-          <div className="mb-8 brutalist-divider pb-4">
-            <span className="text-xs font-mono tracking-widest text-[#666666] uppercase">
-              [ Selected Work ]
-            </span>
-          </div>
-
-          <div className="projects-shell border-t border-[rgba(255,255,255,0.18)]">
-            {PROJECTS.map((project) => (
-              <AnimatedProjectRow key={project.href} project={project} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <FooterCTA />
-
-      {/* Loading overlay — fades out when HeroSphere fires first frame */}
-      <div
-        className="loading-overlay"
-        style={{ opacity: loaded ? 0 : 1, pointerEvents: loaded ? 'none' : 'all' }}
-        aria-hidden="true"
-      >
-        <div className="loading-ring" />
-      </div>
-    </div>
+    </Layout>
   );
 }

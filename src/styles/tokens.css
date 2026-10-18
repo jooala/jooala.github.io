@@ -1,0 +1,59 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS
+   Fonts load from Google Fonts in _document.js.
+   ────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Type families */
+  --font-display: 'Anton';
+  --font-title: 'Barlow Condensed';
+  --font-sans: 'Inter';
+  --font-serif: 'Newsreader';
+  --font-mono: 'IBM Plex Mono';
+
+  /* Colour */
+  --paper: #ebe8e1;
+  --paper-2: #e2dfd7;
+  --concrete: #d3d1ca;
+  --white: #f7f6f2;
+  --ink: #111111;
+  --ink-2: #1b1b1a;
+  --ink-3: #2a2a28;
+  --gray: #555550;
+  --gray-2: #858680;
+  --rule: #b9b8b1;
+  --rule-soft: #cfcdc6;
+  --blue: #1769e0;
+  --blue-deep: #0f4fb0;
+  --orange: #ff6a3d;
+
+  /* Layout */
+  --gutter: clamp(16px, 2.1vw, 34px);
+  --col-gap: clamp(12px, 1.25vw, 20px);
+  --max: 1760px;
+  --masthead-h: 76px;
+
+  /* Type scale */
+  --fs-label: 11.5px;
+  --fs-small: 14px;
+  --fs-body: 16.5px;
+  --fs-lead: clamp(20px, 1.7vw, 26px);
+  --fs-title-s: clamp(20px, 1.6vw, 26px);
+  --fs-title-m: clamp(28px, 2.6vw, 44px);
+  --fs-title-l: clamp(40px, 4.4vw, 76px);
+  --fs-display: clamp(56px, 9.4vw, 172px);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 160ms;
+  --dur: 320ms;
+  --dur-slow: 800ms;
+
+  /* Layers */
+  --z-art: 0;
+  --z-content: 2;
+  --z-header: 40;
+  --z-menu: 80;
+  --z-grain: 90;
+}
