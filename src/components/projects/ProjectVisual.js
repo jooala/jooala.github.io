@@ -58,7 +58,7 @@ export function Poster({ project, size = 'card' }) {
     <div className={`poster poster--${tone} poster--${size}`} aria-hidden="true">
       <div className="poster__grid" />
       {tone === 'ink' && <Contours seed={hash(project.slug)} />}
-      <span className="poster__word display">{project.title}</span>
+      <span className="poster__word display">{project.poster?.word || project.title}</span>
       {project.poster?.stamp && <span className="poster__stamp mono">{project.poster.stamp}</span>}
       <span className="poster__reg poster__reg--tl" />
       <span className="poster__reg poster__reg--br" />
@@ -75,12 +75,15 @@ export default function ProjectVisual({ project, variant = 'cover', eager = fals
     ? cover.src.replace(/\.jpg$/, '-sm.jpg')
     : cover.src;
 
+  // Archive thumbnails crop differently from the big cards, so they can have their own framing
+  const position = (variant === 'thumb' && cover.thumbPosition) || cover.position;
+
   return (
     <img
       src={src}
       alt={cover.alt || ''}
       className={`pv ${cover.grayscale ? 'pv--gray' : ''} ${className}`}
-      style={cover.position ? { objectPosition: cover.position } : undefined}
+      style={position ? { objectPosition: position } : undefined}
       loading={eager ? 'eager' : 'lazy'}
       decoding="async"
     />

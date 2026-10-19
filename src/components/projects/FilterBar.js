@@ -1,15 +1,12 @@
-import { SORTS } from '../../lib/projects';
-
-// Category tabs + optional search + sort. Purely presentational: state comes
+// Category tabs + optional search. Purely presentational: state comes
 // from useProjectFilters.
 export default function FilterBar({
   filters,
   total,
   showSearch = false,
-  showSort = true,
   idPrefix = 'filters',
 }) {
-  const { category, setCategory, query, setQuery, sort, setSort, categories, results } = filters;
+  const { category, setCategory, query, setQuery, categories, results } = filters;
 
   return (
     <div className="fbar">
@@ -51,25 +48,6 @@ export default function FilterBar({
               onChange={(e) => setQuery(e.target.value)}
               autoComplete="off"
             />
-          </div>
-        )}
-        {showSort && (
-          <div className="fbar__sort">
-            <label htmlFor={`${idPrefix}-sort`} className="mono">
-              Sort:
-            </label>
-            <select
-              id={`${idPrefix}-sort`}
-              className="mono"
-              value={sort}
-              onChange={(e) => setSort(e.target.value)}
-            >
-              {SORTS.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
           </div>
         )}
         <p className="fbar__count mono" aria-live="polite">

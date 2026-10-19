@@ -1,16 +1,47 @@
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Environment, Html, Lightformer } from '@react-three/drei';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import {
-  rng, makeConcreteTexture, makeSignTexture, projectUVs, rubbleGeometry, buildCarRig, placeOnLedge, HERO_CAR, HERO_CAM,
+  rng, loadConcreteTexture, makeSignTexture, projectUVs, rubbleGeometry, buildCarRig, placeOnLedge, HERO_CAR, HERO_CAM,
 } from './sceneAssets';
-import { getGame, useGame } from '../rally/gameStore';
+import { getGame, useGame, actions } from '../rally/gameStore';
+import Arrow from '../ui/Arrow';
 
-// The rally minigame is its own chunk, loaded when the car is clicked
-const loadRally = () => import('../rally/RallyWorld');
+// The rally minigame is its own chunk. It's fetched, built and its shaders
+// compiled in idle time once the hero has settled (or as soon as the car is
+// hovered), so clicking the car doesn't stall.
+let rallyModule = null;
+const loadRally = () =>
+  import('../rally/RallyWorld').then((m) => {
+    rallyModule = m;
+    return m;
+  });
 const RallyWorld = lazy(loadRally);
+// The hero intro (name, blue field, blocks, 3D fade) is done by then
+const INTRO_MS = 3500;
+const whenIdle = (cb) => (window.requestIdleCallback ? window.requestIdleCallback(cb, { timeout: 2500 }) : setTimeout(cb, 60));
+let warming = null;
+// Building the world is a long main-thread task: never run it while the
+// visitor is hovering the car or the camera is easing in/out (it would stutter)
+function whenCalm(cb) {
+  whenIdle(() => {
+    if (focus.target === 0 && focus.value < 0.01) cb();
+    else setTimeout(() => whenCalm(cb), 400);
+  });
+}
+function warmRallyWorld(gl, scene, camera) {
+  if (!warming) {
+    warming = loadRally()
+      .then((m) => new Promise((done) => whenCalm(() => done(m.warmRally(gl, scene, camera)))))
+      .catch(() => {})
+      .finally(() => {
+        warming = null;
+      });
+  }
+  return warming;
+}
 
 // ── Composition ─────────────────────────────────────────────────────────────
 // [width, height, depth], [x, y, z], optional rotation and tint index.
@@ -184,11 +215,33 @@ function Sign() {
   );
 }
 
+// Hovering the car or its tag swings the camera round to the left and in
+// towards the car, as if picking it. The rig turns and closes in about the
+// car itself, so the car stays put on screen while it grows and turns (and
+// the pointer stays on it). Shared by Car (pointer) and Rig (camera).
+const focus = { target: 0, value: 0, timer: null };
+function setFocus(on, invalidate) {
+  clearTimeout(focus.timer);
+  if (on) focus.target = 1;
+  // a brief grace period so moving between the car and its tag doesn't snap back
+  else focus.timer = setTimeout(() => {
+    focus.target = 0;
+    invalidate();
+  }, 80);
+  invalidate();
+}
+
 // The player's car: click it (or its tag) to start the rally minigame
 function Car({ carRoot, onStart }) {
   const [hover, setHover] = useState(false);
   const phase = useGame((s) => s.phase);
-  const { invalidate } = useThree();
+  const preparing = useGame((s) => s.preparing);
+  const { invalidate, gl, scene, camera } = useThree();
+  // Pointing at the car is a strong hint: fetch the game code now (network
+  // only; the world itself is built once the pointer has left, see whenCalm)
+  useEffect(() => {
+    if (hover) loadRally().catch(() => {});
+  }, [hover]);
   const idle = phase === 'off';
 
   const start = (e) => {
@@ -203,20 +256,45 @@ function Car({ carRoot, onStart }) {
         if (!onStart || !idle) return;
         e.stopPropagation();
         setHover(true);
+        setFocus(true, invalidate);
         document.body.style.cursor = 'pointer';
-        invalidate();
       }}
       onPointerOut={() => {
         setHover(false);
+        setFocus(false, invalidate);
         document.body.style.cursor = '';
-        invalidate();
       }}
     >
       <primitive object={carRoot} />
       {onStart && idle && (
-        <Html position={[HERO_CAR.x + 0.6, HERO_CAR.y + 2.35, HERO_CAR.z + 0.4]} center zIndexRange={[4, 0]}>
-          <button type="button" tabIndex={-1} className={hover ? 'race-tag is-hover' : 'race-tag'} onClick={start}>
-            Race me
+        // Invisible hover area over the car and down to its tag, so moving
+        // from one to the other never drops the hover
+        <mesh position={[HERO_CAR.x, HERO_CAR.y + 0.4, HERO_CAR.z + 0.2]} rotation={[0, HERO_CAR.heading, 0]}>
+          <boxGeometry args={[2.1, 1.9, 4.3]} />
+          <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
+        </mesh>
+      )}
+      {onStart && idle && (
+        <Html position={[HERO_CAR.x, HERO_CAR.y - 0.75, HERO_CAR.z + 0.4]} center zIndexRange={[4, 0]}>
+          <button
+            type="button"
+            tabIndex={-1}
+            className={['race-tag', hover && 'is-hover', preparing && 'is-loading'].filter(Boolean).join(' ')}
+            onClick={start}
+            onPointerEnter={() => {
+              setHover(true);
+              setFocus(true, invalidate);
+            }}
+            onPointerLeave={() => {
+              setHover(false);
+              setFocus(false, invalidate);
+            }}
+          >
+            <span className="race-tag__kicker mono">{preparing ? 'Loading the circuit' : 'Rally · Minigame'}</span>
+            <span className="race-tag__label display">Take it for a spin</span>
+            <span className="race-tag__go" aria-hidden="true">
+              {preparing ? <span className="race-tag__spin" /> : <Arrow size={20} strokeWidth={2} />}
+            </span>
           </button>
         </Html>
       )}
@@ -226,22 +304,51 @@ function Car({ carRoot, onStart }) {
 
 // ── Camera rig: pointer + scroll parallax, rendered on demand ──────────────
 const CAM_POS = HERO_CAM.position;
+const FADE_MS = 650; // matches the canvas fade in hero.css
 const CAM_TARGET = HERO_CAM.target;
 
-function Rig({ containerRef, interactive, onReady }) {
+// Focused view: the whole rig turned 26° to the left about the car and
+// pulled in to 62 % of the distance
+const FOCUS_PIVOT = new THREE.Vector3(HERO_CAR.x, HERO_CAR.y + 0.55, HERO_CAR.z);
+const FOCUS_TURN = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), -0.45);
+const toFocus = (v) => v.clone().sub(FOCUS_PIVOT).applyQuaternion(FOCUS_TURN).multiplyScalar(0.62).add(FOCUS_PIVOT);
+const FOCUS_POS = toFocus(CAM_POS);
+const FOCUS_TARGET = toFocus(CAM_TARGET);
+const LOOK = new THREE.Vector3();
+
+function Rig({ containerRef, interactive, onReady, onWarm }) {
   const { camera, invalidate, gl, scene } = useThree();
   const target = useRef({ x: 0, y: 0, s: 0 });
   const current = useRef({ x: 0, y: 0, s: 0 });
   const visible = useRef(true);
+  // No parallax while the canvas fades in over the matching poster
+  const settleUntil = useRef(Infinity);
 
   useEffect(() => {
     camera.position.copy(CAM_POS);
     camera.lookAt(CAM_TARGET);
-    invalidate();
-    // Signal readiness after the first frame has been drawn
-    let raf = requestAnimationFrame(() => {
-      raf = requestAnimationFrame(() => onReady?.());
-    });
+    // Compile the shaders first (in parallel, off the main thread where the
+    // browser supports it), then draw the first frame, then signal readiness
+    let alive = true;
+    let settle;
+    let raf;
+    const warm = gl.compileAsync ? gl.compileAsync(scene, camera) : Promise.resolve();
+    warm
+      .catch(() => {})
+      .then(() => {
+        if (!alive) return;
+        onWarm?.();
+        raf = requestAnimationFrame(() => {
+          invalidate();
+          raf = requestAnimationFrame(() => {
+            raf = requestAnimationFrame(() => {
+              onReady?.();
+              settleUntil.current = performance.now() + FADE_MS;
+              settle = setTimeout(invalidate, FADE_MS + 20);
+            });
+          });
+        });
+      });
 
     if (process.env.NODE_ENV !== 'production') {
       window.__captureHero = () => {
@@ -249,8 +356,12 @@ function Rig({ containerRef, interactive, onReady }) {
         return gl.domElement.toDataURL('image/png');
       };
     }
-    return () => cancelAnimationFrame(raf);
-  }, [camera, gl, scene, invalidate, onReady]);
+    return () => {
+      alive = false;
+      cancelAnimationFrame(raf);
+      clearTimeout(settle);
+    };
+  }, [camera, gl, scene, invalidate, onReady, onWarm]);
 
   useEffect(() => {
     if (!interactive) return undefined;
@@ -287,48 +398,120 @@ function Rig({ containerRef, interactive, onReady }) {
   }, [phase, invalidate]);
 
   useFrame((_, dt) => {
-    if (getGame().phase !== 'off') return;
+    if (getGame().phase !== 'off') {
+      focus.target = 0;
+      focus.value = 0;
+      return;
+    }
+    if (performance.now() < settleUntil.current) return;
     const c = current.current;
     const t = target.current;
     const k = 1 - Math.exp(-dt * 3.2);
     c.x += (t.x - c.x) * k;
     c.y += (t.y - c.y) * k;
     c.s += (t.s - c.s) * k;
-    camera.position.set(CAM_POS.x - c.x * 0.9, CAM_POS.y + c.y * 0.35 + c.s * 1.6, CAM_POS.z);
-    camera.lookAt(CAM_TARGET.x, CAM_TARGET.y + c.s * 0.9, CAM_TARGET.z);
-    if (Math.abs(t.x - c.x) + Math.abs(t.y - c.y) + Math.abs(t.s - c.s) > 0.0005) invalidate();
+    // ease in calmly, ease back out quickly
+    const rate = focus.target < focus.value ? 9 : 3.4;
+    focus.value += (focus.target - focus.value) * (1 - Math.exp(-dt * rate));
+    const f = focus.value * focus.value * (3 - 2 * focus.value);
+    // parallax offsets ride on top of the (focused or not) framing
+    camera.position.lerpVectors(CAM_POS, FOCUS_POS, f);
+    camera.position.x -= c.x * 0.9;
+    camera.position.y += c.y * 0.35 + c.s * 1.6;
+    LOOK.lerpVectors(CAM_TARGET, FOCUS_TARGET, f);
+    camera.lookAt(LOOK.x, LOOK.y + c.s * 0.9, LOOK.z);
+    const moving = Math.abs(t.x - c.x) + Math.abs(t.y - c.y) + Math.abs(t.s - c.s) + Math.abs(focus.target - focus.value);
+    if (moving > 0.0005) invalidate();
   });
 
   return null;
 }
 
-function Scene({ containerRef, interactive, onReady, onStartGame }) {
+function Scene({ containerRef, interactive, onReady, onWarm, onStartGame }) {
   const phase = useGame((s) => s.phase);
+  const { gl, scene, camera } = useThree();
   const carRoot = useMemo(() => {
     const root = buildCarRig();
     placeOnLedge(root);
+    // Headlights for night races: always in the scene (off here) so adding
+    // them never changes the light count and recompiles every shader
+    const head = new THREE.SpotLight('#fff0d4', 0, 60, 0.42, 0.8, 1.6);
+    head.name = 'headlight';
+    head.position.set(0, 0.75, 1.7);
+    head.target.position.set(0, -0.6, 20);
+    root.add(head, head.target);
     return root;
   }, []);
 
-  // Warm up the game chunk once the hero has settled
+  // Prepare the game once the hero has settled. Building the race world is
+  // heavy main-thread work, so it waits until the page's intro animation has
+  // played out: on first load that's after the loader lifts (see
+  // _document.js), not a fixed time after this mounts.
   useEffect(() => {
     if (!onStartGame) return undefined;
-    const t = setTimeout(() => {
-      loadRally().catch(() => {});
-    }, 3000);
-    return () => clearTimeout(t);
-  }, [onStartGame]);
+    const root = document.documentElement;
+    let t;
+    const schedule = () => {
+      observer.disconnect();
+      t = setTimeout(() => warmRallyWorld(gl, scene, camera), INTRO_MS);
+    };
+    const observer = new MutationObserver(() => {
+      if (!root.classList.contains('preload')) schedule();
+    });
+    if (root.classList.contains('preload')) observer.observe(root, { attributes: true, attributeFilter: ['class'] });
+    else schedule();
+    return () => {
+      observer.disconnect();
+      clearTimeout(t);
+    };
+  }, [onStartGame, gl, scene, camera]);
 
-  const concrete = useMemo(() => {
-    const map = makeConcreteTexture();
-    return TINTS.map(
-      (color) => new THREE.MeshStandardMaterial({ color, map, bumpMap: map, bumpScale: 1.6, roughness: 0.94 })
-    );
+  // Hero.startGame asks these first, so the race world is built and compiled
+  // before the transition starts instead of in the middle of it
+  useEffect(() => {
+    actions.isGameReady = () => !!rallyModule?.isRallyReady();
+    actions.prepareGame = () => loadRally().then((m) => m.warmRally(gl, scene, camera));
+    return () => {
+      delete actions.isGameReady;
+      delete actions.prepareGame;
+    };
+  }, [gl, scene, camera]);
+
+  // After a race, build the next one in the background so a rematch starts instantly
+  const wasPlaying = useRef(false);
+  useEffect(() => {
+    if (phase !== 'off') {
+      wasPlaying.current = true;
+      return undefined;
+    }
+    if (!wasPlaying.current || !onStartGame) return undefined;
+    wasPlaying.current = false;
+    const t = setTimeout(() => warmRallyWorld(gl, scene, camera), 4000);
+    return () => clearTimeout(t);
+  }, [phase, onStartGame, gl, scene, camera]);
+
+  // The concrete texture is drawn in a worker; the scene starts once it's in
+  const [concreteMap, setConcreteMap] = useState(null);
+  useEffect(() => {
+    let alive = true;
+    loadConcreteTexture().then((map) => (alive ? setConcreteMap(map) : map.dispose()));
+    return () => {
+      alive = false;
+    };
   }, []);
+  const concrete = useMemo(
+    () =>
+      concreteMap &&
+      TINTS.map(
+        (color) => new THREE.MeshStandardMaterial({ color, map: concreteMap, bumpMap: concreteMap, bumpScale: 1.6, roughness: 0.94 })
+      ),
+    [concreteMap]
+  );
+  if (!concrete) return null;
 
   return (
     <>
-      <hemisphereLight args={['#f4f2ec', '#57564f', 0.55]} />
+      <hemisphereLight name="hemi" args={['#f4f2ec', '#57564f', 0.55]} />
       <directionalLight
         name="sun"
         position={[-9, 16, 12]}
@@ -345,7 +528,7 @@ function Scene({ containerRef, interactive, onReady, onStartGame }) {
         shadow-camera-near={1}
         shadow-camera-far={60}
       />
-      <directionalLight position={[12, 5, -8]} intensity={0.45} color="#dfe7ff" />
+      <directionalLight name="fill" position={[12, 5, -8]} intensity={0.45} color="#dfe7ff" />
       <Environment resolution={128} frames={1} environmentIntensity={0.42}>
         <Lightformer form="rect" intensity={2.2} position={[0, 12, 6]} scale={[24, 8, 1]} rotation-x={Math.PI / 2} />
         <Lightformer form="rect" intensity={0.7} color="#1769e0" position={[12, 3, 0]} scale={[8, 12, 1]} rotation-y={-Math.PI / 2} />
@@ -356,7 +539,7 @@ function Scene({ containerRef, interactive, onReady, onStartGame }) {
       <Steel />
       <Sign />
       <Car carRoot={carRoot} onStart={onStartGame} />
-      <Rig containerRef={containerRef} interactive={interactive} onReady={onReady} />
+      <Rig containerRef={containerRef} interactive={interactive} onReady={onReady} onWarm={onWarm} />
       {phase !== 'off' && (
         <Suspense fallback={null}>
           <RallyWorld carRoot={carRoot} />
@@ -370,12 +553,23 @@ export default function MonolithScene({ interactive = true, onReady, onStartGame
   const containerRef = useRef(null);
   // The game renders continuously; the hero only when something changes
   const playing = useGame((st) => st.phase !== 'off');
+  // Drop the resolution for the game only once the unfold is over: resizing
+  // the canvas mid-transition is a visible hitch
+  const gameRes = useGame((st) => !['off', 'loading', 'intro'].includes(st.phase));
+  const [touch] = useState(() => typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches);
+  // Nothing is drawn until the shaders are compiled (see Rig)
+  const [warm, setWarm] = useState(false);
+  const onWarm = useCallback(() => setWarm(true), []);
   return (
     <div ref={containerRef} className={className}>
       <Canvas
-        frameloop={playing ? 'always' : 'demand'}
-        shadows="soft"
-        dpr={playing ? [1, 1.35] : [1, 1.75]}
+        frameloop={playing ? 'always' : warm ? 'demand' : 'never'}
+        // 'percentage' (PCF), not 'soft': three.js deprecated PCF-soft and swaps it
+        // for PCF on the first shadow pass, but R3F re-applies 'soft' whenever the
+        // canvas props change (e.g. when the game starts). That flip changes every
+        // shader and recompiles the whole scene mid-transition.
+        shadows="percentage"
+        dpr={gameRes ? (touch ? [1, 1.15] : [1, 1.35]) : [1, touch ? 1.5 : 1.75]}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         camera={{ fov: HERO_CAM.fov, near: 0.5, far: 600, position: CAM_POS.toArray() }}
         onCreated={({ gl }) => {
@@ -384,7 +578,7 @@ export default function MonolithScene({ interactive = true, onReady, onStartGame
           gl.setClearColor(0x000000, 0);
         }}
       >
-        <Scene containerRef={containerRef} interactive={interactive} onReady={onReady} onStartGame={onStartGame} />
+        <Scene containerRef={containerRef} interactive={interactive} onReady={onReady} onWarm={onWarm} onStartGame={onStartGame} />
       </Canvas>
     </div>
   );

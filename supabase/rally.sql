@@ -22,8 +22,9 @@ create policy "rally times are public"
   to anon, authenticated
   using (true);
 
--- Anyone can post a time, but only for today's (UTC) circuit (± a day for
--- time zones and races that end around midnight)
+-- Anyone can post a time, but only for today's circuit (± a day around the
+-- UTC date: the circuit changes at midnight Finnish time, and races can end
+-- just after midnight)
 drop policy if exists "post a time for today" on public.rally_times;
 create policy "post a time for today"
   on public.rally_times for insert

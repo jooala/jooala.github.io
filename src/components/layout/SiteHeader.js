@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { PROFILE } from '../../content/profile.mjs';
-import LocalTime from '../ui/LocalTime';
 import Arrow from '../ui/Arrow';
 
 export const NAV = [
@@ -68,12 +67,6 @@ export default function SiteHeader({ overlay = false }) {
           <span>{PROFILE.lastName}</span>
         </Link>
 
-        <p className="mast__desc mono">
-          {PROFILE.disciplines.join(' · ')}
-          <br />
-          Helsinki, FI
-        </p>
-
         <nav className="mast__nav" aria-label="Primary">
           <ul>
             {NAV.map((item, i) => (
@@ -90,11 +83,6 @@ export default function SiteHeader({ overlay = false }) {
             ))}
           </ul>
         </nav>
-
-        <div className="mast__meta mono">
-          <LocalTime />
-          <span className="mast__dot" aria-hidden="true" />
-        </div>
 
         <button
           ref={buttonRef}
@@ -142,7 +130,6 @@ export default function SiteHeader({ overlay = false }) {
           <a href={`mailto:${PROFILE.email}`}>
             {PROFILE.email} <Arrow dir="up-right" size={12} />
           </a>
-          <span>{PROFILE.location} · <LocalTime /></span>
         </div>
       </div>
     </header>

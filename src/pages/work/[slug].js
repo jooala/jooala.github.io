@@ -8,7 +8,12 @@ import Arrow from '../../components/ui/Arrow';
 import { getAllSlugs, getProject, getAdjacent, getProjects } from '../../lib/projects';
 import { withImageSizes, imageSize } from '../../lib/imageSize';
 
+// Missing values show a TO ADD marker while drafting (dev server); in the
+// built site the row is left out instead
+const SHOW_TODO = process.env.NODE_ENV !== 'production';
+
 function Meta({ label, value }) {
+  if (value == null && !SHOW_TODO) return null;
   return (
     <div>
       <dt className="mono">{label}</dt>
@@ -21,7 +26,9 @@ export default function CaseStudy({ slug, sections, heroSize }) {
   const project = getProject(slug);
   const { prev, next } = getAdjacent(slug);
   const total = getProjects().length;
-  const hero = project.hero || project.cover;
+  // `hero: false` drops the top image; the cover is still used for sharing.
+  const showHero = project.hero !== false;
+  const hero = (showHero && project.hero) || project.cover;
 
   return (
     <Layout
@@ -72,15 +79,17 @@ export default function CaseStudy({ slug, sections, heroSize }) {
           )}
         </header>
 
-        <div className="case-hero__media wrap">
-          <div className="case-hero__frame wipe is-in">
-            {hero ? (
-              <img src={hero.src} alt={hero.alt || ''} fetchPriority="high" decoding="async" {...heroSize} />
-            ) : (
-              <Poster project={project} size="hero" />
-            )}
+        {showHero && (
+          <div className="case-hero__media wrap">
+            <div className="case-hero__frame wipe is-in">
+              {hero ? (
+                <img src={hero.src} alt={hero.alt || ''} fetchPriority="high" decoding="async" {...heroSize} />
+              ) : (
+                <Poster project={project} size="hero" />
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         <CaseBlocks sections={sections} />
       </article>
@@ -96,7 +105,7 @@ export function getStaticPaths() {
 
 export function getStaticProps({ params }) {
   const project = getProject(params.slug);
-  const hero = project.hero || project.cover;
+  const hero = project.hero !== false && (project.hero || project.cover);
   return {
     props: {
       slug: params.slug,

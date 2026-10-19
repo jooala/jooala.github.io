@@ -1,15 +1,9 @@
 // Procedural assets for the hero scene: concrete textures, decals and the
 // rally car. Everything is generated at runtime, so no model files to load.
 import * as THREE from 'three';
+import { rng, drawConcrete } from './concrete';
 
-export function rng(seed = 1) {
-  let s = seed % 2147483647;
-  if (s <= 0) s += 2147483646;
-  return () => {
-    s = (s * 16807) % 2147483647;
-    return (s - 1) / 2147483646;
-  };
-}
+export { rng };
 
 function canvas(w, h = w) {
   const c = document.createElement('canvas');
@@ -19,117 +13,51 @@ function canvas(w, h = w) {
 }
 
 // ── Concrete ────────────────────────────────────────────────────────────────
-// Board-formed concrete: mottled tone, plank bands, tie holes, water streaks,
-// pits and grain. Drawn with wrap-around so it tiles seamlessly.
-export function makeConcreteTexture(seed = 11, size = 1024) {
-  const r = rng(seed);
-  const [c, ctx] = canvas(size);
-  ctx.fillStyle = '#a9a7a1';
-  ctx.fillRect(0, 0, size, size);
-
-  const wrap = (x, y, rad, draw) => {
-    for (const dx of [-size, 0, size]) {
-      for (const dy of [-size, 0, size]) {
-        const px = x + dx;
-        const py = y + dy;
-        if (px + rad < 0 || px - rad > size || py + rad < 0 || py - rad > size) continue;
-        draw(px, py);
-      }
-    }
-  };
-
-  // Large mottling
-  for (let i = 0; i < 420; i++) {
-    const x = r() * size;
-    const y = r() * size;
-    const rad = 30 + r() * 160;
-    const l = Math.round(115 + r() * 90);
-    const a = 0.05 + r() * 0.07;
-    wrap(x, y, rad, (px, py) => {
-      const g = ctx.createRadialGradient(px, py, 0, px, py, rad);
-      g.addColorStop(0, `rgba(${l},${l},${l - 5},${a})`);
-      g.addColorStop(1, `rgba(${l},${l},${l - 5},0)`);
-      ctx.fillStyle = g;
-      ctx.fillRect(px - rad, py - rad, rad * 2, rad * 2);
-    });
+// Board-formed concrete (drawing in concrete.js), tiling.
+function concreteTexture(image, fromBitmap = false) {
+  const tex = fromBitmap ? new THREE.Texture(image) : new THREE.CanvasTexture(image);
+  if (fromBitmap) {
+    tex.flipY = false; // the worker already flipped the bitmap
+    tex.needsUpdate = true;
   }
-
-  // Board-form plank bands
-  const band = size / 8;
-  for (let y = 0; y < size; y += band) {
-    const l = r() < 0.5 ? 0 : 255;
-    ctx.fillStyle = `rgba(${l},${l},${l},${0.025 + r() * 0.045})`;
-    ctx.fillRect(0, y, size, band);
-    ctx.fillStyle = 'rgba(35,35,33,0.22)';
-    ctx.fillRect(0, y, size, 1.5);
-    ctx.fillStyle = 'rgba(255,255,255,0.08)';
-    ctx.fillRect(0, y + 1.5, size, 1);
-    // plank wood-grain streaks
-    for (let k = 0; k < 14; k++) {
-      const yy = y + r() * band;
-      ctx.fillStyle = `rgba(60,60,58,${0.025 + r() * 0.04})`;
-      ctx.fillRect(r() * size, yy, 40 + r() * 260, 1);
-    }
-  }
-
-  // Tie holes on the formwork grid
-  for (let y = band / 2; y < size; y += band * 2) {
-    for (let x = size / 8; x < size; x += size / 4) {
-      ctx.fillStyle = 'rgba(255,255,255,0.10)';
-      ctx.beginPath();
-      ctx.arc(x + 1.5, y + 1.5, 8, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = 'rgba(28,28,26,0.62)';
-      ctx.beginPath();
-      ctx.arc(x, y, 6, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-
-  // Water staining: dark vertical streaks running down
-  for (let i = 0; i < 70; i++) {
-    const x = r() * size;
-    const w = 3 + r() * 26;
-    const y0 = r() * size;
-    const len = 80 + r() * 420;
-    const a = 0.05 + r() * 0.12;
-    for (const dx of [-size, 0, size]) {
-      for (const dy of [-size, 0]) {
-        const g = ctx.createLinearGradient(0, y0 + dy, 0, y0 + dy + len);
-        g.addColorStop(0, `rgba(40,40,36,${a})`);
-        g.addColorStop(1, 'rgba(40,40,36,0)');
-        ctx.fillStyle = g;
-        ctx.fillRect(x + dx, y0 + dy, w, len);
-      }
-    }
-  }
-
-  // Grain
-  const img = ctx.getImageData(0, 0, size, size);
-  const d = img.data;
-  for (let i = 0; i < d.length; i += 4) {
-    const n = (r() - 0.5) * 30;
-    d[i] += n;
-    d[i + 1] += n;
-    d[i + 2] += n;
-  }
-  ctx.putImageData(img, 0, 0);
-
-  // Air pockets / pits
-  for (let i = 0; i < 4200; i++) {
-    const x = r() * size;
-    const y = r() * size;
-    ctx.fillStyle = `rgba(22,22,20,${0.2 + r() * 0.45})`;
-    ctx.beginPath();
-    ctx.arc(x, y, 0.5 + r() * 1.8, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  const tex = new THREE.CanvasTexture(c);
   tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 8;
   return tex;
+}
+
+export function makeConcreteTexture(seed = 11, size = 1024) {
+  const [c, ctx] = canvas(size);
+  drawConcrete(ctx, size, seed);
+  return concreteTexture(c);
+}
+
+// Same texture, drawn in a worker so the page keeps animating meanwhile.
+// Falls back to drawing here where workers/OffscreenCanvas aren't available.
+export function loadConcreteTexture(seed = 11, size = 1024) {
+  if (typeof Worker === 'undefined' || typeof OffscreenCanvas === 'undefined') {
+    return Promise.resolve(makeConcreteTexture(seed, size));
+  }
+  return new Promise((resolve) => {
+    let worker;
+    const fallback = () => {
+      worker?.terminate();
+      resolve(makeConcreteTexture(seed, size));
+    };
+    try {
+      worker = new Worker(new URL('./concrete.worker.js', import.meta.url), { type: 'module' });
+    } catch {
+      fallback();
+      return;
+    }
+    worker.onmessage = ({ data }) => {
+      worker.terminate();
+      if (data.bitmap) resolve(concreteTexture(data.bitmap, true));
+      else fallback();
+    };
+    worker.onerror = fallback;
+    worker.postMessage({ seed, size });
+  });
 }
 
 // Box-projected UVs in object space so texel density is the same on every
@@ -178,7 +106,7 @@ export function rubbleGeometry(r, size) {
       pos.getZ(i) * sz * (0.8 + r() * 0.35)
     );
   }
-  const flat = g.toNonIndexed();
+  const flat = g.index ? g.toNonIndexed() : g;
   flat.computeVertexNormals();
   return projectUVs(flat, 0.5, r);
 }
@@ -283,20 +211,20 @@ function makeLiveryTexture({ stripe, accent, number, name }) {
   ctx.textBaseline = 'middle';
   if (name) ctx.fillText(name, X(2.72), Y(0.733));
 
-  // Number roundel on the door
-  const cx = X(1.98);
-  const cy = Y(0.47);
+  // Big number roundel, centred on the flank between the wheels
+  const cx = X(2.0);
+  const cy = Y(0.53);
   ctx.fillStyle = '#f7f6f2';
   ctx.beginPath();
-  ctx.arc(cx, cy, 0.155 * PX, 0, Math.PI * 2);
+  ctx.arc(cx, cy, 0.215 * PX, 0, Math.PI * 2);
   ctx.fill();
-  ctx.lineWidth = 0.014 * PX;
+  ctx.lineWidth = 0.018 * PX;
   ctx.strokeStyle = '#111';
   ctx.stroke();
   ctx.fillStyle = '#111';
-  ctx.font = `900 ${Math.round(0.19 * PX)}px Impact, "Arial Black", sans-serif`;
+  ctx.font = `900 ${Math.round(0.28 * PX)}px Impact, "Arial Black", sans-serif`;
   ctx.textAlign = 'center';
-  ctx.fillText(number, cx, cy + 0.008 * PX);
+  ctx.fillText(number, cx, cy + 0.012 * PX);
 
   // Rally dirt: road grime rising from the sills
   const r = rng(3);
@@ -464,18 +392,8 @@ export function buildCar(options = {}) {
     [1, -1].forEach((side) => {
       const t = add(tireGeo, tire, [x, 0.34, side * 0.73]);
       const rm = add(rimGeo, rim, [x, 0.34, side * 0.862], [0, side > 0 ? 0 : Math.PI, 0]);
-      wheels.push({ tire: t, rim: rm, side, front: x < L / 2, base: side > 0 ? 0 : Math.PI });
+      wheels.push({ tire: t, rim: rm, side, front: x < L / 2, base: side > 0 ? 0 : Math.PI, baseY: 0.34 });
     });
-  });
-
-  // Wheel-arch flares (black plastic)
-  ARCHES.forEach((cx) => {
-    const f = new THREE.Shape();
-    f.absarc(0, 0, 0.53, -0.08, Math.PI + 0.08, false);
-    f.absarc(0, 0, 0.43, Math.PI + 0.08, -0.08, true);
-    const fg = new THREE.ExtrudeGeometry(f, { depth: 0.07, bevelEnabled: true, bevelThickness: 0.015, bevelSize: 0.012, bevelSegments: 2, curveSegments: 20 });
-    add(fg, dark, [cx, ARCH_Y, W / 2 - 0.03]);
-    add(fg, dark, [cx, ARCH_Y, -W / 2 - 0.04]);
   });
 
   // Bumpers, grille, rally lamp pod, tail lights
@@ -506,7 +424,24 @@ export function buildCar(options = {}) {
     m.position.x -= L / 2;
   });
   car.userData.wheels = wheels;
+  car.userData.mats = { paint, blue, orange, livery, lamp, red };
   return car;
+}
+
+// Repaint a built car rig (colours, number, name on the flanks)
+export function applyLivery(root, options = {}) {
+  const opts = { ...CAR_DEFAULTS, ...options };
+  const { paint, blue, orange, livery } = root.userData.body.userData.mats;
+  paint.color.set(opts.body);
+  blue.color.set(opts.stripe);
+  orange.color.set(opts.accent);
+  const key = [opts.stripe, opts.accent, opts.number, opts.name].join('|');
+  if (livery.userData.key !== key) {
+    livery.map?.dispose();
+    livery.map = makeLiveryTexture(opts);
+    livery.userData.key = key;
+    livery.needsUpdate = true;
+  }
 }
 
 // Car wrapped for driving: root (position + heading) > tilt (pitch/roll) > body.
@@ -532,6 +467,8 @@ export function placeOnLedge(root) {
   root.userData.tilt.rotation.set(0, 0, 0);
   root.userData.wheels.forEach((w) => {
     w.tire.rotation.y = 0;
+    w.tire.position.y = w.baseY;
+    w.rim.position.y = w.baseY;
     w.rim.rotation.set(0, w.base, 0);
   });
 }

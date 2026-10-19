@@ -1,6 +1,11 @@
+import { useEffect, useRef } from 'react';
 import RichText, { inline } from '../ui/RichText';
 import useReveal from '../ui/useReveal';
+import Link from 'next/link';
 import VideoEmbed from './VideoEmbed';
+import ProjectVisual from '../projects/ProjectVisual';
+import Arrow from '../ui/Arrow';
+import { getProject } from '../../lib/projects';
 
 // Renders the `sections` array of a project (see src/content/projects.mjs).
 // Each block type maps to an editorial layout; labelled blocks are numbered.
@@ -16,16 +21,58 @@ function SectionLabel({ n, label }) {
   );
 }
 
-function Figure({ src, alt, caption, fig, bg, gray, width, height }) {
+// Silent looping clip; `src` is its poster. Held on the poster with reduced motion.
+function LoopVideo({ video, src, alt, width, height }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) ref.current?.pause();
+  }, []);
   return (
-    <figure className={`cfig ${bg ? `cfig--${bg}` : ''}`}>
+    <video
+      ref={ref}
+      src={video}
+      poster={src}
+      width={width}
+      height={height}
+      aria-label={alt}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+    />
+  );
+}
+
+// `window`: a title for app screenshots, drawn as an editor window on the blue field.
+// `video`: an mp4 loop shown instead of the image (the image becomes its poster).
+function Figure({ src, alt, caption, fig, bg, gray, width, height, video, window: windowTitle }) {
+  const img = video ? (
+    <LoopVideo video={video} src={src} alt={alt} width={width} height={height} />
+  ) : (
+    <img src={src} alt={alt || ''} width={width} height={height} loading="lazy" decoding="async" className={gray ? 'pv--gray' : ''} />
+  );
+  return (
+    <figure className={`cfig ${bg ? `cfig--${bg}` : ''} ${windowTitle ? 'cfig--window' : ''}`}>
       <div className="cfig__frame">
-        <img src={src} alt={alt || ''} width={width} height={height} loading="lazy" decoding="async" className={gray ? 'pv--gray' : ''} />
+        {windowTitle ? (
+          <div className="cfig__win">
+            <p className="cfig__win-bar mono" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <span>{windowTitle}</span>
+            </p>
+            {img}
+          </div>
+        ) : (
+          img
+        )}
       </div>
       {(caption || fig) && (
         <figcaption className="mono">
           <span>Fig. {String(fig).padStart(2, '0')}</span>
-          {caption && <span>{caption}</span>}
+          {caption && <span>{inline(caption)}</span>}
         </figcaption>
       )}
     </figure>
@@ -69,7 +116,7 @@ function Block({ block, n, fig }) {
       return (
         <section className="cb cb--cards">
           <SectionLabel n={n} label={block.label} />
-          <div className="cb__main cb__main--wide">
+          <div className="cb__main">
             {block.heading && <h2 className="cb__heading title">{block.heading}</h2>}
             <ol className="ccards">
               {block.items.map((item, i) => (
@@ -81,6 +128,56 @@ function Block({ block, n, fig }) {
                 </li>
               ))}
             </ol>
+          </div>
+        </section>
+      );
+
+    case 'related':
+      // Banners linking to other case studies (`slugs`), e.g. the tools behind
+      // a game, or to outside articles (`links`: { href, kicker, title, sub, image })
+      return (
+        <section className="cb cb--related">
+          <SectionLabel n={n} label={block.label} />
+          <div className="cb__main">
+            <ul className="crelated">
+              {(block.slugs || []).map(getProject).filter(Boolean).map((p) => (
+                <li key={p.slug}>
+                  <Link href={p.href} className="crelated__link">
+                    <span className="crelated__visual">
+                      <ProjectVisual project={p} variant="thumb" />
+                    </span>
+                    <span className="crelated__text">
+                      <span className="crelated__kicker mono">Case study{p.context ? ` · ${p.context}` : ''}</span>
+                      <span className="crelated__title display">{p.title}</span>
+                      <span className="crelated__sub">{p.subtitle}</span>
+                    </span>
+                    <span className="crelated__go" aria-hidden="true">
+                      <Arrow size={22} strokeWidth={2} />
+                    </span>
+                  </Link>
+                </li>
+              ))}
+              {(block.links || []).map((l) => (
+                <li key={l.href}>
+                  <a href={l.href} className="crelated__link" target="_blank" rel="noopener noreferrer">
+                    <span className="crelated__visual">
+                      {l.image && (
+                        <img className="pv" src={l.image.src} alt={l.image.alt || ''} loading="lazy" decoding="async" style={{ objectPosition: l.image.position }} />
+                      )}
+                    </span>
+                    <span className="crelated__text">
+                      {l.kicker && <span className="crelated__kicker mono">{l.kicker}</span>}
+                      <span className="crelated__title display">{l.title}</span>
+                      {l.sub && <span className="crelated__sub">{l.sub}</span>}
+                    </span>
+                    <span className="crelated__go" aria-hidden="true">
+                      <Arrow dir="up-right" size={22} strokeWidth={2} />
+                    </span>
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       );
@@ -131,6 +228,16 @@ function Block({ block, n, fig }) {
       );
 
     case 'video':
+      // Without a section label there's nothing for the left column, so the
+      // video spans the content width like an image block
+      if (!block.label) {
+        return (
+          <section className="cb cb--media cb--wide cb--video">
+            <VideoEmbed id={block.youtube} title={block.title} />
+            {block.caption && <p className="cb__caption mono">{block.caption}</p>}
+          </section>
+        );
+      }
       return (
         <section className="cb cb--video">
           <SectionLabel n={n} label={block.label} />
@@ -176,6 +283,8 @@ function Block({ block, n, fig }) {
       );
 
     case 'placeholder':
+      // Drafting aid: only shown on the dev server, never in the built site
+      if (process.env.NODE_ENV === 'production') return null;
       return (
         <section className="cb cb--placeholder">
           <SectionLabel n={n} label={block.label} />

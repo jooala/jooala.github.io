@@ -15,7 +15,7 @@ export default function AboutPanel() {
         <p className="home-about__note mono" aria-hidden="true">
           Products
           <br />
-          Interfaces
+          UX design
           <br />
           Games
           <br />& whatever&rsquo;s next
@@ -23,7 +23,6 @@ export default function AboutPanel() {
       </div>
 
       <h3 className="home-about__name">{PROFILE.name}</h3>
-      <p className="home-about__role">{PROFILE.roles.slice(0, 3).join(', ')} &amp; {PROFILE.roles[3].toLowerCase()}, based in Helsinki.</p>
       <div className="home-about__bio">
         {PROFILE.shortBio.map((p) => (
           <p key={p}>{p}</p>
@@ -43,8 +42,10 @@ export default function AboutPanel() {
           <dd>{PROFILE.location}</dd>
         </div>
         <div>
-          <dt>Now</dt>
-          <dd>Wolt+ · Frontier</dd>
+          <dt>Contact</dt>
+          <dd>
+            <a href={`mailto:${PROFILE.email}`}>Send an email</a>
+          </dd>
         </div>
       </dl>
     </aside>

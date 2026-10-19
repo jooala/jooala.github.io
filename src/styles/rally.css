@@ -1,35 +1,112 @@
 /* ── Rally minigame ──────────────────────────────────────────────────────── */
 
 /* Hero hint tag pinned to the car */
+/* The car's call to action: a printed plate with a hard blue block shadow,
+   mono kicker over a display-face label, and an arrow tile */
 .race-tag {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
   align-items: center;
-  gap: 7px;
-  padding: 6px 9px 5px;
+  column-gap: 16px;
+  row-gap: 4px;
+  padding: 12px 12px 12px 18px;
   background: var(--ink);
   color: var(--paper);
-  font-family: var(--font-mono), monospace;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  text-align: left;
   white-space: nowrap;
+  box-shadow: 7px 7px 0 var(--blue);
   cursor: pointer;
-  transition: background var(--dur-fast), transform var(--dur) var(--ease-out);
+  transition: background var(--dur-fast), color var(--dur-fast), box-shadow var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out);
 }
 
-.race-tag::before {
+.race-tag__kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.race-tag__kicker::before {
   content: '';
-  width: 7px;
-  height: 7px;
+  width: 9px;
+  height: 9px;
   background: var(--orange);
   animation: pulse 1.4s var(--ease-in-out) infinite;
+}
+
+.race-tag__label {
+  grid-row: 2;
+  font-size: clamp(26px, 2.3vw, 38px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.race-tag__go {
+  display: grid;
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  background: var(--blue);
+  color: var(--white);
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+
+/* Arrow sets an inline rotate, so nudge it with the separate translate property */
+.race-tag .arrow {
+  transition: translate var(--dur) var(--ease-out);
+}
+
+.race-tag:hover .arrow,
+.race-tag.is-hover .arrow {
+  translate: 4px 0;
 }
 
 .race-tag:hover,
 .race-tag.is-hover {
   background: var(--blue);
-  transform: translateY(-3px);
+  color: var(--white);
+  box-shadow: 10px 10px 0 var(--ink);
+  transform: translate(-3px, -3px);
+}
+
+.race-tag:hover .race-tag__go,
+.race-tag.is-hover .race-tag__go {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* Clicked before the race world was ready: a spinner while it builds.
+   Transform-only, so it keeps turning while the page is busy. */
+.race-tag.is-loading {
+  cursor: progress;
+}
+
+.race-tag__spin {
+  width: 22px;
+  height: 22px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: race-tag-spin 700ms linear infinite;
+  will-change: transform;
+}
+
+@keyframes race-tag-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.race-tag:active {
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: translate(2px, 2px);
 }
 
 .hero__play {
@@ -94,13 +171,35 @@
   will-change: clip-path;
 }
 
+/* Sky behind the race. The colours come from the weather (weather.js sets
+   them on <html>); registered so they fade from one sky to the next. */
+@property --sky-a {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #ebe8e1;
+}
+@property --sky-b {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #e0ddd6;
+}
+@property --sky-c {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #d6d3cc;
+}
+
 .hero__art.is-game::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, #ebe8e1 0%, #e0ddd6 45%, #d6d3cc 70%);
+  background: linear-gradient(180deg, var(--sky-a) 0%, var(--sky-b) 45%, var(--sky-c) 70%);
   opacity: 0;
-  transition: opacity 1200ms ease 200ms;
+  transition:
+    opacity 1200ms ease 200ms,
+    --sky-a 1800ms ease,
+    --sky-b 1800ms ease,
+    --sky-c 1800ms ease;
 }
 
 .hero__art.is-game.is-sky::before {
@@ -195,10 +294,11 @@ html.game-on .foot {
   gap: 4px;
 }
 
+/* Fixed widths so 10/10 → 9/10 doesn't make the row jump */
 .rally__plate {
   display: flex;
   flex-direction: column;
-  min-width: 92px;
+  width: 132px;
   padding: 8px 12px 9px;
   background: var(--paper);
   border-left: 4px solid var(--ink);
@@ -212,10 +312,12 @@ html.game-on .foot {
 .rally__plate .display {
   font-size: 40px;
   line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .rally__plate--time {
-  min-width: 150px;
+  width: 150px;
   background: var(--ink);
   color: var(--paper);
   border-left-color: var(--blue);
@@ -271,6 +373,33 @@ html.game-on .foot {
   color: var(--paper);
 }
 
+/* End of race: get in touch */
+.rally__btn--contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  margin-top: 8px;
+  background: var(--blue);
+  color: var(--white);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.rally__btn--contact:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.rally__btn--contact .arrow {
+  transition: translate var(--dur) var(--ease-out);
+}
+
+.rally__btn--contact:hover .arrow {
+  translate: 2px -2px;
+}
+
 .rally__title {
   position: absolute;
   left: 22px;
@@ -284,7 +413,7 @@ html.game-on .foot {
 
 .rally__title .display {
   font-size: clamp(64px, 9vw, 150px);
-  line-height: 0.82;
+  line-height: 0.92;
 }
 
 .rally__title .mono {
@@ -341,6 +470,30 @@ html.game-on .foot {
   line-height: 1;
   transform: translateX(-50%);
   animation: blink 0.8s steps(2) infinite;
+}
+
+.rally__reset {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 10px 18px 12px;
+  background: var(--ink);
+  color: var(--paper);
+  border-top: 6px solid var(--orange);
+  transform: translateX(-50%);
+  animation: hud-in 300ms var(--ease-out) both;
+}
+
+.rally__reset .display {
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1;
+}
+
+.rally__reset .mono {
+  font-size: 11px;
 }
 
 @keyframes blink {
@@ -488,7 +641,7 @@ html.game-on .foot {
 .rally__results-title {
   margin: 12px 0 14px;
   font-size: clamp(80px, 12vw, 140px);
-  line-height: 0.82;
+  line-height: 0.92;
 }
 
 .rally__results-stats {
@@ -560,40 +713,8 @@ html.game-on .foot {
   border: 1.5px solid var(--ink);
 }
 
-/* Touch controls */
-.rally__touch {
-  position: absolute;
-  left: 18px;
-  right: 18px;
-  bottom: 120px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.rally__touch div {
-  display: flex;
-  gap: 10px;
-}
-
-.rally__touch button {
-  width: 76px;
-  height: 76px;
-  background: rgba(235, 232, 225, 0.88);
-  color: var(--ink);
-  font-family: var(--font-mono), monospace;
-  font-size: 16px;
-  font-weight: 500;
-  touch-action: none;
-  user-select: none;
-}
-
-.rally__touch button.is-gas {
-  background: var(--blue);
-  color: var(--white);
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .race-tag::before {
+  .race-tag__kicker::before {
     animation: none;
   }
 }
@@ -603,27 +724,36 @@ html.game-on .foot {
 .rally__menu {
   position: absolute;
   left: 22px;
+  right: 22px;
   top: 50%;
   display: flex;
+  justify-content: space-between;
   align-items: flex-start;
-  gap: 8px;
+  gap: 16px;
   max-height: calc(100vh - 120px);
   transform: translateY(-46%);
-  pointer-events: auto;
+  pointer-events: none;
   animation: hud-in 500ms var(--ease-out) both;
 }
 
 .rally__panel {
-  width: min(400px, calc(100vw - 44px));
+  width: min(480px, calc(100vw - 44px));
   max-height: calc(100vh - 120px);
-  overflow: auto;
-  padding: 16px 20px 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 16px 22px 22px;
   background: var(--paper);
   border-top: 6px solid var(--ink);
+  pointer-events: auto;
 }
 
+.rally__panel > * {
+  min-width: 0;
+}
+
+/* Today's leaderboard, on the right edge of the screen */
 .rally__panel--board {
-  width: min(320px, calc(100vw - 44px));
+  width: min(340px, calc(100vw - 44px));
   border-top-color: var(--blue);
 }
 
@@ -641,7 +771,7 @@ html.game-on .foot {
 .rally__menu-title {
   margin: 12px 0 6px;
   font-size: clamp(64px, 7vw, 104px);
-  line-height: 0.82;
+  line-height: 0.92;
 }
 
 .rally__menu-lede {
@@ -649,6 +779,25 @@ html.game-on .foot {
   color: var(--ink-3);
   font-size: 14.5px;
   line-height: 1.45;
+}
+
+.rally__next {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin: -4px 0 14px;
+  padding: 7px 10px;
+  border: 1px solid var(--ink);
+  font-size: 10.5px;
+  font-weight: 500;
+}
+
+.rally__next-time {
+  color: var(--blue);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
 }
 
 .rally__field {
@@ -718,8 +867,14 @@ html.game-on .foot {
 
 .rally__join {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 6px;
+}
+
+.rally__join input,
+.rally__field input {
+  width: 100%;
+  min-width: 0;
 }
 
 .rally__join input {
@@ -936,4 +1091,529 @@ html.game-on .foot {
 
 .rally__results .rally__results-stats {
   margin-bottom: 10px;
+}
+
+/* Car customisation in the menu (behind a toggle) */
+.rally__garage-wrap {
+  margin: 0 0 12px;
+}
+
+.rally__garage-toggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border: 1.5px solid var(--ink);
+}
+
+.rally__garage-preview {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.rally__garage-preview i {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--ink);
+}
+
+.rally__garage-preview b {
+  margin-left: 6px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.rally__garage {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 10px 0 0;
+  border: 0;
+}
+
+.rally__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
+.rally__swatches .mono,
+.rally__number .mono {
+  width: 52px;
+  color: var(--gray);
+  font-size: 10px;
+}
+
+.rally__swatch {
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  box-shadow: inset 0 0 0 2px var(--paper);
+  cursor: pointer;
+}
+
+.rally__swatch[aria-checked='true'] {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 1px;
+}
+
+.rally__swatch:focus-visible {
+  outline: 2.5px solid var(--blue);
+  outline-offset: 1px;
+}
+
+.rally__number {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rally__number input {
+  width: 64px;
+  height: 42px;
+  padding: 2px 0 0;
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  background: var(--white);
+  font-size: 30px;
+  line-height: 1;
+  text-align: center;
+}
+
+.rally__number input:focus {
+  outline: 2px solid var(--blue);
+  outline-offset: 1px;
+}
+
+/* ── Touch devices ───────────────────────────────────────────────────────── */
+
+/* No page scroll, zoom or text selection while the game is on */
+html.game-on,
+html.game-on body {
+  overscroll-behavior: none;
+}
+
+html.game-on .hero__art.is-game {
+  touch-action: none;
+}
+
+.rally--touch {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.rally--touch button {
+  touch-action: manipulation;
+}
+
+.rally__touch {
+  position: absolute;
+  left: max(12px, env(safe-area-inset-left));
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.rally__touch-steer,
+.rally__touch-pedals {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.rally__touch button {
+  display: grid;
+  place-items: center;
+  width: clamp(60px, 16vw, 96px);
+  height: clamp(60px, 16vw, 96px);
+  background: rgba(235, 232, 225, 0.86);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  pointer-events: auto;
+  transition: transform 80ms ease, background 80ms ease;
+}
+
+.rally__touch button .mono {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.rally__touch button.is-down {
+  background: var(--ink);
+  color: var(--paper);
+  transform: scale(0.94);
+}
+
+.rally__touch .is-gas {
+  width: clamp(72px, 19vw, 112px);
+  height: clamp(96px, 26vw, 150px);
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--white);
+}
+
+.rally__touch .is-gas.is-down {
+  background: #0f4fb0;
+}
+
+.rally__touch .is-brake {
+  width: clamp(58px, 15vw, 88px);
+  height: clamp(72px, 19vw, 110px);
+}
+
+.rally__touch .is-hand {
+  width: clamp(48px, 12vw, 68px);
+  height: clamp(48px, 12vw, 68px);
+}
+
+/* Compact HUD */
+.rally--touch .rally__top {
+  top: max(10px, env(safe-area-inset-top));
+  left: max(10px, env(safe-area-inset-left));
+  right: max(10px, env(safe-area-inset-right));
+}
+
+.rally--touch .rally__plate {
+  width: auto;
+  min-width: 64px;
+  padding: 5px 8px 6px;
+  border-left-width: 3px;
+}
+
+.rally--touch .rally__plate .display {
+  font-size: 24px;
+}
+
+.rally--touch .rally__time {
+  font-size: 15px;
+}
+
+.rally--touch .rally__buttons .rally__btn {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.rally--touch .rally__speed {
+  top: calc(max(10px, env(safe-area-inset-top)) + 58px);
+  right: max(14px, env(safe-area-inset-right));
+  bottom: auto;
+}
+
+.rally--touch .rally__speed .display {
+  font-size: 44px;
+}
+
+.rally--touch .rally__map {
+  top: calc(max(10px, env(safe-area-inset-top)) + 58px);
+  bottom: auto;
+  left: max(10px, env(safe-area-inset-left));
+  width: clamp(96px, 22vw, 150px);
+  padding: 6px 6px 4px;
+}
+
+.rally--touch .rally__map .mono {
+  display: none;
+}
+
+.rally--touch .rally__help {
+  top: calc(max(10px, env(safe-area-inset-top)) + 64px);
+}
+
+/* Phones: menu and leaderboard become one scrolling sheet */
+@media (max-width: 760px), (max-height: 520px) {
+  .rally__menu {
+    inset: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 8px;
+    max-height: none;
+    padding: max(64px, calc(env(safe-area-inset-top) + 56px)) max(10px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transform: none;
+    pointer-events: auto;
+    touch-action: pan-y;
+  }
+
+  .rally__panel,
+  .rally__panel--board {
+    width: 100%;
+    max-width: 560px;
+    max-height: none;
+    overflow: visible;
+    margin-inline: auto;
+  }
+
+  .rally__menu-title {
+    font-size: clamp(56px, 16vw, 90px);
+  }
+
+  .rally__results {
+    max-height: calc(100dvh - 24px);
+    touch-action: pan-y;
+  }
+}
+
+/* Landscape phones: menu and leaderboard side by side again */
+@media (max-height: 520px) and (min-width: 700px) {
+  .rally__menu {
+    flex-direction: row;
+    align-items: flex-start;
+    padding-top: max(60px, calc(env(safe-area-inset-top) + 52px));
+  }
+
+  .rally__panel {
+    flex: 1.3;
+  }
+
+  .rally__panel--board {
+    flex: 1;
+  }
+}
+
+/* Mobile play button in the hero (the desktop hero has the tag on the car) */
+.hero__play-mobile {
+  display: none;
+}
+
+@media (max-width: 999px) {
+  .hero__play-mobile {
+    display: grid;
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin: 4px 0 6px;
+  }
+
+  .hero__play-mobile:disabled {
+    cursor: progress;
+  }
+
+  .hero__play-mobile:disabled .race-tag__go {
+    animation: pulse 1s var(--ease-in-out) infinite;
+  }
+
+  .hero__art .race-tag {
+    display: none;
+  }
+}
+
+/* While the circuit is built the hero is still on screen: a small chip only */
+.rally__loading {
+  position: absolute;
+  left: 50%;
+  bottom: max(22px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 14px 9px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 500;
+  transform: translateX(-50%);
+  animation: hud-in 300ms var(--ease-out) both;
+}
+
+.rally__loading::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  background: var(--orange);
+  animation: pulse 1s var(--ease-in-out) infinite;
+}
+
+/* Touch hints sit just above the pads, clear of the minimap */
+.rally--touch .rally__help {
+  top: auto;
+  bottom: calc(max(14px, env(safe-area-inset-bottom)) + clamp(108px, 30vw, 164px));
+}
+
+.rally--touch .rally__count {
+  top: 46%;
+  width: clamp(110px, 18vh, 200px);
+  height: clamp(110px, 18vh, 200px);
+  font-size: clamp(90px, 15vh, 170px);
+}
+
+/* Full screen on phones too: drop the hero box's mobile aspect ratio */
+.hero__art.is-game {
+  width: auto;
+  height: auto;
+  margin: 0;
+  aspect-ratio: auto;
+}
+
+/* Reset sits with the steering pads on touch */
+.rally__touch-steer {
+  position: relative;
+}
+
+.rally__touch .is-reset {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 8px);
+  width: clamp(48px, 13vw, 64px);
+  height: 36px;
+}
+
+.rally__touch .is-reset .mono {
+  font-size: 9.5px;
+}
+
+@media (max-width: 440px) {
+  .rally--touch .rally__plates {
+    gap: 3px;
+  }
+
+  .rally--touch .rally__plate {
+    min-width: 52px;
+    padding: 4px 6px 5px;
+  }
+
+  .rally--touch .rally__plate .display {
+    font-size: 21px;
+  }
+
+  .rally--touch .rally__plate .mono {
+    font-size: 8.5px;
+  }
+
+  .rally--touch .rally__time {
+    font-size: 13px;
+  }
+
+  .rally--touch .rally__buttons {
+    gap: 3px;
+  }
+
+  .rally--touch .rally__touch-steer {
+    gap: 6px;
+  }
+}
+
+/* ── Track choice (daily / free play) and the admin track lab ───────────── */
+.rally__track {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--rule);
+}
+
+.rally__track-name {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+}
+
+.rally__track-name .mono {
+  color: var(--gray);
+  font-size: 10px;
+}
+
+.rally__track-name .title {
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.rally__track-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rally__track-actions .rally__btn {
+  flex: 1;
+  border: 1.5px solid var(--ink);
+}
+
+.rally__lab {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding: 10px 12px 12px;
+  border: 1.5px dashed var(--blue);
+  background: rgba(23, 105, 224, 0.05);
+}
+
+.rally__lab legend {
+  padding: 0 6px;
+  color: var(--blue);
+  font-size: 10px;
+}
+
+.rally__lab-row {
+  display: grid;
+  grid-template-columns: 84px 1fr 40px;
+  align-items: center;
+  gap: 8px;
+}
+
+.rally__lab-row .mono {
+  color: var(--gray);
+  font-size: 10px;
+}
+
+.rally__lab-row input {
+  width: 100%;
+  accent-color: var(--blue);
+}
+
+.rally__lab-select {
+  grid-column: span 2;
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 11px;
+}
+
+.rally__lab-row output {
+  color: var(--ink);
+  font-size: 11px;
+  text-align: right;
+}
+
+.rally__lab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.rally__lab-actions .rally__btn {
+  flex: 1;
+  border: 1.5px solid var(--ink);
+}
+
+/* Lobby: invite link + code */
+.rally__invite {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 6px;
+}
+
+.rally__invite .rally__btn {
+  min-height: 48px;
 }

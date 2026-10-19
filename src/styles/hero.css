@@ -35,52 +35,58 @@
 .hero__name {
   display: flex;
   flex-direction: column;
-  margin: clamp(4px, 0.8vw, 16px) 0 0 -0.035em;
+  margin: clamp(18px, 2.4vw, 44px) 0 0 -0.035em;
   font-size: min(12.45vw, 238px);
-  line-height: 0.8;
+  line-height: 0.92;
   letter-spacing: -0.012em;
 }
 
+/* Each line wipes in from the left: the text slides inside a mask, so only
+   transform animates and the browser can run it off the main thread (it
+   keeps moving even while the page is busy). The padding leaves room for the
+   umlauts and overhangs and is cancelled by the negative margins. */
 .hero__line {
+  display: block;
+  overflow: hidden;
+  margin: -0.16em -0.06em 0;
+  padding: 0.16em 0.06em 0;
+}
+
+.hero__line-in {
   display: block;
 }
 
-html.js .hero__line {
+html.js .hero__line-in {
   animation: line-in 1100ms var(--ease-out) both;
+  animation-play-state: paused;
+  will-change: transform;
 }
 
-html.js .hero__line + .hero__line {
+html.fonts .hero__line-in {
+  animation-play-state: running;
+}
+
+html.js .hero__line + .hero__line .hero__line-in {
   animation-delay: 90ms;
 }
 
 @keyframes line-in {
   from {
-    opacity: 0;
-    transform: translate3d(-0.08em, 0, 0);
-    clip-path: inset(-30% 100% -30% -5%);
+    transform: translate3d(-102%, 0, 0);
   }
-  to {
-    opacity: 1;
-    transform: none;
-    clip-path: inset(-30% -5% -30% -5%);
-  }
-}
 
-.hero__roles {
-  margin: 22px 0 0;
-  padding: 9px 14px 8px;
-  list-style: none;
-  background: var(--paper);
-  border-left: 3px solid var(--ink);
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1.6;
+  to {
+    transform: none;
+  }
 }
 
 /* Art layer */
+/* One above the blue backdrop (the backdrop sits at --z-art), still under
+   the name and the footer row */
 .hero__art {
   position: absolute;
-  z-index: var(--z-art);
+  z-index: calc(var(--z-art) + 1);
+  container-type: size;
   top: var(--masthead-h);
   right: 0;
   bottom: 0;
@@ -116,10 +122,18 @@ html.js .hero__blue--a {
   height: 100%;
 }
 
+/* Framed like the 3D camera, which keeps its vertical view and gains or
+   loses width with the box: fit the height, centre, crop or pad the sides.
+   (cover when the box is narrower than the poster, contain when wider.) */
 .hero__poster {
   object-fit: cover;
   object-position: 50% 50%;
-  transition: opacity 600ms ease;
+}
+
+@container (min-aspect-ratio: 2100 / 1302) {
+  .hero__poster {
+    object-fit: contain;
+  }
 }
 
 html.js .hero__poster {
@@ -135,16 +149,21 @@ html.js .hero__poster {
 
 .hero__canvas {
   opacity: 0;
-  transition: opacity 700ms ease;
+  transition: opacity 600ms var(--ease-out);
 }
 
 .hero__art.is-3d .hero__canvas {
   opacity: 1;
 }
 
+/* The poster matches the first 3D frame, so it stays fully visible under
+   the canvas while that fades in, then drops out. The camera holds still
+   until then (see Rig in MonolithScene), so the two never drift apart. */
 .hero__art.is-3d .hero__poster {
   opacity: 0;
-  transition-delay: 500ms;
+  visibility: hidden;
+  animation: none;
+  transition: opacity 0s linear 650ms, visibility 0s linear 650ms;
 }
 
 /* Footer row */
@@ -173,12 +192,6 @@ html.js .hero__poster {
   align-self: stretch;
   padding-left: var(--col-gap);
   border-left: 1px solid var(--rule);
-}
-
-.hero__loc {
-  margin: 0;
-  color: var(--gray);
-  font-size: 10.5px;
 }
 
 .hero__cta {
@@ -213,78 +226,53 @@ html.js .hero__poster {
   animation: nudge-down 900ms var(--ease-in-out) infinite;
 }
 
+/* The main call to action: a solid blue button with a hard shadow */
+.hero__contact {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  padding: 0 18px;
+  background: var(--blue);
+  color: var(--white);
+  box-shadow: 5px 5px 0 var(--ink);
+  transition:
+    background var(--dur-fast),
+    box-shadow var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out);
+}
+
+.hero__contact .mono {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.hero__contact:hover {
+  background: var(--ink);
+  box-shadow: 7px 7px 0 var(--blue);
+  transform: translate(-2px, -2px);
+}
+
+.hero__contact:hover .arrow {
+  animation: nudge-up-right 900ms var(--ease-in-out) infinite;
+}
+
+@keyframes nudge-up-right {
+  50% {
+    translate: 2px -2px;
+  }
+}
+
 @keyframes nudge-down {
   50% {
     translate: 0 3px;
   }
 }
 
-.hero__inset {
-  grid-column: 6 / span 2;
-  max-width: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-self: end;
-}
 
-.hero__inset-img {
-  display: block;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  background: var(--ink);
-  border: 5px solid var(--paper);
-  outline: 1px solid var(--rule);
-}
 
-.hero__inset-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) contrast(1.15);
-  transition: transform 700ms var(--ease-out), filter var(--dur);
-}
 
-.hero__inset:hover .hero__inset-img img {
-  transform: scale(1.06);
-  filter: grayscale(0.2) contrast(1.05);
-}
-
-.hero__inset-cap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  font-size: 9.5px;
-}
-
-.hero__edition {
-  grid-column: 12;
-  justify-self: end;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin: 0;
-  text-align: right;
-}
-
-.hero__edition .mono {
-  margin-bottom: 6px;
-  font-size: 9.5px;
-}
-
-.hero__edition .display {
-  font-size: clamp(30px, 2.6vw, 48px);
-  line-height: 0.86;
-}
-
-.hero__edition-rule {
-  width: 0.9em;
-  height: 2px;
-  margin: 5px 0 6px;
-  background: var(--ink);
-  font-size: clamp(30px, 2.6vw, 48px);
-}
 
 @media (max-width: 1279px) {
   .hero__lede {
@@ -295,9 +283,6 @@ html.js .hero__poster {
     grid-column: 5 / span 3;
   }
 
-  .hero__inset {
-    display: none;
-  }
 }
 
 /* ── Tablet & mobile: recomposed, not shrunk ────────────────────────────── */
@@ -315,21 +300,6 @@ html.js .hero__poster {
 
   .hero__head {
     flex-direction: column;
-  }
-
-  .hero__roles {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px 18px;
-    margin-top: 14px;
-    padding: 0;
-    border-left: 0;
-  }
-
-  .hero__roles li + li::before {
-    content: '/';
-    margin-right: 18px;
-    opacity: 0.4;
   }
 
   .hero__art {
@@ -361,14 +331,6 @@ html.js .hero__poster {
     gap: 16px;
   }
 
-  .hero__inset {
-    display: flex;
-    grid-column: 5 / span 2;
-  }
-
-  .hero__edition {
-    display: none;
-  }
 }
 
 @media (max-width: 560px) {
@@ -384,7 +346,213 @@ html.js .hero__poster {
     grid-column: 1 / span 6;
   }
 
-  .hero__inset {
-    display: none;
+}
+
+/* ── Extra blue blocks: fly in after the blue field, then drift ────────── */
+.hero__blue--b,
+.hero__blue--c,
+.hero__blue--d {
+  opacity: 0;
+}
+
+.hero__blue--b {
+  top: 2.5%;
+  left: 12%;
+  width: 6%;
+  aspect-ratio: 1;
+}
+
+.hero__blue--c {
+  right: 2.5%;
+  bottom: 28%;
+  width: 9%;
+  height: 11%;
+}
+
+.hero__blue--d {
+  bottom: 9.5%;
+  left: 21%;
+  width: 14%;
+  height: 2.6%;
+}
+
+html.js .hero__blue--b {
+  --from: -60px, -40px;
+  animation: block-in 900ms var(--ease-out) 900ms both, block-drift 7s var(--ease-in-out) 1.8s infinite alternate;
+}
+
+html.js .hero__blue--c {
+  --from: 80px, 0px;
+  animation: block-in 900ms var(--ease-out) 1050ms both, block-drift 9s var(--ease-in-out) 2s infinite alternate-reverse;
+}
+
+html.js .hero__blue--d {
+  --from: -40px, 50px;
+  animation: block-in 900ms var(--ease-out) 1200ms both, block-drift 8s var(--ease-in-out) 2.1s infinite alternate;
+}
+
+@keyframes block-in {
+  from {
+    opacity: 0;
+    transform: translate(var(--from)) scale(0.4);
   }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes block-drift {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: 10px -8px;
+  }
+}
+
+/* ── First-load loader (markup and script in _document.js) ───────────────
+   Plain on purpose: while it shows, the page is busy building the 3D scene,
+   so only the counter and a CSS-driven bar move. Once the scene is ready the
+   loader fades and the whole hero intro plays on an idle page. */
+.preloader {
+  display: none;
+}
+
+html.preload,
+html.preload-out {
+  overflow: hidden;
+}
+
+html.preload .preloader,
+html.preload-out .preloader {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: block;
+  background: var(--paper);
+}
+
+html.preload-out .preloader {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 450ms var(--ease-in-out);
+}
+
+/* Centred dial: the counter sits on top of a progress ring, set a little
+   larger than the ring so the digits break out of it */
+.preloader__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: clamp(18px, 3vh, 32px);
+  transform: translate(-50%, -50%);
+  animation: loader-in 600ms var(--ease-out) 80ms both;
+}
+
+@keyframes loader-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 16px));
+  }
+}
+
+.preloader__dial {
+  --ring: clamp(170px, 19vw, 250px);
+  position: relative;
+  display: grid;
+  width: var(--ring);
+  height: var(--ring);
+  place-items: center;
+}
+
+/* The whole ring turns slowly (CSS, so it keeps moving while the page is
+   busy); the blue arc shows the progress */
+.preloader__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: loader-spin 2.8s linear infinite;
+  will-change: transform;
+}
+
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.preloader__track,
+.preloader__arc {
+  fill: none;
+  stroke-width: 5;
+}
+
+.preloader__track {
+  stroke: var(--rule-soft);
+}
+
+.preloader__arc {
+  stroke: var(--blue);
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+/* Three digits come out about 1.1x the ring's width */
+.preloader__count {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 0;
+  font-size: calc(var(--ring) * 0.77);
+  line-height: 0.8;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  /* centred; Anton sits a touch high, so nudge it to the optical centre */
+  transform: translate(-50%, calc(-50% + 0.04em));
+}
+
+.preloader__note {
+  display: flex;
+  gap: 18px;
+  margin: 0;
+  font-size: 11px;
+}
+
+/* Hold the hero intro until the loader lifts */
+html.js.preload .hero__line-in,
+html.js.preload .hero__blue,
+html.js.preload .hero__poster,
+html.js.preload .hero__canvas {
+  animation-play-state: paused;
+}
+
+/* On first load the 3D is ready before the reveal, so it animates in as part
+   of the intro (later visits fade from the poster instead) */
+html.hero-preloaded .hero__art.is-3d .hero__canvas {
+  animation: art-in 900ms var(--ease-out) both;
+}
+
+/* ...and the blue builds in behind it once it's there */
+html.hero-preloaded .hero__blue--a {
+  animation-delay: 450ms;
+}
+
+html.hero-preloaded .hero__blue--b {
+  animation-delay: 1150ms, 2000ms;
+}
+
+html.hero-preloaded .hero__blue--c {
+  animation-delay: 1300ms, 2200ms;
+}
+
+html.hero-preloaded .hero__blue--d {
+  animation-delay: 1450ms, 2300ms;
 }

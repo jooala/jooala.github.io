@@ -8,6 +8,9 @@ import useReveal from '../components/ui/useReveal';
 import { PROFILE } from '../content/profile.mjs';
 import { getFeatured } from '../lib/projects';
 
+// TO ADD markers only while drafting (dev server)
+const SHOW_TODO = process.env.NODE_ENV !== 'production';
+
 function IndexTable({ rows }) {
   return (
     <ol className="itable">
@@ -16,8 +19,8 @@ function IndexTable({ rows }) {
           <>
             <span className="itable__n mono">{String(i + 1).padStart(2, '0')}</span>
             <span className="itable__org title">{row.org}</span>
-            <span className="itable__role">{row.role ?? <span className="todo mono">Role to add</span>}</span>
-            <span className="itable__period mono">{row.period ?? <span className="todo">Year to add</span>}</span>
+            <span className="itable__role">{row.role ?? (SHOW_TODO && <span className="todo mono">Role to add</span>)}</span>
+            <span className="itable__period mono">{row.period ?? (SHOW_TODO && <span className="todo">Year to add</span>)}</span>
             <span className="itable__go" aria-hidden="true">{row.href && <Arrow size={13} />}</span>
           </>
         );
@@ -45,7 +48,7 @@ export default function About() {
     <Layout
       seo={{
         title: 'About',
-        description: `${PROFILE.name}: a product-minded builder in Helsinki working across software, design and games. Currently on Wolt+.`,
+        description: `${PROFILE.name}: product manager in Helsinki combining design, technology and curiosity. Product Lead for Wolt+.`,
         path: '/about/',
       }}
     >
@@ -59,11 +62,6 @@ export default function About() {
             <div className="about-hero__text">
               <h1 className="about-hero__title display ink">About</h1>
               <p className="about-hero__headline title">{about.headline}</p>
-              <ul className="about-hero__roles mono">
-                {PROFILE.roles.map((r) => (
-                  <li key={r}>{r}</li>
-                ))}
-              </ul>
             </div>
             <div className="about-hero__visual">
               <span className="about-hero__blue" aria-hidden="true" />
@@ -78,7 +76,6 @@ export default function About() {
           <div className="about-now">
             {about.now.map((item) => (
               <Link key={item.title} href={item.href} className="about-now__card">
-                <span className="mono">{item.label}</span>
                 <span className="about-now__title display">{item.title}</span>
                 <span className="about-now__text">{item.text}</span>
                 <span className="about-now__go" aria-hidden="true">
@@ -98,19 +95,6 @@ export default function About() {
               </p>
             ))}
           </div>
-        </section>
-
-        <section className="about-sec wrap reveal" aria-labelledby="how-title">
-          <SectionHeader id="how-title" title="How I build" />
-          <ol className="about-how">
-            {about.principles.map((p, i) => (
-              <li key={p.title}>
-                <span className="about-how__n display">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="title">{p.title}</h3>
-                <p>{p.text}</p>
-              </li>
-            ))}
-          </ol>
         </section>
 
         <section className="about-sec wrap reveal" aria-labelledby="skills-title">

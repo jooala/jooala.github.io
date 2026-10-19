@@ -38,7 +38,7 @@
   grid-column: 1 / span 8;
   margin: 0;
   font-size: min(15.5vw, 300px);
-  line-height: 0.8;
+  line-height: 0.92;
 }
 
 .page-head__aside {
@@ -47,17 +47,29 @@
   gap: 16px;
 }
 
+/* The big blue number, labelled */
 .page-head__count {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
   margin: 0;
+}
+
+.page-head__count-label {
+  color: var(--gray);
+  font-size: 10.5px;
+}
+
+.page-head__count .display {
   color: var(--blue);
   font-size: min(13vw, 240px);
   line-height: 0.8;
-  text-align: right;
 }
 
 .page-head__stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   margin: 0;
   border-top: 2px solid var(--ink);
   font-size: 10.5px;
@@ -83,12 +95,6 @@
   font-weight: 700;
 }
 
-.page-head__intro {
-  margin: 0;
-  color: var(--ink-3);
-  font-size: 15px;
-}
-
 @media (max-width: 900px) {
   .page-head__title,
   .page-head__aside {
@@ -100,7 +106,11 @@
   }
 
   .page-head__count {
-    display: none;
+    align-items: flex-start;
+  }
+
+  .page-head__count .display {
+    font-size: min(28vw, 150px);
   }
 }
 
@@ -189,7 +199,7 @@
 .case-hero__title {
   margin: clamp(14px, 2vw, 28px) 0 0;
   font-size: min(12.4vw, 236px);
-  line-height: 0.82;
+  line-height: 0.92;
   text-wrap: balance;
   overflow-wrap: break-word;
 }
@@ -438,12 +448,11 @@
 
 .ccard {
   position: relative;
-  padding: 16px 18px 22px 0;
+  padding: 16px 18px 22px;
   border-bottom: 1px solid var(--rule);
 }
 
 .ccard + .ccard {
-  padding-left: 18px;
   border-left: 1px solid var(--rule);
 }
 
@@ -470,11 +479,6 @@
 .ccard--hl {
   background: var(--blue);
   color: var(--white);
-}
-
-.ccard--hl,
-.ccard--hl + .ccard {
-  padding-left: 18px;
 }
 
 .ccard--hl .ccard__n,
@@ -586,7 +590,8 @@
   background: var(--paper-2);
 }
 
-.cfig__frame img {
+.cfig__frame img,
+.cfig__frame video {
   width: 100%;
   height: auto;
 }
@@ -599,6 +604,47 @@
 .cfig--ink .cfig__frame {
   padding: clamp(14px, 3vw, 48px);
   background: var(--ink);
+}
+
+.cfig--window .cfig__frame {
+  padding: clamp(16px, 4vw, 64px);
+  background: var(--blue);
+}
+
+.cfig__win {
+  overflow: hidden;
+  background: #1b1b1b;
+  box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.55);
+}
+
+.cfig__win-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 8px 12px;
+  color: #9a9a9a;
+  font-size: 10px;
+}
+
+.cfig__win-bar i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #3a3a3a;
+}
+
+.cfig__win-bar span {
+  margin-left: 10px;
+}
+
+.cgallery .cfig--window .cfig__win {
+  width: 100%;
+}
+
+.cgallery .cfig--window .cfig__frame img {
+  width: 100%;
+  max-height: none;
 }
 
 .cfig figcaption {
@@ -789,12 +835,7 @@
   }
 
   .ccard + .ccard {
-    padding-left: 0;
     border-left: 0;
-  }
-
-  .ccard--hl {
-    padding-right: 18px;
   }
 
   .cgallery--3,
@@ -875,7 +916,7 @@
 
 .pnav__title {
   font-size: clamp(26px, 3.4vw, 58px);
-  line-height: 0.88;
+  line-height: 0.94;
   overflow-wrap: anywhere;
   transition: color var(--dur-fast);
 }
@@ -938,5 +979,119 @@
 
   .pnav__item--prev {
     padding-right: 10px;
+  }
+}
+
+/* ── Related case studies (banners) ──────────────────────────────────────── */
+
+/* Sits close under the text that introduces it */
+.cb + .cb--related {
+  margin-top: calc(-1 * clamp(48px, 6vw, 96px) + 28px);
+}
+
+.crelated {
+  display: grid;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.crelated__link {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr) auto;
+  align-items: stretch;
+  min-height: clamp(140px, 13vw, 200px);
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 7px 7px 0 var(--blue);
+  transition:
+    background var(--dur-fast),
+    box-shadow var(--dur) var(--ease-out),
+    transform var(--dur) var(--ease-out);
+}
+
+.crelated__visual {
+  position: relative;
+  overflow: hidden;
+}
+
+.crelated__visual .pv,
+.crelated__visual .poster {
+  position: absolute;
+  inset: 0;
+}
+
+.crelated__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 18px clamp(16px, 2vw, 28px);
+}
+
+.crelated__kicker {
+  color: var(--gray-2);
+  font-size: 10.5px;
+  text-transform: uppercase;
+}
+
+.crelated__title {
+  font-size: clamp(28px, 3vw, 48px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.crelated__sub {
+  max-width: 46ch;
+  color: var(--gray-2);
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.crelated__go {
+  display: grid;
+  place-items: center;
+  width: clamp(56px, 5vw, 76px);
+  background: var(--blue);
+  color: var(--white);
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+
+.crelated__go .arrow {
+  transition: translate var(--dur) var(--ease-out);
+}
+
+.crelated__link:hover {
+  background: var(--blue);
+  box-shadow: 10px 10px 0 var(--ink);
+  transform: translate(-3px, -3px);
+}
+
+.crelated__link:hover .crelated__kicker,
+.crelated__link:hover .crelated__sub {
+  color: var(--white);
+}
+
+.crelated__link:hover .crelated__go {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.crelated__link:hover .crelated__go .arrow {
+  translate: 4px 0;
+}
+
+.crelated__link:hover .pv {
+  filter: none;
+}
+
+@media (max-width: 700px) {
+  .crelated__link {
+    grid-template-columns: 110px minmax(0, 1fr);
+  }
+
+  .crelated__go {
+    display: none;
   }
 }

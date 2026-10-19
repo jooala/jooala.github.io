@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { PROFILE } from '../../content/profile.mjs';
 import { NAV } from './SiteHeader';
 import Arrow from '../ui/Arrow';
-import LocalTime from '../ui/LocalTime';
 import useReveal from '../ui/useReveal';
 
 export function ExternalLink({ href, children, className = '' }) {
@@ -28,8 +27,8 @@ export default function SiteFooter({ cta = true }) {
               <span className="sh__square" aria-hidden="true" />
               Contact
             </p>
-            <p className="mono foot__avail">
-              Products · Design · Games: say hello
+            <p className="mono foot__avail" aria-hidden="true">
+              ////
             </p>
           </div>
 
@@ -74,9 +73,6 @@ export default function SiteFooter({ cta = true }) {
               ))}
             </ul>
           </nav>
-          <span>
-            {PROFILE.location} · <LocalTime />
-          </span>
           <span>© {year}</span>
         </div>
       </div>

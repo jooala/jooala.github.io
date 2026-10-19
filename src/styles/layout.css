@@ -25,17 +25,9 @@
   flex-direction: column;
   font-family: var(--font-display), Impact, sans-serif;
   font-size: 23px;
-  line-height: 0.86;
+  line-height: 1.02;
   text-transform: uppercase;
   letter-spacing: 0.005em;
-}
-
-.mast__desc {
-  grid-column: 3 / span 2;
-  margin: 0;
-  color: var(--ink);
-  font-size: 10.5px;
-  line-height: 1.5;
 }
 
 .mast__nav {
@@ -82,23 +74,6 @@
 .mast__link:hover::after,
 .mast__link[aria-current='page']::after {
   transform: scaleX(1);
-}
-
-.mast__meta {
-  grid-column: 11 / span 2;
-  justify-self: end;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: 11px;
-}
-
-.mast__dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--ink);
-  animation: pulse 2.4s var(--ease-in-out) infinite;
 }
 
 @keyframes pulse {
@@ -224,10 +199,6 @@
 }
 
 @media (max-width: 1360px) {
-  .mast__desc {
-    display: none;
-  }
-
   .mast__nav {
     grid-column: 4 / span 6;
   }
@@ -242,8 +213,7 @@
     grid-template-columns: 1fr auto;
   }
 
-  .mast__nav,
-  .mast__meta {
+  .mast__nav {
     display: none;
   }
 
@@ -405,7 +375,7 @@
   flex-direction: column;
   margin: clamp(12px, 2vw, 32px) 0 clamp(28px, 3vw, 48px);
   font-size: min(20.6vw, 390px);
-  line-height: 0.8;
+  line-height: 0.92;
   letter-spacing: -0.015em;
 }
 
@@ -469,8 +439,11 @@
 
 .foot__social {
   grid-column: 9 / span 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 clamp(12px, 2vw, 32px);
   list-style: none;
 }
 
@@ -537,6 +510,10 @@
     grid-column: 1 / -1;
   }
 
+  .foot__social {
+    padding-left: 0;
+  }
+
   .foot__mail {
     border-right: 0;
     padding-right: 0;
@@ -545,5 +522,26 @@
 
   .foot__avail {
     display: none;
+  }
+}
+
+/* ── Phones: comfortable tap targets ─────────────────────────────────────────
+   Small text links get at least 44px of tappable height without changing how
+   they look (padding offset by negative margin). */
+@media (max-width: 760px), (pointer: coarse) {
+  .foot__nav {
+    flex-wrap: wrap;
+    gap: 0 22px;
+  }
+
+  .foot__nav a,
+  .sh__link,
+  .home-about__facts a,
+  .contact__facts a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-block: -14px;
+    padding-block: 14px;
   }
 }

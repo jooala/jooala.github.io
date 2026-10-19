@@ -13,12 +13,18 @@ let state = {
   heroRect: null,
   countdown: 3,
   lap: 0,
-  totalLaps: 3,
+  totalLaps: 5,
   position: 10,
   cars: 10,
   wrongWay: false,
+  garage: false, // customisation open: the player's car spins on the grid
+  resetHint: null, // null or { reason: 'flipped' | 'stuck', auto: seconds until the auto reset }
   results: null,
   muted: false,
+  preparing: false, // the car was clicked and the race world is being built
+  track: null, // { key, opts, daily, label } of the loaded track
+  race: null, // { laps, ai, aiSkill } for the next race
+  lab: false, // admin track lab unlocked (see LAB_CODE in settings.js)
 };
 
 const listeners = new Set();

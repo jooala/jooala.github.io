@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { PROFILE, SITE_URL } from '../../content/profile.mjs';
 
 const DEFAULT_DESCRIPTION =
-  'Joonas Alanenpää is a product manager, designer and developer in Helsinki, building products, interfaces and games. Currently working on Wolt+.';
+  'Joonas Alanenpää is a product manager in Helsinki who combines design, technology and curiosity to build products, user experiences and games. Product Lead for Wolt+.';
 
 // `path` is the site-relative URL with a trailing slash, e.g. "/work/frontier/".
 export default function Seo({
@@ -14,7 +14,7 @@ export default function Seo({
   noIndex = false,
   jsonLd,
 }) {
-  const fullTitle = title ? `${title} | ${PROFILE.name}` : `${PROFILE.name}: Products, Interfaces & Games`;
+  const fullTitle = title ? `${title} | ${PROFILE.name}` : `${PROFILE.name}: Products, UX Design & Games`;
   const url = `${SITE_URL}${path}`;
   const imageUrl = image.startsWith('http') ? image : `${SITE_URL}${image}`;
 

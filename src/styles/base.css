@@ -6,6 +6,9 @@ html {
   background: var(--paper);
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
+  /* Keep the scrollbar's space when scrolling is locked (loader, game), so
+     the page doesn't shift sideways when it comes back */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -110,7 +113,7 @@ button {
 .display {
   font-family: var(--font-display), Impact, sans-serif;
   font-weight: 400;
-  line-height: 0.84;
+  line-height: 0.94;
   letter-spacing: -0.01em;
   text-transform: uppercase;
 }

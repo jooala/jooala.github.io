@@ -47,6 +47,36 @@ export function saveName(name) {
   }
 }
 
+// Car colours and number, chosen in the menu
+const HEX = /^#[0-9a-f]{6}$/i;
+
+export function cleanLivery(l) {
+  if (!l || typeof l !== 'object') return null;
+  const out = {};
+  ['body', 'stripe', 'accent'].forEach((k) => {
+    if (HEX.test(l[k] || '')) out[k] = l[k];
+  });
+  const n = String(l.number ?? '').replace(/\D/g, '').slice(0, 2);
+  if (n) out.number = n;
+  return out;
+}
+
+export function savedLivery() {
+  try {
+    return cleanLivery(JSON.parse(window.localStorage.getItem('ja-rally-livery') || 'null')) || {};
+  } catch {
+    return {};
+  }
+}
+
+export function saveLivery(livery) {
+  try {
+    window.localStorage.setItem('ja-rally-livery', JSON.stringify(cleanLivery(livery)));
+  } catch {
+    /* storage unavailable */
+  }
+}
+
 // ── Daily leaderboard ───────────────────────────────────────────────────────
 
 const LOCAL_KEY = 'ja-rally-board';
@@ -119,7 +149,7 @@ export function normaliseCode(code) {
 
 // Opens a room channel. Returns a small API; throws if the room can't be
 // joined (no host found, race already running, full).
-export async function openRoom(code, { name, host }) {
+export async function openRoom(code, { name, host, livery }) {
   const sb = await supabase();
   if (!sb) throw new Error('Online play is not set up yet.');
   const handlers = {};
@@ -127,7 +157,9 @@ export async function openRoom(code, { name, host }) {
   const channel = sb.channel(`rally-${code}`, {
     config: { broadcast: { self: false, ack: false }, presence: { key: clientId } },
   });
-  const meta = { id: clientId, name: cleanName(name) || 'Driver', host: !!host, status: 'lobby', joinedAt: Date.now() };
+  const meta = {
+    id: clientId, name: cleanName(name) || 'Driver', host: !!host, status: 'lobby', joinedAt: Date.now(), livery: cleanLivery(livery),
+  };
 
   const players = () => {
     const state = channel.presenceState();
@@ -138,7 +170,7 @@ export async function openRoom(code, { name, host }) {
   };
 
   channel.on('presence', { event: 'sync' }, () => emit('players', players()));
-  ['start', 'state', 'ai', 'lobby'].forEach((ev) =>
+  ['start', 'state', 'ai', 'lobby', 'track'].forEach((ev) =>
     channel.on('broadcast', { event: ev }, ({ payload }) => emit(ev, payload))
   );
 

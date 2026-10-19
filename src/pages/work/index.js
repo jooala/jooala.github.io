@@ -17,7 +17,7 @@ export default function WorkIndex() {
   const { results } = filters;
   const total = projects.length;
   const pad = (n, l = 3) => String(n).padStart(l, '0');
-  const listKey = `${view}-${filters.category}-${filters.sort}-${filters.query}`;
+  const listKey = `${view}-${filters.category}-${filters.query}`;
 
   return (
     <Layout
@@ -30,7 +30,6 @@ export default function WorkIndex() {
       <header className="page-head wrap">
         <p className="page-head__kicker mono">
           <span>[02] Archive</span>
-          <span>Index {pad(1)}–{pad(total)}</span>
         </p>
         <div className="page-head__grid">
           <h1 className="page-head__title display ink">
@@ -39,14 +38,11 @@ export default function WorkIndex() {
             archive
           </h1>
           <div className="page-head__aside">
-            <p className="page-head__count display" aria-hidden="true">
-              {pad(total, 2)}
+            <p className="page-head__count">
+              <span className="page-head__count-label mono">Projects</span>
+              <span className="display">{pad(total, 2)}</span>
             </p>
             <dl className="page-head__stats mono">
-              <div>
-                <dt>Projects</dt>
-                <dd>{total}</dd>
-              </div>
               <div>
                 <dt>Featured</dt>
                 <dd>{getFeatured().length}</dd>
@@ -56,10 +52,6 @@ export default function WorkIndex() {
                 <dd>{getCategoryCounts().length}</dd>
               </div>
             </dl>
-            <p className="page-head__intro">
-              Everything in one place: product work, interface design, games, VR and development. Filter by
-              discipline, search by tool or role, or switch to the index view.
-            </p>
           </div>
         </div>
       </header>

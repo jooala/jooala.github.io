@@ -22,13 +22,6 @@ export default function FeaturedCard({ project, className = '', delay = 0, eager
             </span>
           </div>
         </div>
-        <div className="fcard__cap">
-          <p className="fcard__sub">{project.subtitle}</p>
-          <p className="fcard__meta mono">
-            <span>{project.role}</span>
-            {project.yearLabel && <span>{project.yearLabel}</span>}
-          </p>
-        </div>
       </Link>
     </article>
   );

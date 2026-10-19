@@ -10,7 +10,9 @@ add, remove or update work.
 
 Text fields support `**bold**` and `[link text](https://…)`.
 A field set to `null` renders as a visible **TO ADD** marker on case-study and
-About pages (and is simply hidden on cards), so gaps are easy to spot.
+About pages while you run `npm run dev` (and is simply hidden on cards), so
+gaps are easy to spot. The built site never shows these markers or
+`placeholder` blocks: the empty field is left out instead.
 
 ---
 
@@ -46,7 +48,7 @@ About pages (and is simply hidden on cards), so gaps are easy to spot.
      tools: ['Figma', 'React'],
      featured: false,
      cover: { src: '/images/covers/my-project.jpg', alt: 'Describe the image' },
-     hero: null,                         // big image on the case page; falls back to cover
+     hero: null,                         // big image on the case page; falls back to cover, false = none
      links: [{ label: 'Live site', href: 'https://…' }],
      sections: [ /* see "Case-study sections" */ ],
    },
@@ -64,14 +66,17 @@ About pages (and is simply hidden on cards), so gaps are easy to spot.
 | `noIndex: true` | Page is published but hidden from search engines and the sitemap |
 | `listed: false` | Hidden from the home page, archive and prev/next (URL still works) |
 | `cover.position` | CSS `object-position` for cropping, e.g. `'30% 60%'` |
-| `cover.grayscale` | Black-and-white treatment on cards |
+| `cover.thumbPosition` | Optional `object-position` for archive thumbnails only (they crop differently from the big cards) |
+| `cover.grayscale` | Black-and-white treatment on cards (full colour on hover, like every cover) |
 | `cover.scrim: 'strong'` | Darker overlay for light/busy images so card titles stay readable |
-| `poster: { tone: 'blue' \| 'ink', stamp: 'Text' }` | Typographic poster used when `cover` is `null` |
+| `poster: { tone: 'blue' \| 'ink', stamp: 'Text', word: 'Text' }` | Typographic poster used when `cover` is `null` (`word` replaces the title on it) |
 
 ## Choose featured projects
 
-Set `featured: true`. The home page shows featured projects in array order:
-the first three in the large top row, the next three in the second row.
+Set `featured: true`. The home page shows featured projects in the order of
+`FEATURED_ORDER` (a list of slugs at the top of `projects.mjs`; featured
+projects not in it follow in array order): the first three in the large top
+row, the next three in the second row.
 Six is the designed number; more will continue in a three-column grid.
 
 ## Categories
@@ -98,6 +103,7 @@ as figures automatically.
 { type: 'videos', label: 'Trailers', intro: '…', items: [{ youtube: 'ID', title: '…' }] }
 { type: 'split', label: 'Solution', heading: '…', body: ['…'], image: { src, alt } }
 { type: 'placeholder', label: 'Process', note: 'What still needs to be written or shot' }
+{ type: 'related', slugs: ['other-project-slug', '…'] }  // banners linking to other case studies
 ```
 
 `lead: true` sets the text in the larger serif. YouTube videos load only when
@@ -110,7 +116,7 @@ Edit `src/content/profile.mjs`:
 - `intro`: the serif line in the hero
 - `shortBio`: the About column on the home page
 - `photo`: set to `{ src: '/images/about/portrait.jpg', alt: '…' }` to replace the portrait slot
-- `about.*`: About page sections (now, background, principles, expertise, experience, education)
+- `about.*`: About page sections (now, background, expertise, experience, education)
 - `email`, `social`: used in the footer, contact page and structured data
 
 ## The 3D hero
@@ -118,6 +124,11 @@ Edit `src/content/profile.mjs`:
 `src/components/hero/MonolithScene.js` builds the scene (procedural concrete,
 rally car, lighting, camera). The car and textures are generated in
 `src/components/hero/sceneAssets.js`; there are no model files.
+
+On a first visit to the home page on a screen that can run it (1000px+ wide,
+WebGL), a loader (markup and script in `src/pages/_document.js`, styles at the
+end of `hero.css`) covers the page until the 3D scene has drawn its first
+frame, then lifts and the hero animates in. It gives up after 10 s.
 
 `public/images/hero/monolith.webp` is a pre-rendered frame of the scene. It
 shows instantly while three.js loads, and is used on screens under 1000px,
@@ -134,22 +145,50 @@ Paste the data URL into a new tab, save it, convert to WebP and replace
 
 ## The rally minigame
 
-Click the car in the hero (or its **Race me** tag; keyboard users get a
+Click the car in the hero (or the **Take it for a spin!** button under it; keyboard users get a
 "Play the rally minigame" button by tabbing into the hero). The city rises,
 the car jumps onto the grid and a menu offers a **solo race against 9 AI
 drivers** or **online rooms** to race friends. Desktop only (it needs the 3D
 hero, which runs on screens 1000px and wider).
 
-- **Daily circuit:** a new layout is generated every UTC day from the date, so
-  everyone races the same track and the leaderboard resets daily.
+- **Daily circuit:** a new layout is generated every day at midnight Finnish time, so
+  everyone races the same track and the leaderboard resets daily. Each layout
+  has rolling hills (high parts become viaducts), a crest jump, a tunnel
+  through a concrete megastructure, narrow old-town streets, motorway
+  overpasses and a brutalist city. Races are 5 laps.
+- **Weather:** each track has a time of day / weather: day, morning, sunset,
+  night, fog or night fog. The daily circuit's comes from the date (same for
+  everyone); free tracks roll their own. At night the city's windows, street
+  lamps and car headlights light up. Presets (sky, fog, sun, lights) and how
+  often each comes up are `WEATHERS` / `WEATHER_WEIGHTS` in
+  `src/components/rally/settings.js`.
+- **Physics:** each car is a rigid body on four springs, so hard hits spin,
+  roll and flip cars. A car on its roof or stuck shows a hint; **R** (or the
+  HUD button) resets it, otherwise it resets itself after a few seconds.
+- **Your car:** the menu has body/stripe/accent colours and a race number,
+  saved in the browser and shown to other drivers in online rooms.
+- **Free play:** **New random track** in the menu (or the room host's lobby)
+  builds a fresh random circuit; **Back to daily** returns to the daily one.
+  Free tracks are just for fun: times aren't posted or counted as personal
+  bests. In a room the host's track is sent to everyone.
+- **Track lab (admin):** type `jooala` in the menu or lobby (not in a text
+  field) to show or hide sliders for size, twistiness, hills, jump, road
+  width, laps, AI cars, AI skill and the weather. Solo players and room hosts only; it's
+  remembered in the browser. The code is `LAB_CODE` in
+  `src/components/rally/settings.js`. It's an easter egg, not access
+  control: anyone reading the site's JavaScript could find it. Lab races are
+  never ranked.
 - **Controls:** **W/↑** gas, **S/↓** brake/reverse, **A D / ← →** steer,
   **Space** handbrake, **R** reset to the road, **F** fullscreen, **M** sound,
   **Esc** exit.
 
 | File | What it does |
 | --- | --- |
-| `src/components/rally/track.js` | Daily layout generator, laps, jump, road/barrier/sign/city generation, grid |
-| `src/components/rally/physics.js` | Handling, gravity, wall bounce, car hitboxes (oriented boxes), AI driver |
+| `src/components/rally/track.js` | Track layout from a seed (the date, or a free-play seed) and optional settings: centre line, hills, jump, zones (tunnel, narrow streets), road width, AI racing line, grid. Pure data |
+| `src/components/rally/settings.js` | Laps, default track/race settings, the track lab sliders, `LAB_CODE`, weather presets |
+| `src/components/rally/weather.js` | Applies a weather preset: re-tunes the hero scene's lights, fog and exposure, sky colours, night lights; blends between presets |
+| `src/components/rally/world.js` | 3D world built from the track: road, barriers, viaducts, tunnel, motorways, footbridges, lamps, signs, billboards, city |
+| `src/components/rally/physics.js` | Rigid-body car (springs, tyres, body contacts), car-vs-car impulses, resets, AI driver |
 | `src/components/rally/RallyWorld.js` | Intro, menu/lobby, countdown, race loop, effects, netcode. AI drivers in `AI_SPECS` |
 | `src/components/rally/RallyHud.js` | HUD, menu, lobby, results, leaderboard, touch controls |
 | `src/components/rally/particles.js` / `skids.js` | Dust, tyre smoke, debris, sparks / tyre marks |
@@ -174,8 +213,13 @@ Rooms: one player creates a room and shares the 4-letter code; up to 10
 drivers can join, AI drivers fill the empty grid slots. Each player drives
 their own car; the host also drives the AI cars for everyone.
 
-Adding `?rallydebug` to the URL exposes `window.__rally.toJump()` /
-`toFinish()` for testing.
+Adding `?rallydebug` to the URL exposes `window.__rally.toJump()`,
+`toFinish()` and `toIdx(sample, speed)` (plus `track`, `state()` and
+`worlds()`, which should always be 1) for testing.
+
+Tuning: AI pace is `AI_LAT` / `AI_BRAKE` in `track.js` and `skill` per driver
+in `AI_SPECS`; handling constants are at the top of `physics.js` (`TRIP` and
+the `lift`/`kick` factors control how easily cars roll in crashes).
 
 ## Deploying (GitHub Pages)
 

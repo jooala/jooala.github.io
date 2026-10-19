@@ -1,12 +1,15 @@
-import { PROJECTS, CATEGORIES } from '../content/projects.mjs';
+import { PROJECTS, CATEGORIES, FEATURED_ORDER } from '../content/projects.mjs';
 
 const CATEGORY_LABELS = Object.fromEntries(CATEGORIES.map((c) => [c.id, c.label]));
 
 // Attach derived fields once: number, display year, category labels, URL.
+// Listed projects are numbered in order; unlisted ones are numbered after them.
+const ORDER = [...PROJECTS.filter((p) => p.listed !== false), ...PROJECTS.filter((p) => p.listed === false)];
+
 const ALL = PROJECTS.map((p, i) => ({
   ...p,
   index: i,
-  no: String(i + 1).padStart(2, '0'),
+  no: String(ORDER.indexOf(p) + 1).padStart(2, '0'),
   href: `/work/${p.slug}/`,
   yearLabel: p.year ?? p.status ?? null,
   categoryLabels: (p.categories || []).map((id) => CATEGORY_LABELS[id] || id),
@@ -19,8 +22,13 @@ export function getProjects() {
   return ALL.filter((p) => p.listed);
 }
 
+// In FEATURED_ORDER first, then any other featured projects in project order
 export function getFeatured() {
-  return ALL.filter((p) => p.listed && p.featured);
+  const rank = (p) => {
+    const i = FEATURED_ORDER.indexOf(p.slug);
+    return i === -1 ? FEATURED_ORDER.length + p.index : i;
+  };
+  return ALL.filter((p) => p.listed && p.featured).sort((a, b) => rank(a) - rank(b));
 }
 
 export function getProject(slug) {
@@ -50,23 +58,9 @@ export function getCategoryCounts(list = getProjects()) {
   })).filter((c) => c.count > 0);
 }
 
-export const SORTS = [
-  { id: 'index', label: 'Index' },
-  { id: 'newest', label: 'Newest' },
-  { id: 'oldest', label: 'Oldest' },
-  { id: 'title', label: 'A–Z' },
-];
-
-// Current/ongoing work sorts as newest; projects without a year go last.
-function sortYear(p) {
-  if (typeof p.year === 'number') return p.year;
-  if (p.status) return 9999;
-  return null;
-}
-
-export function filterProjects(list, { category = 'all', query = '', sort = 'index' } = {}) {
+export function filterProjects(list, { category = 'all', query = '' } = {}) {
   const q = query.trim().toLowerCase();
-  let out = list.filter((p) => {
+  return list.filter((p) => {
     if (category !== 'all' && !p.categories.includes(category)) return false;
     if (!q) return true;
     const hay = [
@@ -75,19 +69,4 @@ export function filterProjects(list, { category = 'all', query = '', sort = 'ind
     ].filter(Boolean).join(' ').toLowerCase();
     return hay.includes(q);
   });
-
-  if (sort === 'title') {
-    out = [...out].sort((a, b) => a.title.localeCompare(b.title));
-  } else if (sort === 'newest' || sort === 'oldest') {
-    const dir = sort === 'newest' ? -1 : 1;
-    out = [...out].sort((a, b) => {
-      const ya = sortYear(a);
-      const yb = sortYear(b);
-      if (ya === yb) return a.index - b.index;
-      if (ya === null) return 1;
-      if (yb === null) return -1;
-      return (ya - yb) * dir;
-    });
-  }
-  return out;
 }

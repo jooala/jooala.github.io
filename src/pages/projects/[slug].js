@@ -11,10 +11,6 @@ const REDIRECTS = {
   sustainablyyours: 'sustainably-yours',
   sauna: 'sauna-simulator-vr',
   bugbear: 'bugbear',
-  wolt: 'wolt-grocery-pickup',
-  botnia: 'botnia-vikings',
-  sukeltaja: 'sukeltaja',
-  reaktor: 'reaktor',
 };
 
 export default function LegacyRedirect({ to }) {
